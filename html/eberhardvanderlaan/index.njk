@@ -9,9 +9,18 @@
 	<div id="banner">
 		<div class="banner-image">
 			<img src="/img/eberhardvanderlaan/banner-image.png"></img>
-			<div class="text">
-				De locatie is bekend!
-			</div>
+			{% if (config.ideas.addNewIdeas == 'closed') %}
+				<div class="text">
+					De locatie is bekend!
+				</div>
+			{% else %}
+				<div class="text" style="width: 640px; height: 155px;">
+					Doe mee! Op welke muur in de Baarsjes komt de laatste boodschap van oud-burgemeester Eberhard van der Laan?
+					<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button" style="display: block;">
+						Stuur hier je locatie!
+					</a>
+				</div>
+			{% endif %}
 		</div>
 		<div id="buttons">
 			<div class="speechBubble">
@@ -28,9 +37,11 @@
 		</div>
 	</div>
 
-	<div class="header-extra-alinea">
-		In juli en augustus hebben Amsterdammers maar liefst 21 suggesties gedaan voor een muur of gebouw voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. De meeste stemmen kreeg het Mercatorplein. De zuil midden op het plein staat ter beschikking om hierop een ontwerp te maken.  Vanaf  22 oktober  kunnen mensen een eigen ontwerp indienen en stemmen op hun favoriete ontwerp.
-	</div>
+	{% if (config.ideas.addNewIdeas == 'closed') %}
+		<div class="header-extra-alinea">
+			In juli en augustus hebben Amsterdammers maar liefst 21 suggesties gedaan voor een muur of gebouw voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. De meeste stemmen kreeg het Mercatorplein. De zuil midden op het plein staat ter beschikking om hierop een ontwerp te maken.  Vanaf  22 oktober  kunnen mensen een eigen ontwerp indienen en stemmen op hun favoriete ontwerp.
+		</div>
+	{% endif %}
 {% endblock %}
 
 {% block howDoesItWork %}

@@ -9,23 +9,43 @@
 	<div id="banner">
 		<div id="homebanner">
 			<img id="homebanner-img" src="img/westbegroot/home-banner.png"/>
-			<div id="homebanner-title">
-				<h2>West Begroot!</h2>
-				<h3>Hoe zou jij € 300.000 besteden in stadsdeel West? </h3>
-			</div>
-			<div id="homebanner-text">
-				Het stadsdeel wil iedereen heel hartelijk bedanken voor het indienen van plannen en voor alle reacties! Op 9 januari worden de 30 beste plannen bekend gemaakt. Bewoners uit West kunnen daarna budget verdelen en zo bepalen welke van de 30 plannen in 2019 worden gerealiseerd.
-			</div>
-			<img id="homebanner-img-mobile" src="img/westbegroot/home-banner.png"/>
-			<div style="clear: both"></div>
-			<div id="homebanner-buttons">
-				<a href="/themas" class="bekijk-de-themas">
-					Bekijk de thema's
-				</a>
-				<a href="/plannen" class="stuur-plan-in">
-					Bekijk de plannen
-				</a>
-			</div>
+			{% if (config.ideas.addNewIdeas == 'closed') %}
+				<div id="homebanner-title">
+					<h2>West Begroot!</h2>
+					<h3>Hoe zou jij € 300.000 besteden in stadsdeel West? </h3>
+				</div>
+				<div id="homebanner-text">
+					Het stadsdeel wil iedereen heel hartelijk bedanken voor het indienen van plannen en voor alle reacties! Op 9 januari worden de 30 beste plannen bekend gemaakt. Bewoners uit West kunnen daarna budget verdelen en zo bepalen welke van de 30 plannen in 2019 worden gerealiseerd.
+				</div>
+				<img id="homebanner-img-mobile" src="img/westbegroot/home-banner.png"/>
+				<div style="clear: both"></div>
+				<div id="homebanner-buttons">
+					<a href="/themas" class="bekijk-de-themas">
+						Bekijk de thema's
+					</a>
+					<a href="/plannen" class="stuur-plan-in">
+						Bekijk de plannen
+					</a>
+				</div>
+			{% else %}
+				<div id="homebanner-title">
+					<h2>West Begroot!</h2>
+					<h3>Hoe zou jij € 300.000,- besteden in stadsdeel West? </h3>
+				</div>
+				<img id="homebanner-img-mobile" src="img/westbegroot/home-banner.png"/>
+				<div id="homebanner-text">
+					Stuur je plan in voor één van de 3 thema’s (Groen en openbare ruimte, Diversiteit en Duurzaamheid) en bepaal waar het geld naar toe gaat.
+					<br/>
+				</div>
+				<div id="homebanner-buttons">
+					<a href="/themas" class="bekijk-de-themas">
+						Bekijk de thema's
+					</a>
+					<a href="/plan/nieuw" class="stuur-plan-in">
+						Stuur je plan in
+					</a>
+				</div>
+			{% endif %}
 		</div>
 		<div id="controls">
 			{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
@@ -48,7 +68,11 @@
 
 			<h3>Achtergrondinformatie</h3>
 			<p>
-				Stadsdeel West maakt elk jaar gebiedsplannen. In deze gebiedsplannen staat waar het stadsdeel dat jaar extra op investeert. In 2019 wil West meer doen met ‘Groen en Openbare ruimte’, ‘Duurzaamheid’ en ‘Diversiteit en Inclusiviteit’. Het bestuur heeft daarom €300.000 (10%) van de gebiedsplan-gelden beschikbaar gesteld aan bewoners om zelf met plannen te komen en dit bedrag te begroten. In oktober hebben bewoners, ondernemers en organisaties samen maar liefst {{runningIdeas.length}} plannen ingediend. Op deze plannen is [xxx] keer gestemd. Daarmee hebben maar liefst [yyy] plannen de drempel van minimaal 50 positieve stemmen behaald. Deze plannen zijn door naar de volgende ronde. Op dit moment onderzoekt het stadsdeel de plannen op haalbaarheid en uitvoerbaarheid. De stadsdeelcommissie kiest daarop in december de 30 beste plannen.
+				{% if (config.ideas.addNewIdeas == 'closed') %}
+					Stadsdeel West maakt elk jaar gebiedsplannen. In deze gebiedsplannen staat waar het stadsdeel dat jaar extra op investeert. In 2019 wil West meer doen met ‘Groen en Openbare ruimte’, ‘Duurzaamheid’ en ‘Diversiteit en Inclusiviteit’. Het bestuur heeft daarom €300.000 (10%) van de gebiedsplan-gelden beschikbaar gesteld aan bewoners om zelf met plannen te komen en dit bedrag te begroten. In oktober hebben bewoners, ondernemers en organisaties samen maar liefst {{runningIdeas.length}} plannen ingediend. Op deze plannen is 22061 keer gestemd. Daarmee hebben maar liefst 168 plannen de drempel van minimaal 50 positieve stemmen behaald. Deze plannen zijn door naar de volgende ronde. Op dit moment onderzoekt het stadsdeel de plannen op haalbaarheid en uitvoerbaarheid. De stadsdeelcommissie kiest daarop in december de 30 beste plannen.
+				{% else %}
+					Stadsdeel West maakt elk jaar gebiedsplannen. In deze gebiedsplannen staat waar het stadsdeel dat jaar extra op investeert. In 2019 wil West meer doen met Groen en openbare ruimte, Duurzaamheid en Diversiteit en inclusiviteit. Het bestuur stelt €300.000 van de gebiedsplan-gelden beschikbaar aan bewoners om zelf met plannen te komen en te begroten.
+				{% endif %}
 			</p>
 			
 			<h3>Spelregels</h3>
@@ -73,12 +97,11 @@
 				-->
 			</ul>
 
-			
-			<!--
-					 <ul class="arrowed-link" style="float: right">
-					 <li><a href="/plan/nieuw">Bekijk hoe het stadsdeel de plannen toetst</a></li>
-					 </ul>
-			-->
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<ul class="arrowed-link">
+					<li><a href="/plan/nieuw">Bekijk hoe het stadsdeel de plannen toetst</a></li>
+				</ul>
+			{% endif %}
 
 			<!--
 					 <div>

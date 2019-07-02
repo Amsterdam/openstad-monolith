@@ -1,0 +1,143 @@
+{% extends 'base.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+
+{% set contentClass = 'index' %}
+
+{% block content %}
+	<div id="home-banner">
+		<div class="primary">
+			<div class="text">
+				<h2>Ontwerpwedstrijd muurtekst</h2>
+				Er zijn maar liefst 61 ontwerpen ingediend voor de afscheidsboodschap van oud-burgemeester Eberhard van der Laan! Stem vanaf 3 december op je favoriete ontwerp. Graag tot dan!
+			</div>
+			<div class="buttons">
+				<a href="/wedstrijd#delocatie" class="page-button page-button-white bekijk-de-locatie-button">
+					Bekijk de locatie
+				</a>
+			</div>
+		</div>
+		<div class="secondary">
+			<div class="speechBubble">
+				“Zorg goed voor onze stad en voor elkaar.”
+				<div class="small">
+					Vaarwel,<br/><br/><br/><br/><br/>
+					Eberhard van der Laan
+				</div>
+			</div>
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'ontwerpen', runningIdeas.length, '/plannen')}}
+			<a href="https://www.amsterdam.nl/zorggoedvooronzestad" class="page-button page-button-grey" target="_blank">
+				Lees meer op amsterdam.nl
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block howDoesItWork %}
+	{{howdoesitwork.howblock('open')}}
+{% endblock %}
+
+{% block content2 %}
+	
+	<div class="primary">
+
+		<div class="text" name="info" id="info">
+
+			<p>Om de laatste boodschap van oud-burgemeester Eberhard van der Laan levend te houden, heeft Baarsjes bewoonster Liesbeth de Looper het idee bedacht om zijn oproep “Zorg goed voor onze stad en voor elkaar” als muurtekst op een gebouw of muur aan te brengen. Haar voorstel was om de muurtekst te realiseren in de Baarsjes, omdat Van der Laan daar jarenlang heeft gewoond.</p>
+
+			<p>Mevrouw De Looper heeft dit plan ingebracht via het platform <a href="https://stemvanwest.amsterdam.nl/plan/96" target="_blank">Stem van West</a>. Op dit platform kunnen mensen plannen voor hun buurt indienen. Eens per maand bespreekt de stadsdeelcommissie het plan met de meeste stemmen.</p>
+
+			<p>Het Algemeen Bestuur van West heeft in april 2018 besloten om het plan van mevrouw De Looper te realiseren en Amsterdammers te vragen om suggesties aan te dragen voor een geschikte locatie voor de quote.</p>
+
+			<p>In juli en augustus 2018 hebben Amsterdammers maar liefst 21 suggesties gedaan voor een muur of gebouw voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. De meeste stemmen kreeg het Mercatorplein. De zuil van de parkeergarage midden op het plein staat ter beschikking om een ontwerp op te maken. Van 22 oktober tot en met 25 november zijn er 61 ontwerpen ingestuurd. Vanaf 3 december kan iedereen stemmen op zijn of haar favoriete ontwerp.</p>
+
+			<div class="buttons">
+				<a href="/wedstrijd#delocatie" class="page-button page-button-grey bekijk-de-locatie-button">
+					Bekijk de locatie
+				</a>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="secondary">
+		
+		<div id="agenda">
+			<h3>Tijdlijn</h3>
+			
+			<div class="agenda">
+
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>2 juli t/m 2 september 2018</h3>
+						Insturen locatie met verhaal
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-day">
+					<div>
+						<h3>5 oktober 2018</h3>
+						Bekendmaking winnende locatie in de Baarsjes
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>22 oktober t/m 25 november 2018</h3>
+						Start ontwerpwedstrijd: insturen ontwerpen
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>3 december 2018 t/m 6 januari 2019</h3>
+						Stemmen op ontwerpen
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-day">
+					<div>
+						<h3>n.n.b.</h3>
+						Uitslag ontwerpwedstrijd
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>n.n.b.</h3>
+						Realisatie kunstwerk
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-day">
+					<div>
+						<h3>n.n.b.</h3>
+						Feestelijke onthulling van het winnende ontwerp
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block page %}
+	<div id="inspiration">
+		<div class="pageContent">
+			<h2>Inspiratie</h2>
+			<div id="inspiration-images"><div id="inspiration-1" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.1.jpg"></div><div id="inspiration-2" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.2.jpg"></div><div id="inspiration-3" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.3.jpg"></div><div id="inspiration-4" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.4.jpg"></div></div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block content3 %}
+	<ul class="share">
+		<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
+		<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
+		<li><a class="email"    target="_blank" href="mailto:?subject=Ontwerp op Zorg goed voor onze stad en voor elkaar">Email</a></li>
+	</ul>
+{% endblock %}
+

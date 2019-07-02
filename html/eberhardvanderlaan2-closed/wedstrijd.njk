@@ -1,0 +1,127 @@
+{% extends 'base.njk' %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+
+{% set activeMenu = 'about' %}
+
+{% block extraInfoBar %}
+	<div id="end-date-bar">
+		<span id="end-date-bar-start-text" class="text"></span>
+		<span id="number-plates">
+			<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
+		</span>
+		<span id="end-date-bar-end-text" class="text"></span>
+	</div>
+	<script>
+	 if ( daysLeft > 0 ) {
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kan t/m ' + endDateText + ': nog';
+		 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
+		 var value000 = parseInt(daysLeft/100) || 0;
+		 var value00  = parseInt(daysLeft/10) - value000;
+		 var value0   = daysLeft - value000 * 100 - value00 * 10;
+		 document.getElementById('end-date-number-plate-00').innerHTML = value00;
+		 document.getElementById('end-date-number-plate-0').innerHTML = value0;
+	 } else {
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kon t/m ' + endDateText;
+		 document.getElementById('number-plates').style.display = 'none';
+	 }
+	</script>
+{% endblock %}
+
+{% block content %}
+
+	<br/></br/>
+	<div class="primary">
+
+		<div class="info">
+			<h1>Ontwerpwedstrijd</h1>
+			<p>In de vorige fase van het project hebben Amsterdammers de locatie gekozen voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. Een beschrijving van de gekozen locatie vind je hieronder. In deze fase van het project kunnen ontwerpen ingediend worden. Iedereen kan een idee indienen hoe de laatste woorden van Van der Laan het beste kunnen worden weergegeven. Lees voordat je gaat ontwerpen eerst even goed de ontwerprichtlijnen! Je kunt een ontwerp indienen dat je digitaal gemaakt hebt, of gewoon een foto van een ontwerp op papier. Om je hierbij te helpen kan je onderaan deze pagina sjablonen vinden.</p>
+		</div>
+		
+	</div>
+	
+	<div class="secondary">
+
+		<div class="speechBubble" style="width: 219px;">
+			“Zorg goed voor onze stad en voor elkaar.”
+			<div class="small">
+				Vaarwel,<br/><br/><br/><br/><br/>
+				Eberhard van der Laan
+			</div>
+		</div>
+		
+	</div>
+
+{% endblock %}
+
+{% block howDoesItWork %}
+	{{howdoesitwork.howblock('open')}}
+{% endblock %}
+
+{% block content2 %}
+	<div class="primary" id="delocatie">
+
+		<div class="info">
+			<h3>De locatie</h3>
+			<p>De boodschap van oud-burgemeester Van der Laan komt op de toren van de parkeergarage op het Mercatorplein, aan de westzijde, met uitzicht op Cafe Zurich. Op de toren is een rooster aangebracht waar het ontwerp op zal worden bevestigd. In de avonduren wordt de tekst verlicht door bovenhangende lampen. Het ontwerp is goed zichtbaar vanaf het plein en de weg rondom het Mercatorplein. De bovenste drie vakken van de zijde van de toren zijn beschikbaar, zoals op de foto hieronder in het wit aangegeven.</p>
+			<ul class="links-list">
+				<li><a href="https://goo.gl/maps/odEzrAejyd72" target="blank">Bekijk de locatie in Google Maps</a><br/>&nbsp;</li>
+				<li><a href="https://goo.gl/maps/YM2JsRcuKC92" target="blank">Bekijk de locatie in Google Street View</a></li>
+			</ul><br/><br/>
+			<img src="/img/eberhardvanderlaan2/wedstrijd-illustratie.png">
+			<br/><br/>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block page %}
+	<div class="full-width-block gray" id="ontwerprichtlijnen">
+		<div class="pageContent">
+			<h3>Ontwerprichtlijnen</h3>
+			<ul class="checkmark-dot-list">
+				<li>Ga aan de slag met de tekst “Zorg goed voor onze stad en voor elkaar”.</li>
+				<li>Laat je creativiteit stromen! Denk aan tekenen, schilderen, fotografie, graffiti en digitale print.</li>
+				<li>De tekst is het uitgangspunt van het ontwerp dus zorg dat deze goed zichtbaar is.</li>
+				<li>Het winnende ontwerp wordt gerealiseerd op een paneel of doek.</li>
+				<li>Het paneel/doek mag maximaal de drie bovenste vakken in beslag nemen. Het gaat om een oppervlak van ongeveer 4,15 meter breed en 5,20 meter hoog.</li>
+				<li>Je ontwerp mag geen licht uitstralen en/of objecten bevatten die geluid produceren.</li>
+				<li>Als je een afbeelding gebruikt moet deze rechtenvrij zijn of je moet zelf de rechten hebben.</li>
+				<li>Afhankelijk van je ontwerp kijken we wie het uitvoert, jijzelf of een (andere) professionele partij.</li>
+				<li>Iedereen kan een ontwerp indienen.</li>
+				<li>Het ontwerp blijft 5 jaar hangen.</li>
+				<li>Het plan wordt in het voorjaar van 2019 gerealiseerd.	</li>
+				<li>De gemeente wordt eigenaar van het object en jij houdt het intellectueel eigendom.</li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}
+
+{% block content3 %}
+	<div class="primary">
+
+		<div class="info">
+			<h3>Ontwerp maken</h3>
+			<p>Het maximale oppervlak dat je tot je beschikking hebt op de toren is ongeveer 4,15 bij 5,20 meter. Het is niet verplicht om je ontwerp zo groot te maken, kleiner mag ook.</p>
+			<p>Om je te helpen met het ontwerpen zijn er drie sjablonen beschikbaar. Het A4 print-sjabloon (pdf) kun je uitprinten en gebruiken om op papier een ontwerp te maken. Het jpeg-sjabloon is een witte afbeelding met de juiste afmetingen om digitaal aan de slag te gaan. Het Photoshop-sjabloon heeft verschillende lagen waarop ook een foto van de toren zichtbaar is, om je een idee te geven van hoe het er uiteindelijk uit komt te zien.</p>
+			<p>Als je liever op een andere manier te werk gaat, houd dan rekening met de aanbevolen minimale resolutie van 700 pixels breed en 877 pixels hoog.</p>
+			</p>
+		</div>
+
+		<div class="info gray" id="sjablonen">
+			<ul class="links-list downloads">
+				<li><a target="blank" href="/img/eberhardvanderlaan2/Zorg_goed_voor_onze_stad_-_A4_sjabloon.pdf">Download het A4 print-sjabloon (.pdf)</a></li>
+				<li><a target="blank" href="/img/eberhardvanderlaan2/Zorg_goed_voor_onze_stad_-_jpeg_sjabloon.jpg">Download het jpeg-sjabloon (.jpg)</a></li>
+				<li><a target="blank" href="/img/eberhardvanderlaan2/Zorg_goed_voor_onze_stad_-_Photoshop_sjabloon.psd">Download het Photoshop-sjabloon (.psd)</a></li>
+			</ul>
+		</div>
+
+		<div class="info">
+			<h3>Ontwerp insturen</h3>
+			<p>Je kunt afbeeldingen van ontwerpen uploaden in het .png of .jpg bestandsformaat. In het uploadformulier heb je nog de mogelijkheid om je ontwerp op de juiste plaats op de muur te positioneren door deze te schuiven en te schalen.
+			<p>Als je een ontwerp op papier maakt kun je deze met je computer scannen en dan uploaden. Ook kan je met je smartphone naar het uploadformulier gaan. Je kunt dan je camera gebruiken om een foto van je ontwerp te maken.</p>
+			<p><strong>Let op:</strong> Bewaar je originele ontwerp goed! Deze hebben we mogelijk nog nodig als jouw inzending tot winnend ontwerp wordt gekozen!</p>
+		</div>
+
+
+	</div>
+{% endblock %}

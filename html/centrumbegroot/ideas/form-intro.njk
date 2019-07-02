@@ -1,0 +1,39 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle = 'Ontwerp insturen' if not idea.id else 'Bewerk ontwerp' %}
+{% set contentClass = 'newIdea' %}
+
+{% block content %}
+
+	<div class="primary">
+
+		<h1>Voordat je je plan instuurt</h1>
+
+		Lees hieronder eerst goed hoe het stadsdeel de inzendingen toetst, voordat je doorgaat naar het <a href="?introread=true">formulier om je plan in te sturen</a>.<br/>
+		<br/>
+
+		<div class="grey-text-block">
+			<h3>Hoe toetst het stadsdeel je plan?</h3>
+			<ul class="checkmark-list">
+				<li>Het plan heeft als doel je buurt te verbeteren of de verbinding tussen buurtgenoten te versterken.</li>
+				<li>Het plan is voor Stadsdeel Centrum, of een buurt of locatie in Centrum en bedoeld voor bewoners uit Centrum.</li>
+				<li>Wij schatten in wat het plan kost. Plannen die meer dan € 200.000 bedragen worden niet uitgevoerd. Als het bedrag wordt overschreden kunnen we wel in overleg met de indiener het plan aanpassen. We baseren eventuele loonkosten op een maatschappelijk tarief.</li>
+				<li>We kijken of een plan binnen een redelijke termijn van één jaar kan worden uitgevoerd.</li>
+				<li>We toetsen of het plan kan worden uitgevoerd binnen de wettelijke regelgeving.</li>
+				<li>Bij een project in de openbare ruimte kan het zijn dat de eigenaar van de locatie toestemming moet geven. Dit kan consequenties hebben voor je plan.</li>
+			</ul>
+			<p>
+				Mocht een plan met enige aanpassing wel haalbaar zijn dan overlegt het stadsdeel met de indiener van het plan. Als het plan niet uitvoerbaar is, gaat het niet mee naar de volgende ronde. Daar krijg je dan uiteraard bericht over.
+			</p>
+			<p>
+				Het stadsdeel is gebonden aan (Europese) aanbestedingsregels. Dit kan tot gevolg hebben dat het stadsdeel meerdere offertes aanvraagt voor de uitvoering van het plan en dat de indiener niet vanzelfsprekend de partij is die het plan uitvoert.
+			</p>
+		</div>
+
+		<a href="?introread=true" class="page-button page-button-blue ga-verder-button">Stuur je plan in</a>
+		<div style="clear: both;"></div>
+
+	</div>
+
+
+{% endblock %}
+

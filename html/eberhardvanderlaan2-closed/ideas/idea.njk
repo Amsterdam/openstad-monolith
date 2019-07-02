@@ -1,0 +1,224 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/arguments.njk' as arguments %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+
+{% set pageTitle    = 'Idee: '+idea.title %}
+{% set contentClass = 'idea' %}
+
+{% block head %}
+	{{ super() }}
+	<meta property="og:title" content="{{idea.title}}">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="{{idea.summary}}">
+	<meta property="og:locale" content="nl_NL">
+	<meta property="og:site_name" content="{{SITENAME}}">
+	{% if idea.posterImage %}
+		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
+	{% endif %}
+{% endblock %}
+
+{% block extraInfoBar %}
+	<div class="extraInfoBar">
+		<div class="text">
+			Let op: deze pagina is alleen voor jou zichtbaar.<br/>
+			Je kunt hier je inzending nog bewerken t/m 25 november.
+		</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+
+	<div id="idea">
+		
+		<div class="primary">
+
+			{% if idea.posterImage %}
+				<div class="image">
+					<img src="/img/eberhardvanderlaan2/uploaded-image-background.jpg" id="background"/>
+					<div id="uploadedImage" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
+					<img src="/img/eberhardvanderlaan2/uploaded-image-foreground.png" id="foreground"/>
+				</div>
+				<script>
+				 var extraData = '{{idea.posterImage.extraData | dump | safe}}';
+				 if (extraData) {
+					 try {
+						 extraData = JSON.parse(extraData);
+						 let container = document.querySelector('img#background');
+						 let factor = container.offsetWidth / 700;
+						 let image = document.querySelector('div#uploadedImage');
+						 image.style.top = (factor * image.offsetTop) + 'px';
+						 image.style.left = (factor * image.offsetLeft) + 'px';
+						 image.style.width = (factor * image.offsetWidth) + 'px';
+						 image.style.height = (factor * image.offsetHeight) + 'px';
+						 image.style.backgroundSize = (factor * extraData.width) + 'px ' + (factor * extraData.height) + 'px';
+						 image.style.backgroundPosition = (factor * extraData.left) + 'px ' + (factor * extraData.top) + 'px';
+					 } catch(e) { console.log(e) }
+				 }
+
+				</script>
+			{% elif idea.location %}
+				<div class="image" style="background-image: url(
+				'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}'
+				);"></div>
+			{% else %}
+				<div class="image"></div>
+			{% endif %}
+
+			<div id="author" style="margin-bottom: 20px;">
+				<strong style="margin-bottom: 4px;">Ontwerper(s):</strong>
+				<h1 style="margin-bottom: 0px;">{{idea.title}}</h1>
+				{{idea.startDate | date('LL')}}
+			</div>
+
+			{{ modBreak() if idea.modBreak }}
+			
+			<div class="userContent">
+				<p class="summary">
+					<strong>{{idea.summary | safe | nl2br}}</strong>
+				</p>
+				
+				{{idea.description | safe | nl2br}}
+			</div>
+
+		</div> <!-- #primary -->
+		
+		<div class="secondary">
+
+			{% if can('idea:edit', 'idea:delete') %}
+				<h4>Bewerken</h4>
+				
+				{% if can('idea:edit') %}
+					<form action="/plan/{{idea.id}}/edit">
+						<button type="submit" class="edit">Bewerk idee</button>
+					</form>
+				{% endif %}
+				
+				{% if can('idea:delete') %}
+					<form method="POST" action="/plan/{{idea.id}}/delete" id="deleteIdea">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_csrf" value="{{csrfToken}}">
+						<button type="submit" class="delete">Verwijder idee</button>
+					</form>
+				{% endif %}
+			{% endif %}
+			
+			{% if can('idea:admin') %}
+				<h4>Beheren</h4>
+				
+				<form method="POST" action="/plan/{{idea.id}}/status">
+					<select name="status" onchange="this.form.submit();" class="button status">
+						<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+						<option {{'selected' if idea.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
+						<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+					</select>
+					<input type="hidden" name="_method" value="PUT">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				</form>
+				
+				<form method="GET" action="/plan/{{idea.id}}/mod_break">
+					<button type="submit" class="modBreak">Moderator reactie</button>
+				</form>
+
+			{% endif %}
+
+			{% if can('idea:admin') %}
+				<h4>Ingestuurd door</h4>
+				{{idea.user.fullName}} (<a href="mailto: {{idea.user.email}}">{{idea.user.email}}</a>)
+			{% endif %}
+
+		</div>
+		
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/promise.js"></script>
+	<script src="/js/fetch.js"></script>
+	<script>
+	 // Helper for sending non-GET HTTP requests
+	 // ----------------------------------------
+	 // Used in progressive enhancement scripts to replace a 'old-school'
+	 // request with a `fetch`/`XMLHTTPRequest` action.
+	 (function( global ) {
+		 var csrfToken = '{{csrfToken}}';
+		 
+		 // Wrapper for fetch to POST/PUT data
+		 global.send = function( method, url, data ) {
+
+			 data._csrf = csrfToken;
+			 
+			 return fetch(url, {
+				 method      : method,
+				 headers     : {
+					 'Content-Type' : 'application/json',
+					 'Accept'       : 'application/json'
+				 },
+				 credentials : 'same-origin',
+				 body        : data ? JSON.stringify(data): null
+			 })
+				 .then(handleResponse)
+				 .then(function( data ) {
+					 if( 'csrfToken' in data ) {
+						 csrfToken = data.csrfToken;
+						 // HACK?: Update all tokens in static forms as well.
+							 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+								 input.value = csrfToken;
+							 });
+					 }
+					 return data;
+				 });
+		 }
+		 
+		 function handleResponse( response ) {
+			 var json = response.json();
+			 if( response.status >= 200 && response.status < 300 ) {
+				 return json;
+			 } else {
+				 return json.then(function( data ) {throw data});
+			 }
+		 }
+	 })(this);
+	</script>
+	
+	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
+	
+	<script>
+	 // First image in content
+	 // ----------------------
+	 // If the content starts with an image, remove it from the content
+	 // since it's already visible as poster image.
+	 var figure = document.querySelector('.userContent figure:first-child');
+	 if( figure ) {
+		 var parent = figure.parentNode;
+		 if( parent.firstChild === figure ) {
+			 parent.removeChild(figure);
+		 }
+	 }
+	</script>
+	<script>
+	 // Delete idea confirmation
+	 // ------------------------
+	 var form = document.getElementById('deleteIdea');
+	 if( form ) {
+		 form.addEventListener('submit', function( event ) {
+			 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+				         'Dit kan niet ongedaan gemaakt worden.\n\n'+
+				         'Weet je het zeker?';
+			 if( !confirm(msg) ) {
+				 event.preventDefault();
+			 }
+		 });
+	 }
+	</script>
+{% endblock %}
+
+{% macro modBreak() %}
+	<div id="modBreak">
+		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+		<p>
+			{{idea.modBreak | safe | nl2br}}
+		</p>
+	</div>
+{% endmacro %}

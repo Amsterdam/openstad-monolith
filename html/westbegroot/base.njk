@@ -12,12 +12,20 @@
 
 		<script>
 
-		 var endDate1 = new Date('2018-10-31');
-		 var endDateText1 = '31 oktober 2018';
+		 var months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+
+		 var startDate = new Date('2019-10-01');
+		 // var startDate = new Date(); // demo versie
+		 var startDateText = startDate.getDate() + ' ' + months[ startDate.getMonth() ] + ' ' + ( 1900 + startDate.getYear() );
+
+		 var endDate1 = new Date('2019-10-30');
+		 // var endDate1 = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
+		 var endDateText1 = endDate1.getDate() + ' ' + months[ endDate1.getMonth() ] + ' ' + ( 1900 + endDate1.getYear() );
 		 var daysLeft1 = parseInt( ( endDate1.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
-		 var endDate2 = new Date('2018-11-07');
-		 var endDateText2 = '7 november 2018';
+		 var endDate2 = new Date('2019-11-07');
+		 // var endDate2 = new Date( Date.now() + 28 * 24 * 60 * 60 * 1000 ); // demo versie
+		 var endDateText2 = endDate2.getDate() + ' ' + months[ endDate2.getMonth() ] + ' ' + ( 1900 + endDate2.getYear() );
 		 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
 		</script>
@@ -40,11 +48,6 @@
 					</div>
 					<h1><span>{{SITENAME}}</span></h1>
 				</a>
-				<!--
-						 <a href="javascript: alert('wat deze knop gaat doen is nog niet duidelijk')" class="page-button page-button-grey" target="_blank">
-						 Wat kan ik nog meer doen in mijn buurt?
-						 </a>
-				-->
 			</header>
 			
 			<nav id="mainMenu" role="navigation" class="menuBar">
@@ -61,9 +64,9 @@
 						<a href="/account" id="account" data-initials="">Mijn account</a>
 					{% endif %}
 
-					<!--
-							 <a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur je plan in</a>
-					-->
+					{% if (config.ideas.addNewIdeas != 'closed') %}
+						<a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur je plan in</a>
+					{% endif %}
 
 				</div>
 			</nav>

@@ -11,9 +11,13 @@
 		<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
 
 		<script>
-		 var endDate = new Date('2018-09-02');
-		 var endDateText = '2 september 2018';
+		 var months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+
+		 var endDate = new Date('2019-10-30');
+		 var endDate = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
+		 var endDateText = endDate.getDate() + ' ' + months[ endDate.getMonth() ] + ' ' + ( 1900 + endDate.getYear() );
 		 var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
+
 		</script>
 		
 		<meta name="viewport" content="initial-scale=1">

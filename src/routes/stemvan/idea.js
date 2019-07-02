@@ -877,6 +877,15 @@ function sendThankYouMail( req, idea ) {
 			cid      : 'steps'
 		}]
 	}
+
+console.log(	{
+		to          : req.user.email,
+		subject     : (config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject) || 'Bedankt voor je voorstel',
+		html        : html,
+		text        : text,
+		attachments : attachments,
+});
+
 	
 	mail.sendMail({
 		to          : req.user.email,

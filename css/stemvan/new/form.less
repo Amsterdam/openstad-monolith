@@ -1,4 +1,11 @@
 form {
+
+	@media @phone {
+		h2 {
+			font-size: 18px;
+		}
+	}
+	
 	.charsLeft {
 		color: #9A9A9A;
 		display: none;
@@ -22,8 +29,50 @@ form {
 			display: block;
 		}
 	}
+
+	.default-select {
+		@media @phone {
+			width: 100%;
+		}
+	}
+
 	input[type="submit"]:disabled {
 		cursor: default;
 		opacity: 0.3;
+	}
+
+}
+
+.form-info, .form-warning {
+
+	position: relative;
+	margin: -16px 0 10px 30px;
+	padding: 0;
+
+	@media @phone {
+		font-size: 14px;
+	}
+
+	&:before {
+		position: absolute;
+		top: 0px;
+		left: -30px;
+		width: 30px;
+		height: 30px;
+		content: "";
+		background-position: 0px 0px;
+		background-size: 20px 22px;
+		background-repeat: no-repeat;
+		background-image: url('/img/info-pin.svg');
+	}
+}
+
+.form-warning {
+	display: none;
+	margin-bottom: -4px;
+	font-size: 14px;
+	color: red;
+	&:before {
+		background-image: url('/img/attention.svg');
 	}
 }

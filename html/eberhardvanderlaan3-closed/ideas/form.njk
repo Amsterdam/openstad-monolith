@@ -1,0 +1,161 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle = 'Nieuw ontwerp insturen' if not idea.id else 'Bewerk ontwerp' %}
+{% set contentClass = 'newIdea' %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+
+{% import 'includes/image-editor.njk' as imageEditor %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="/lib/trix/dist/trix.css">
+{% endblock %}
+
+{% block content %}
+
+	{% if not user.isLoggedIn() %}
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="color: white; text-decoration: none; font-weight: 600; margin: 30px auto 30px auto;">Meld je aan om een ontwerp in te sturen</a>
+	{% endif %}
+
+	<h1>{{pageTitle}}</h1>
+
+	{% if showHelp %}
+	{% endif %}
+
+	{% if showForm %}
+		<div class="primary">
+
+			{{imageEditor.createHTML('js-form', 'images[]', 'imageExtraData')}}
+			<div class="form-warning" style="margin-top: -5px; margin-bottom: 15px;">
+				Waarschuwing: Je afbeelding is kleiner dan de aanbevolen minimale afmetingen van 700×877 pixels. Upload een afbeelding in een hogere resolutie om er zeker van te zijn dat je ontwerp goed wordt weergegeven. Dit kan gemakkelijk door één van de <a href="/wedstrijd#sjablonen" target="_blank" style="color: red">sjablonen</a> te gebruiken.
+			</div>
+			<div class="form-info" style="margin-top: -5px; margin-bottom: 30px;">
+				Sleep de afbeelding om je ontwerp in het kader te positioneren, en gebruik de + en − knoppen om de afbeelding in of uit te zoomen.
+			</div>
+
+			<form method="post" id="js-form">
+				<div id="titleAndSummary">
+
+					{% set titleField = idea.title or '' %}
+					{% if titleField == '' %}
+						{% set titleField = user.fullName %}
+					{% endif %}
+					
+					<h2>Naam ontwerper(s)</h2>
+					<div class="form-info">
+						Geef aan onder welke naam of namen je het ontwerp wilt publiceren. Dit helpt anderen om de inzending makkelijk te kunnen vinden.
+					</div>
+					<input type="text" name="title" value="{{titleField}}"><br>
+					
+					<h2>Samenvatting</h2>
+					<div class="form-info">
+						Vertel eens kort in minimaal 20 en maximaal 140 tekens iets meer over jouw ontwerp. Een langere beschrijving voeg je in de volgende stap toe.
+					</div>
+					<textarea name="summary">{{idea.summary}}</textarea>
+					<div id="charsLeftSummary" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
+				</div>
+				
+				<div id="description">
+					<h2>Beschrijving</h2>
+					<div class="form-info">
+						Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
+						<ul>
+							<li>Wat is het verhaal achter jouw ontwerp?</li>
+							<li>Waarom is het een goede weergave voor de boodschap van burgemeester Van der Laan?</li>
+							<li>Draag argumenten aan om je stadgenoten te overtuigen op jouw voorstel te stemmen.</li>
+						</ul>
+					</div>
+					<textarea name="description">{{idea.description}}</textarea>
+					<div id="charsLeftDescription" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
+					
+					
+					{% if idea.id %}
+						<input type="hidden" name="id" value="{{idea.id}}">
+						<input type="hidden" name="_method" value="PUT">
+					{% endif %}
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				</div>
+				
+				{% if idea.posterImage %}
+					<input type="hidden" id="images" name="images[]" value="{{idea.posterImage.key}}">
+					<input type="hidden" id="imageExtraData" name="imageExtraData" value="{{idea.posterImage.extraData | dump}}">
+				{% else %}
+					<input type="hidden" id="imageExtraData" name="imageExtraData">
+				{% endif %}
+				
+				<input type="submit" value="Ontwerp insturen" style="width: 200px;">
+			</form>
+		</div>
+
+		<div class="secondary">
+			{% include "includes/ontwerp-richtlijnen.html" ignore missing %}
+		</div>
+
+	{% endif %}
+{% endblock %}
+
+{% block howDoesItWork %}
+	{% if not user.isLoggedIn() %}
+		{{howdoesitwork.howblock('open')}}
+	{% endif %}
+{% endblock %}
+
+{% block content2 %}
+	{% if not user.isLoggedIn() %}
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="color: white; text-decoration: none; font-weight: 600; margin: 30px auto 30px auto;">Meld je aan om een ontwerp in te sturen</a>
+	{% endif %}
+{% endblock %}
+
+{% block scripts %}
+	{% if showForm %}
+		<script src="/lib/trix/dist/trix.js"></script>
+		<script src="/js/editor.js"></script>
+		
+		<script>
+		 // Idea form extensions
+		 // --------------------
+						// Used by poster file upload and description editor to register
+		 // a reference to each uploaded file. This reference list is used
+		 // by the server to connect the correct image uploads to this idea.
+			 var form = document.getElementById('js-form');
+		 initImageEditor(); // TODO: dit moet automatisch maar	 document.addEventListener('load', initImageEditor); werkt niet
+
+		</script>
+
+		<script src="/js/form.js"></script>
+		<script>
+		 window.addEventListener('load', function() {
+			 console.log('INIT')
+
+			 // summary
+			 var minLen = 20;
+			 var maxLen = 140;
+			 
+			 var textarea  = document.querySelector('textarea[name="summary"]');
+			 var charsLeft = document.querySelector('#charsLeftSummary');
+
+			 if( !charsLeft ) {
+				 return;
+			 }
+
+			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
+
+			 // description
+			 var minLen = 140;
+			 var maxLen = 1000;
+
+			 var textarea  = document.querySelector('textarea[name="description"]');
+			 var charsLeft = document.querySelector('#charsLeftDescription');
+
+			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
+
+		 });
+		</script>
+
+	{% endif %}
+{% endblock %}

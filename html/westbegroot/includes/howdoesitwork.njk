@@ -18,11 +18,11 @@
 					<div class="step-header">2. Stuur je plan in en voer campagne</div>
 					<p>
 						Iedereen mag een plan insturen. Voer in West campagne voor je plan en zorg dat je in elk geval 50 positieve likes haalt. Anderen kunnen stemmen én argumenten plaatsen.
-						<!--
-								 <ul>
-								 <li><a href="/plan/nieuw">Stuur je plan in</a></li>
-								 </ul>
-						-->
+						{% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/plan/nieuw">Stuur je plan in</a></li>
+							</ul>
+						{% endif %}
 					</p>
 				</div>
 				<div class="step">

@@ -1,0 +1,316 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/arguments.njk' as arguments %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+
+{% set pageTitle    = 'Idee: '+idea.title %}
+{% set contentClass = 'idea' %}
+
+{% block head %}
+	{{ super() }}
+	<meta property="og:title" content="{{idea.title}}">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="{{idea.summary}}">
+	<meta property="og:locale" content="nl_NL">
+	<meta property="og:site_name" content="{{SITENAME}}">
+	{% if idea.posterImage %}
+		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<div id="title">
+		<div>
+			<div class="primary">
+				{% if idea.posterImage %}
+					<div class="image" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
+				{% elif idea.location %}
+					<div class="image" style="background-image: url(
+					'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}'
+					);"></div>
+				{% else %}
+					<div class="image"></div>
+				{% endif %}
+				{% if idea.status == 'CLOSED' %}
+					<div class="statusbalk {{idea.status}}">De stemperiode is afgelopen</div>
+				{% elif idea.status == 'DENIED' %}
+					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
+				{% elif idea.status == 'BUSY' %}
+					<div class="statusbalk {{idea.status}}">Dit plan kreeg minder dan 50 likes</div>
+				{% elif idea.status == 'ACCEPTED' %}
+					<div class="statusbalk {{idea.status}}">Dit plan is door naar de haalbaarheidstoets</div>
+				{% else %}
+					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
+				{% endif %}
+				<!--
+						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
+				-->
+			</div>
+
+			<div class="secondary">
+				<div class="controls">
+					<h4>Stemmen</h4>
+
+					{% if idea.isOpen() %}
+						<div class="vote">
+							<form method="POST" action="/plan/{{idea.id}}/vote">
+								<input type="hidden" name="_csrf" value="{{csrfToken}}">
+								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
+								<button class="{{'selected' if userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
+									voor
+								</button>
+								<div style="clear: both;"></div>
+								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
+								<button class="{{'selected' if userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
+									tegen
+								</button>
+								<div style="clear: both;"></div>
+							</form>
+						</div>
+					{% else %}
+						<div class="vote disabled">
+							{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
+							<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
+								voor
+							</button>
+							<div style="clear: both;"></div>
+							{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
+							<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
+								tegen
+							</button>
+							<div style="clear: both;"></div>
+						</div>
+					{% endif %}
+
+					<div class="ideaProgress">
+						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
+					</div>
+
+					<div class="ideaDuration {{idea.status}}">
+						<h4>Status</h4>
+						<div class="duration">
+							{% if idea.status == 'CLOSED' %}
+								<div>De stemperiode is afgelopen</div>
+							{% elif idea.status == 'DENIED' %}
+								<div>Stemmen op dit voorstel is niet meer mogelijk.</div>
+							{% elif idea.status == 'ACCEPTED' %}
+								<div>Haalbaarheidstoets</div>
+							{% elif idea.status == 'BUSY' %}
+								<div>Minder dan 50 likes</div>
+							{% elif idea.status == 'DONE' %}
+								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
+							{% else %}
+								<div id ="nog-xxx-om-te-stemmen"></div>
+								<script>
+								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
+								</script>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="share">
+						<h4>Deel dit voorstel</h4>
+						<ul>
+							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
+							<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
+							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{url | urlencode}}">Email</a></li>
+							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text=https%3A%2F%2F{{DOMAIN}}%2Fplan%2F{{idea.id}}">WhatsApp</a></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="primary">
+		<h1>{{idea.title}}</h1>
+
+		<div id="author">
+			{% if can('user:mail') %}
+				<strong>Door: <a href="mailto:{{idea.user.email}}">
+					{{idea.user.firstName}} {{idea.user.lastName}}
+				</a></strong><br>
+			{% else %}
+				<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
+			{% endif %}
+
+			{{idea.startDate | date('LL')}}
+		</div>
+
+		{{ modBreak() if idea.modBreak and not idea.isOpen() }}
+
+		<div class="userContent">
+			<p class="summary">
+				<strong>{{idea.summary | safe | nl2br}}</strong>
+			</p>
+
+			{{idea.description | safe}}
+		</div>
+
+		{% if idea.location %}
+			<br/><br/>
+			<div id="mapcontainer">
+				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = [idea])}}
+			</div>
+		{% endif %}
+
+		{{ modBreak() if idea.modBreak and idea.isOpen() }}
+	</div> <!-- #primary -->
+
+	<div class="secondary">
+
+		{# <h2>Volgen</h2>
+
+		<form action="/plan/{{idea.id}}/notify">
+		<input type="submit" value="Mail updates">
+		</form> #}
+
+		{% if can('idea:edit', 'idea:delete') %}
+			<h4>Bewerken</h4>
+
+			{% if can('idea:edit') %}
+				<form action="/plan/{{idea.id}}/edit">
+					<button type="submit" class="edit">Bewerk idee</button>
+				</form>
+			{% endif %}
+
+			{% if can('idea:delete') %}
+				<form method="POST" action="/plan/{{idea.id}}/delete" id="deleteIdea">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<button type="submit" class="delete">Verwijder idee</button>
+				</form>
+			{% endif %}
+		{% endif %}
+
+		{% if can('idea:admin') %}
+			<h4>Beheren</h4>
+
+			<form method="POST" action="/plan/{{idea.id}}/status">
+				<select name="status" onchange="this.form.submit();" class="button status">
+					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+					<option {{'selected' if idea.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
+					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+				</select>
+				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			</form>
+
+			<form method="GET" action="/plan/{{idea.id}}/mod_break">
+				<button type="submit" class="modBreak">Moderator reactie</button>
+			</form>
+
+			<form method="GET" action="/plan/{{idea.id}}/votes">
+				<button type="submit" class="votes">Stemoverzicht</button>
+			</form>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block page %}
+	<div id="arguments">
+		<h1 name="arguments"><div class="pageContent">Argumenten</div></h1>
+
+		<div class="pageContent">
+			<div class="argList for">
+				{{arguments.list(user, idea, config, csrfToken, 'argumentsFor')}}
+			</div>
+			<div class="argList against">
+				{{arguments.list(user, idea, config, csrfToken, 'argumentsAgainst')}}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/promise.js"></script>
+	<script src="/js/fetch.js"></script>
+	<script>
+	 // Helper for sending non-GET HTTP requests
+	 // ----------------------------------------
+	 // Used in progressive enhancement scripts to replace a 'old-school'
+	 // request with a `fetch`/`XMLHTTPRequest` action.
+	 (function( global ) {
+		 var csrfToken = '{{csrfToken}}';
+
+		 // Wrapper for fetch to POST/PUT data
+		 global.send = function( method, url, data ) {
+			 data._csrf = csrfToken;
+
+			 return fetch(url, {
+				 method      : method,
+				 headers     : {
+					 'Content-Type' : 'application/json',
+					 'Accept'       : 'application/json'
+				 },
+				 credentials : 'same-origin',
+				 body        : data ? JSON.stringify(data): null
+			 })
+				 .then(handleResponse)
+				 .then(function( data ) {
+					 if( 'csrfToken' in data ) {
+						 csrfToken = data.csrfToken;
+						 // HACK?: Update all tokens in static forms as well.
+							 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+								 input.value = csrfToken;
+							 });
+					 }
+					 return data;
+				 });
+		 }
+
+		 function handleResponse( response ) {
+			 var json = response.json();
+			 if( response.status >= 200 && response.status < 300 ) {
+				 return json;
+			 } else {
+				 return json.then(function( data ) {throw data});
+			 }
+		 }
+	 })(this);
+	</script>
+
+	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
+
+	<script>
+	 // First image in content
+	 // ----------------------
+	 // If the content starts with an image, remove it from the content
+	 // since it's already visible as poster image.
+	 var figure = document.querySelector('.userContent figure:first-child');
+	 if( figure ) {
+		 var parent = figure.parentNode;
+		 if( parent.firstChild === figure ) {
+			 parent.removeChild(figure);
+		 }
+	 }
+	</script>
+
+	<script>
+	 // Delete idea confirmation
+	 // ------------------------
+	 var form = document.getElementById('deleteIdea');
+	 if( form ) {
+		 form.addEventListener('submit', function( event ) {
+			 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+				         'Dit kan niet ongedaan gemaakt worden.\n\n'+
+				         'Weet je het zeker?';
+			 if( !confirm(msg) ) {
+				 event.preventDefault();
+			 }
+		 });
+	 }
+	</script>
+
+{% endblock %}
+
+{% macro modBreak() %}
+	<div id="modBreak">
+		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+		<p>
+			{{idea.modBreak | safe | nl2br}}
+		</p>
+	</div>
+{% endmacro %}

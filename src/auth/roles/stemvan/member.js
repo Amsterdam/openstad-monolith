@@ -9,7 +9,7 @@ module.exports = function( helpers, role ) {
 		'idea:create'      : true,
 		'idea:edit'        : helpers.mayMutateIdea,
 		'idea:delete'      : helpers.mayMutateIdea,
-		
+
 		'image:upload'     : true,
 		
 		'arg:add'          : helpers.mayAddArgument,

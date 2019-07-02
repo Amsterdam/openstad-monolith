@@ -1,0 +1,95 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+
+{% set pageTitle    = 'Veelgestelde vragen' %}
+{% set contentClass = 'article faq' %}
+
+{% block head %}
+	{{super()}}
+
+	<style type="text/css">
+	 #article h2 {
+		 background-color: #E3E4E5;
+		 font-size: 0.9rem;
+		 line-height: 1.5em;
+		 padding: 0.5em 10px;
+	 }
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="primary">
+		<h1>Veelgestelde vragen</h1>
+
+		<div id="summary">
+			<p>{{'2018-07-18' | date('LL')}}</p>
+
+			<h3>In het kort</h3>
+			<p>
+				Heb je vragen over het gebruik van {{SITENAME}}? Bekijk dan
+				eerst eens of je vraag op deze pagina beantwoord wordt.
+			</p>
+			<p class="strong">
+				Staat het antwoord op je vraag er niet tussen? Stuur dan een
+				e-mail naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
+				De beheerders van {{SITENAME}} zullen je vraag dan zo snel
+				mogelijk beantwoorden!
+			</p>
+			<hr>
+		</div>
+
+		<div id="article">
+
+			<h2>Waar vind ik de uitslag en hoe is die bepaald?</h2>
+			Op 16 februari 2019 wordt via deze website bekend gemaakt welke plannen uitgevoerd worden met daarbij een uitleg hoe deze uitslag tot stand is gekomen.
+
+			<h2>Ik ben geen bewoner van stadsdeel West maar wil wel graag stemmen. Kan dat?</h2>
+			Nee, helaas. Alleen bewoners van stadsdeel West van 18 jaar en ouder mogen stemmen.
+
+			<h2>Ik woon in West maar heb geen stemcode ontvangen, hoe kan ik alsnog meedoen?</h2>
+			Wat vervelend! Stuur een mail naar <a href="mailto:westbegroot@amsterdam.nl">westbegroot@amsterdam.nl</a> en dan kijken we wat we kunnen doen.
+
+			<h2>Ik ben niet zo handig met computers. Kan ik ook met mijn brief stemmen? En hoe doe ik dat dan?</h2>
+			Als je het lastig vindt om online te stemmen, vraag dan hulp van vrienden, familieleden of buren. Of kom langs op woensdag 13 februari in het huis van de buurt De Klinker, Borgerstraat 45. Daar zijn van 15.00 u. tot 17.00 u. en van 18.00 u. tot 19.30 u. mensen aanwezig die je kunnen helpen met stemmen. Neem dan de brief met de persoonlijke stemcode mee en een legitimatiebewijs. Je kunt daar ook voor anderen stemmen. Neem dan hun brief met persoonlijke code, een kopie van hun legitimatiebewijs en een schriftelijke toestemming mee.
+
+			<h2>Ik heb mijn persoonlijke stemcode ingevuld, maar het lukt niet om te stemmen, wat nu?</h2>
+			Een stemcode bestaat uit 12 tekens (cijfer en letters) en is hoofdlettergevoelig. Controleer nogmaals of je alle tekens juist hebt overgenomen. Lukt het nog steeds niet? Stuur een mail naar <a href="mailto:westbegroot@amsterdam.nl">westbegroot@amsterdam.nl</a>
+
+			<h2>Hoe weet ik zeker dat mijn stem is opgeslagen?</h2>
+			Je stem is goed opgeslagen als je in stap 4 een bevestiging ziet die zegt; ‘Gelukt, je hebt gestemd!’ Het stemmen werkt in 4 stappen. In stap 1 kies je je favoriete plannen. In stap 2 controleer je in het overzicht of je tevreden bent met je gekozen plannen. In stap 3 vul je de stemcode in die je per post hebt ontvangen waarna je klikt op de knop ‘Stemmen’.
+
+			<h2>Ik heb een plan ingediend maar er kan niet op gestemd worden. Hoe kan dat?</h2>
+			In totaal zijn er 216 plannen ingediend waarvan er uiteindelijk 30 zijn geselecteerd. Als jouw plan niet tot deze 30 behoort, dan kan er ook niet op gestemd worden. Redenen waarom jouw plan niet is geselecteerd zijn:
+			<ol type="1">
+				<li>je plan heeft niet de benodigde 50 likes gehaald of</li>
+				<li>je plan is niet als haalbaar beoordeeld</li>
+				<li>je plan is niet geselecteerd door de stadsdeelcommissie.	Als het goed is heb je hierover in de week van 9 januari een mail ontvangen met een uitleg. Je kan ook hier kijken hoe jouw en andere plannen zijn getoetst. Heb je geen mail ontvangen en wens je alsnog een uitleg? Mail dan naar <a href="mailto:westbegroot@amsterdam.nl">westbegroot@amsterdam.nl</a>.</li>
+			</ol>
+
+			<h2>Ik heb in oktober op een plan gestemd maar ik zie het niet terug in de geselecteerde plannen. Hoe kan dat?</h2>
+			In oktober konden mensen stemmen op plannen. Alle plannen met 50 positieve likes gingen door naar de volgende ronde, een haalbaarheidscheck. Dat betekent niet automatisch dat deze plannen nu ook meedoen. In totaal zijn er 216 plannen ingediend waarvan er uiteindelijk maar 30 zijn geselecteerd voor West Begroot. Als het plan niet geselecteerd is, dan:
+			<ol type="1">
+				<li>heeft het plan de benodigde 50 likes niet gehaald of</li>
+				<li>is het plan niet als haalbaar beoordeeld of</li>
+				<li>is het plan niet geselecteerd door de stadsdeelcommissie voor de laatste ronde van West Begroot.</li>
+			</ol>
+			Je kan <a href="/originele-plannen">hier</a> kijken hoe het plan en alle andere plannen zijn beoordeeld.
+
+			<h2>Kan ik voor anderen stemmen?</h2>
+			De persoonlijke stemcode is persoonlijk geadresseerd. Het is de bedoeling dat iedereen voor zich stemt. Uiteraard kun je mensen die hulp nodig hebben, ondersteunen bij het invoeren van hun unieke code als zij dat op prijs stellen. Op 13 februari kunnen mensen in buurthuis De Klinker hulp krijgen bij het invoeren van hun stemcode op woensdag 13 februari, Borgerstraat 45. Daar zijn van 15.00 u. tot 17.00 u. en van 18.00 u. tot 19.30 u. mensen aanwezig die  kunnen helpen met stemmen. Bewoners kunnen daar ook voor anderen stemmen, met de brief, een kopie van het legitimatiebewijs en een schriftelijke toestemming van de betreffende persoon.
+
+			<h2>Krijgen de indieners van de winnende plannen het bedrag meteen op hun rekening gestort?</h2>
+			Nee. Eerst wordt gekeken wie het plan gaat realiseren. In sommige gevallen is dat de gemeente zelf, in andere gevallen een bewoner of een maatschappelijke organisatie. Dat hangt helemaal af van de aard van het plan! Ook zijn we gebonden aan Europese aanbestedingsregels, wat inhoudt dat we boven een bepaald bedrag drie offertes moeten aanvragen en het niet vanzelfsprekend dat de indiener ook het plan gaat uitvoeren.  In elk geval moet een bewoner(s) of een maatschappelijke organisatie formeel nog een subsidie aanvraag opstellen voordat geld kan worden toegekend. Uiteraard kan het stadsdeel daarbij helpen als nodig.
+
+			<h2>Ik wil graag een plan indienen voor een volgende ronde van West Begroot. Kan dat?</h2>
+			Leuk dat je zo enthousiast bent over West Begroot. Dat zijn wij ook! Toch gaan we na de laatste stemronde eerst evalueren en kijken wat het heeft opgeleverd voordat we een nieuwe ronde gaan voorbereiden. Hou de berichtgeving dus goed in de gaten en… wellicht tot de volgende keer!
+
+				<br/>
+				<br/>
+				<br/>
+		</div>
+	</div>
+
+	<div class="secondary">
+	</div>
+{% endblock %}

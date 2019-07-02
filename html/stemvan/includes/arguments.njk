@@ -6,6 +6,12 @@
 	{% set mayAddArg     = user.can('arg:add', idea) %}
 	{% set mayEmailUsers = user.can('user:mail') %}
 	
+	{% if propName == 'argumentsFor' %}
+		<h2>Argumenten voor</h2>
+	{% else %}
+		<h2>Argumenten tegen</h2>
+	{% endif %}
+
 	{% if mayShowForm %}
 		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
 
@@ -30,13 +36,9 @@
 			<input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
 			<input type="submit" value="Verzenden">
 		</form>
+		<div  style="clear: both; height: 20px;"></div>
 	{% endif %}
 
-	{% if propName == 'argumentsFor' %}
-		<h2 style="clear: both;">Argumenten voor</h2>
-	{% else %}
-		<h2 style="clear: both;">Argumenten tegen</h2>
-	{% endif %}
 
 	{% for arg in arguments %}
 		{% set mayEdit         = user.can('arg:edit', idea, arg) %}
@@ -159,9 +161,8 @@
 	 // New argument form
 	 // -----------------
 	 // Go to login/register page when user clicks textarea, anonymous is not allowed, and is not logged in.
-	 $('{{cssQuery}} form:first-child textarea[data-disabled]').forEach(function( textarea ) {
+	 $('{{cssQuery}} textarea[data-disabled]').forEach(function( textarea ) {
 		 textarea.addEventListener('focus', function( event ) {
-			 console.log('xxxxxx')
 			 textarea.blur();
 			 document.location.href = '/plan/{{idea.id}}/arg/new';
 		 });
@@ -169,7 +170,7 @@
 	 // Character count on 'new argument' forms.
 
 	 window.addEventListener('load', function() {
-		 $('{{cssQuery}} form:first-child').forEach(function( form, i ) {
+		 $('{{cssQuery}} form').forEach(function( form, i ) {
 			 renderForm(form);
 		 });
 	 });
@@ -325,7 +326,6 @@
 		 function updateButton() {
 			 var len = textarea.value.length;
 			 var isValid = len >= minLen && len <= maxLen;
-			 console.log('==', form.querySelector('input[name="email"]'))
 			 if ( form.querySelector('input[name="email"]') ) {
 				 isValid = isValid && form.querySelector('input[name="email"]').value.match(/.+@.+\..+/)
 			 }

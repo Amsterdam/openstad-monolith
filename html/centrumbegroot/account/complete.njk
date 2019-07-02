@@ -1,0 +1,51 @@
+{% extends 'base.njk' %}
+
+{% set pageTitle = 'Registratie voltooien' %}
+
+{% block content %}
+	<h1>Registratie voltooien</h1>
+
+	Vul onderstaande gegevens in om je registratie te voltooien.<br/>
+	Na deze stap kun je gelijk gebruik maken van de website.
+
+	<p>
+
+		<form method="post" class="completeRegistration">
+			<table>
+				<tr>
+					<td colspan="2">Voornaam:</td>
+					<td><input type="text" name="firstName" value="{{user.firstName}}"> *</td>
+				</tr>
+				<tr>
+					<td colspan="2">Achternaam:</td>
+					<td><input type="text" name="lastName" value="{{user.lastName}}"> *</td>
+				</tr>
+				<tr>
+					<td colspan="2">Postcode:</td>
+					<td><input type="text" name="zipCode" value="{{user.zipCode}}" size="10"> *</td>
+				</tr>
+				<tr>
+					<td colspan="2">&nbsp;</td>
+					<td><div class="extraInfo">&nbsp;</div></td>
+				</tr>
+				{% if addSignedupfornewsletter %}
+				<tr>
+					<td class="padding-top"><div class="signedupfornewsletter"><input type="checkbox" name="signedUpForNewsletter" value="1"/><div class="checkmark"></div></div></td>
+					<td colspan="2" class="padding-top">
+						Ik wil graag eenmalig per email op de hoogte worden gebracht van de uitslag.
+					</td>
+				</tr>
+				{% endif %}
+				<tr>
+					<td width="34"></td>
+					<td></td>
+					<td class="padding-top"><input type="submit" value="Voltooien"></td>
+				</tr>
+			</table>
+			
+			<p>
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<input type="hidden" name="_method" value="PUT">
+				
+		</form>
+{% endblock %}

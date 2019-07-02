@@ -18,21 +18,39 @@ ul.share {
 			width: 30px;
 			
 			&.facebook {
-				background-image: url('/img/share-facebook.svg');
-				&:hover {
+				background-image: url('/img/share-facebook-hover.svg');
+				&:link {
+					background-image: url('/img/share-facebook.svg');
+				}
+				&:focus, &:hover {
 					background-image: url('/img/share-facebook-hover.svg');
 				}
 			}
 			&.twitter {
-				background-image: url('/img/share-twitter.svg');
-				&:hover {
+				background-image: url('/img/share-twitter-hover.svg');
+				&:link {
+					background-image: url('/img/share-twitter.svg');
+				}
+				&:focus, &:hover {
 					background-image: url('/img/share-twitter-hover.svg');
 				}
 			}
 			&.email {
-				background-image: url('/img/share-email.svg');
-				&:hover {
+				background-image: url('/img/share-email-hover.svg');
+				&:link {
+					background-image: url('/img/share-email.svg');
+				}
+				&:focus, &:hover {
 					background-image: url('/img/share-email-hover.svg');
+				}
+			}
+			&.whatsapp {
+				background-image: url('/img/share-whatsapp-hover.svg');
+				&:link {
+					background-image: url('/img/share-whatsapp.svg');
+				}
+				&:focus, &:hover {
+					background-image: url('/img/share-whatsapp-hover.svg');
 				}
 			}
 		}

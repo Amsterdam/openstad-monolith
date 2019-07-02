@@ -1,0 +1,525 @@
+{% macro createHTML(formId, imageFieldName, imageExtraDataFieldId) %}
+	<div id="image-editor">
+		<img src="/img/eberhardvanderlaan2/uploaded-image-background.jpg" id="background"/>
+		<form id="posterImageUpload" action="/image">
+			<div class="progress"><div class="bar"></div></div>
+		</form>
+		<div id="image-cropper-container" class="hidden">
+			<img id="image-cropper"/>
+		</div>
+		<message>Sleep om je ontwerp te positioneren</message>
+		<div id="zoombuttons">
+			<a id="zoomIn"  href="javascript: void doZoomIn();"></a>
+			<a id="zoomOut" href="javascript: void doZoomOut();"></a>
+		</div>
+		<button id="imageEditorButton" type="button" class="hidden">Verwijder afbeelding<!-- Also set in JS --></button>
+	</div>
+
+	<script src="/lib/dropzone/dist/dropzone.js"></script>
+
+	<script>
+
+	 var imageEditor = document.getElementById('image-editor');	 
+	 var cropperStatus = {};
+
+	 function initImageEditor() {
+
+		 {% set acceptedMimeTypes = config.images.acceptedMimeTypes %}
+		 {% if not acceptedMimeTypes %}
+		 {% set acceptedMimeTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'] %}
+		 {% endif %}
+
+		 imageEditor.initCropper = function(file) {
+
+			 el.style.display = 'none';
+			 button.style.display = 'block';
+			 background.style.display = 'block';
+			 zoombuttons.style.display = 'block';
+			 message.style.display = 'block';
+
+			 // dit doet de css nu
+			 // cropperContainer.style.width  = cropperWidth  + 'px';
+			 // cropperContainer.style.height = cropperHeight + 'px';
+			 // cropperContainer.style.left   = parseInt( ( cropperContainer.parentNode.offsetWidth  - cropperWidth  ) / 2 ) + 'px';
+			 // cropperContainer.style.top    = parseInt( ( cropperContainer.parentNode.offsetHeight - cropperHeight ) / 2 ) + 'px';
+
+			 if (document.getElementById('{{imageExtraDataFieldId}}').value) {
+				 cropperStatus = JSON.parse(document.getElementById('{{imageExtraDataFieldId}}').value)
+
+			 } else {
+
+				 var width = file.width;
+				 var height = file.height;
+
+				 var newWidth, newHeight, newX, newY;
+				 if (cropperWidth/cropperHeight > width/height) {
+					 newWidth = cropperWidth;
+					 newHeight = parseInt((cropperWidth/width) * height);
+					 newX = 0;
+					 newY = ( cropperHeight - newHeight ) / 2;
+				 } else {
+					 newHeight = cropperHeight;
+					 newWidth = parseInt((cropperHeight/height) * width);
+					 newX = ( cropperWidth - newWidth ) / 2;
+					 newY = 0;
+				 }
+
+				 cropperStatus.orgWidth  = width;
+				 cropperStatus.orgHeight = height;
+
+				 cropperStatus.width  = newWidth;
+				 cropperStatus.height = newHeight;
+				 cropperStatus.top    = newY;
+				 cropperStatus.left   = newX;
+
+				 cropperStatus.zoom = parseInt( 1000 * cropperStatus.width / cropperStatus.orgWidth );
+
+			 }
+
+			 if (warning) {
+				 if (cropperStatus.orgWidth < 700 || cropperStatus.orgHeight < 877) {
+					 warning.style.display = 'block'
+				 } else {
+					 warning.style.display = 'none'
+				 }
+			 }
+
+			 cropper.style.width  = cropperStatus.width + 'px';
+			 cropper.style.height = cropperStatus.height + 'px';
+			 cropper.style.top    = cropperStatus.top + 'px';
+			 cropper.style.left   = cropperStatus.left + 'px';
+
+			 cropper.addEventListener('mousedown', handleMousedown);
+			 cropper.addEventListener('touchstart', handleTouchstart);
+
+			 cropperContainer.className = '';
+
+			 imageEditor.scaleView();
+			 imageEditor.updateExtraDataFormField()
+
+		 }
+
+		 imageEditor.removeCropper = function() {
+			 el.style.display = 'block';
+			 button.style.display = 'none';
+			 // background.style.display = 'none';
+			 zoombuttons.style.display = 'none';
+			 message.style.display = 'none';
+			 cropperContainer.className = 'hidden';
+		 }
+
+		 imageEditor.scaleView = function() {
+			 let editor = document.querySelector('#image-editor');
+			 let factor = editor.offsetWidth / 700;
+			 let container = document.querySelector('#image-cropper-container');
+			 container.style.top = (factor * 69) + 'px';
+			 container.style.left = (factor * 151) + 'px';
+			 container.style.width = (factor * 415) + 'px';
+			 container.style.height = (factor * 520) + 'px';
+			 let image = document.querySelector('img#image-cropper');
+			 image.style.top = (factor * cropperStatus.top) + 'px';
+			 image.style.left = (factor * cropperStatus.left) + 'px';
+			 image.style.width = (factor * cropperStatus.width) + 'px';
+			 image.style.height = (factor * cropperStatus.height) + 'px';
+			 zoombuttons.style.left = ( parseInt(container.style.width) + parseInt(container.style.left) + 10 ) + 'px';
+			 zoombuttons.style.top = ( parseInt(container.style.height) + parseInt(container.style.top) - 47 ) + 'px';
+		 }
+
+		 imageEditor.initDrag = function(event) {
+
+			 cropperStatus.event = {};
+			 cropperStatus.event.lastX = event.clientX;
+			 cropperStatus.event.lastY = event.clientY;
+
+			 if ( event.type == 'mouse' ) {
+				 document.onmouseup		 = handleMouseup;
+				 document.onmousemove	 = handleMousemove;
+			 } else {
+				 document.ontouchend		 = handleTouchend;
+				 document.ontouchmove	   = handleTouchmove;
+				 document.ontouchcancel  = handleTouchcancel;
+			 }
+
+			 return false;
+
+		 }
+
+		 imageEditor.doDrag = function(event) {
+
+			 var diffX = event.clientX - cropperStatus.event.lastX;
+			 var diffY = event.clientY - cropperStatus.event.lastY;
+
+			 cropperStatus.event.lastX = event.clientX;
+			 cropperStatus.event.lastY = event.clientY;
+
+			 imageEditor.moveImage(diffX, diffY);
+
+			 return false;
+
+		 }
+
+		 imageEditor.endDrag = function(event) {
+
+			 cropperStatus.event = {};
+
+			 document.onmouseup		 = null;
+			 document.onmousemove	 = null;
+
+			 document.ontouchend		 = null;
+			 document.ontouchmove	   = null;
+			 document.ontouchcancel  = null;
+
+			 return false;
+
+		 }
+
+		 imageEditor.drawZoom = function(newWidth, newHeight) {
+
+			 var diffX = ( cropperStatus.width - newWidth ) / 2;
+			 var diffY = ( cropperStatus.height - newHeight ) / 2;
+
+			 cropperStatus.width  = newWidth;
+			 cropperStatus.height = newHeight;
+
+			 cropper.style.width  = cropperStatus.width  + 'px';
+			 cropper.style.height = cropperStatus.height + 'px';
+
+			 imageEditor.moveImage(diffX, diffY);
+			 
+		 }
+
+		 imageEditor.moveImage = function(diffX, diffY) {
+
+			 var minVisible = 75;
+
+			 var newTop = cropperStatus.top + diffY;
+			 if (newTop > cropperHeight - minVisible) newTop = cropperHeight - minVisible;
+			 if (newTop + cropperStatus.height < minVisible) newTop = minVisible - cropperStatus.height;
+
+			 var newLeft = cropperStatus.left + diffX;
+			 if (newLeft > cropperWidth - minVisible) newLeft = cropperWidth - minVisible;
+			 if (newLeft + cropperStatus.width < minVisible) newLeft = minVisible - cropperStatus.width;
+
+			 cropperStatus.top  = newTop;
+			 cropperStatus.left = newLeft;
+
+			 cropper.style.top  = cropperStatus.top  + 'px';
+			 cropper.style.left = cropperStatus.left + 'px';
+
+			 imageEditor.scaleView();
+			 imageEditor.updateExtraDataFormField();
+			 
+		 }
+
+		 imageEditor.updateExtraDataFormField = function() {
+			 document.getElementById('{{imageExtraDataFieldId}}').value = JSON.stringify(cropperStatus);
+		 }
+
+		 var form = document.getElementById('{{formId}}');
+
+		 form.addAttachmentRef = function( key ) {
+			 var input   = document.createElement('input');
+			 input.type  = 'hidden';
+			 input.name  = '{{imageFieldName}}';
+			 input.value = key;
+			 this.appendChild(input);
+		 };
+		 form.clearAttachmentRef = function() {
+			 var images = Array.prototype.slice.call(
+				 form.querySelectorAll('input[name="{{imageFieldName}}"]'), 0
+			 );
+			 images.forEach(function( image ) {
+				 this.removeChild(image);
+			 }, this);
+		 };
+		 form.addEventListener('submit', function( event ) {
+			 var uploadForm = document.getElementById('posterImageUpload');
+			 if( !uploadForm ) return;
+			 
+			 if( uploadForm.classList.contains('uploading') ) {
+				 event.stopPropagation();
+				 event.preventDefault();
+				 alert(
+					 'De afbeelding upload is nog niet afgerond.\n\n'+
+					 'Hierdoor kan uw idee nog niet opgeslagen worden.'
+				 );
+			 }
+		 });
+
+		 var currentImage;
+		 var form        = document.getElementById('{{formId}}');
+		 var el          = document.getElementById('posterImageUpload');
+		 var button      = imageEditor.querySelector('button');
+		 var background  = imageEditor.querySelector('#background');
+		 var zoombuttons = imageEditor.querySelector('#zoombuttons');
+		 var message     = imageEditor.querySelector('message');
+		 var progressBar = el.querySelector('#posterImageUpload .progress .bar');
+		 var warning     = document.querySelector('.form-warning');
+
+		 var cropperWidth = 415;
+		 var cropperHeight = 520;
+
+		 var cropperContainer = document.getElementById('image-cropper-container');
+		 var cropper = document.getElementById('image-cropper');
+
+		 button.addEventListener('click', function() {
+			 imageEditor.removeCropper();
+			 upload.removeFile(currentImage || {});
+		 });
+
+		 var upload = new Dropzone(el, {
+			 maxFiles             : 1,
+			 uploadMultiple       : false,
+			 
+			 maxFilesize          : 10,
+			 maxThumbnailFilesize : 10,
+			 thumbnailWidth       : 1800,
+			 thumbnailHeight      : null,
+
+			 acceptedFiles        : '{{acceptedMimeTypes}}'.replace('jpg', 'jpeg'),
+
+			 init: function(x) {
+				 // todo: in de colde elders kunnen dit er meer zijn, maar hier is het er maar 1
+				 let imageElem = form.querySelector('input[name="{{imageFieldName}}"]')
+				 if (imageElem) {
+					 cropper.setAttribute('src', '/image/' + imageElem.value);
+					 imageEditor.initCropper()
+				 }
+			 },
+			 
+			 addedfile: function( file ) {
+
+				 this.removeFile(currentImage || {});
+				 currentImage = file;
+				 
+				 el.classList.add('uploading');
+				 progressBar.style.width = 0;
+				 
+				 file.key = Date.now()+'-'+file.name;
+				 this.options.params['key'] = file.key;
+			 },
+
+			 removedfile: function( file ) {
+				 el.removeAttribute('style');
+				 el.classList.remove('uploading');
+				 warning.style.display = 'none'
+				 form.clearAttachmentRef();
+			 },
+			 
+			 thumbnail: function( file, dataURL ) {
+				 el.setAttribute('style', 'background-image: url('+dataURL+')');
+				 cropper.setAttribute('src', dataURL);
+			 },
+
+			 sending: function() {
+				 button.innerHTML = 'Annuleer upload';
+			 },
+
+			 uploadprogress: function( file, progress, bytesSent ) {
+				 progressBar.style.width = progress+'%';
+			 },
+			 
+			 success: function( file ) {
+				 el.classList.remove('uploading');
+				 form.addAttachmentRef(file.key);
+				 button.innerHTML = 'Verwijder afbeelding';
+				 document.getElementById('{{imageExtraDataFieldId}}').value = '';
+				 imageEditor.initCropper(file);
+			 },
+
+			 error: function( file, error ) {
+				 button.innerHTML = 'Verwijder afbeelding';
+				 this.removeFile(file);
+				 if( typeof error != 'string' ) {
+					 alert(error.message);
+				 }
+			 },
+
+		 });
+
+	 }
+
+	 // todo: deze staan er buiten omdat ze in de href vn de zoombuttons zitten, maar dat moet dus niet
+	 function doZoomIn() {
+
+		 var newZoom = parseInt( cropperStatus.zoom * 1.1 );
+
+		 var newWidth  = cropperStatus.orgWidth  * ( newZoom / 1000 );
+		 var newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
+
+		 cropperStatus.zoom = newZoom;
+
+		 imageEditor.drawZoom(newWidth, newHeight);
+
+	 }
+
+	 function doZoomOut() {
+
+		 var minSize = 75;
+
+		 var newZoom = parseInt( cropperStatus.zoom / 1.1 );
+
+		 var newWidth  = cropperStatus.orgWidth  * ( newZoom / 1000 );
+		 var newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
+
+		 if (newWidth < minSize) {
+			 newZoom = parseInt( 1000 * minSize / cropperStatus.orgWidth );
+			 newWidth	 = cropperStatus.orgWidth	 * ( newZoom / 1000 );
+			 newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
+		 }
+
+		 if (newHeight < minSize) {
+			 newZoom = parseInt( 1000 * minSize / cropperStatus.orgHeight );
+			 newWidth	 = cropperStatus.orgWidth	 * ( newZoom / 1000 );
+			 newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
+		 }
+
+		 cropperStatus.zoom = newZoom;
+
+		 imageEditor.drawZoom(newWidth, newHeight);
+
+	 }
+
+	 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 // Mouse events
+	 // TODO: het hele stuk hier onder is een botte kopie en moet opgeschooond. De functies zouden ook aan imageEditor moeten hangen
+	 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	 function input_event_class () {
+		 input_event_class.type = 'mouse';
+		 input_event_class.target = {};
+		 input_event_class.clientX = new Number;
+		 input_event_class.clientY = new Number;
+	 }
+	 
+
+	 function handleMousedown(e) {
+
+		 e = (e) ? e : window.event;
+		 var target = e.target || e.srcElement;
+		 e.preventDefault();
+
+		 var input_event = new input_event_class;
+		 input_event.type = 'mouse';
+		 input_event.target = target;
+		 input_event.clientX = e.clientX;
+		 input_event.clientY = e.clientY;
+
+		 imageEditor.initDrag(input_event);
+
+		 return false;
+	 }
+
+	 function handleMousemove(e) {
+
+		 e = (e) ? e : window.event;
+		 var target = e.target || e.srcElement;
+		 e.preventDefault();
+
+		 var input_event = new input_event_class;
+		 input_event.type = 'mouse';
+		 input_event.target = target;
+		 input_event.clientX = e.clientX;
+		 input_event.clientY = e.clientY;
+
+		 imageEditor.doDrag( input_event );
+
+		 return false;
+
+	 }
+
+	 function handleMouseup(e) {
+
+		 e = (e) ? e : window.event;
+		 var target = e.target || e.srcElement;
+		 e.preventDefault();
+
+		 var input_event = new input_event_class;
+		 input_event.type = 'mouse';
+		 input_event.target = target;
+		 input_event.clientX = e.clientX;
+		 input_event.clientY = e.clientY;
+
+		 imageEditor.endDrag(input_event);
+		 
+		 return false;
+
+	 }
+
+
+	 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 // Touch events
+	 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 
+	 function handleTouchstart(event) {
+
+		 // disable the standard ability to select the touched object
+		 event.preventDefault();
+		 // wat is mijn target
+		 var target = event.target || event.srcElement;
+
+		 // get the total number of fingers touching the screen
+		 var fingerCount = event.touches.length;
+		 // since we're looking for a swipe (single finger) and not a gesture (multiple fingers),
+				 // check that only one finger was used
+		 if ( fingerCount == 1 ) {
+			 // get the coordinates of the touch
+			 
+			 var input_event = new input_event_class;
+			 input_event.type = 'touch';
+			 input_event.target = target;
+			 input_event.clientX = event.touches[0].pageX;
+			 input_event.clientY = event.touches[0].pageY;
+			 imageEditor.initDrag(input_event);
+		 } 
+		 else {
+			 // more than one finger touched so cancel
+			 handleTouchcancel(event);
+		 }
+
+	 }
+
+	 function handleTouchmove(event) {
+
+		 // disable the standard ability to select the touched object
+		 event.preventDefault();
+		 // wat is mijn target
+		 var target = event.target || event.srcElement;
+
+		 // get the total number of fingers touching the screen
+		 var fingerCount = event.touches.length;
+		 // since we're looking for a swipe (single finger) and not a gesture (multiple fingers),
+				 // check that only one finger was used
+		 if ( fingerCount == 1 ) {
+			 // get the coordinates of the touch
+			 var input_event = new input_event_class;
+			 input_event.type = 'touch';
+			 input_event.target = target;
+			 input_event.clientX = event.touches[0].pageX;
+			 input_event.clientY = event.touches[0].pageY;
+			 imageEditor.doDrag( input_event );
+
+		 } 
+		 else {
+			 handleTouchcancel(event);
+		 }
+
+	 }
+
+	 function handleTouchcancel(event) {
+		 // disable the standard ability to select the touched object
+		 // event.preventDefault();
+
+		 imageEditor.endDrag();
+	 }
+
+	 function handleTouchend(event) {
+		 // disable the standard ability to select the touched object
+		 // event.preventDefault();
+
+		 imageEditor.endDrag();
+
+	 }
+	 
+	</script>
+{% endmacro %}

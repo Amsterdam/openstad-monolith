@@ -1,0 +1,36 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image step-image-1"></div>
+					<div class="step-header">1. Amsterdammers kiezen locatie muur</div>
+					<p>
+						Amsterdammers mochten een voorstel doen voor een locatie voor de muurtekst  in de Baarsjes en stemmen op hun favoriete locatie. Uiteindelijk is gekozen voor de toren van de parkeergarage op het Mercatorplein.
+						<ul class="links-list">
+							<li><a href="/wedstrijd#delocatie">Bekijk de locatie</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-2"></div>
+					<div class="step-header">2. Stuur je ontwerp voor de muurtekst in</div>
+					<p>
+						Stuur jouw eigen ontwerp in voor de muurtekst ‘Zorg goed voor onze stad en voor elkaar’. Lees goed de <a href="/wedstrijd#ontwerprichtlijnen">ontwerprichtlijnen</a> door voordat je begint! 
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-3"></div>
+					<div class="step-header">3. Voer campagne voor jouw ontwerp!</div>
+					<p>Probeer in de stemperiode zo veel mogelijk stemmen voor jouw ontwerp op te halen. Anderen kunnen ook een reactie achterlaten op de ontwerpen. Het ontwerp met de meeste stemmen wint en wordt uitgevoerd.</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-4"></div>
+					<div class="step-header">4. Winnend ontwerp wordt uitgevoerd</div>
+					<p>Het winnend ontwerp wordt tot slot voorgelegd aan de welstandscommissie. Afhankelijk van het ontwerp zal de uitvoering gebeuren op een paneel of doek, al dan niet in samenwerking met een professioneel kunstenaar.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

@@ -49,6 +49,16 @@ addApp('stemvan', [{
 	remotePath : '/var/www/westbegroot.amsterdam.nl/www',
 	ref        : 'origin/master'
 }, {
+	appName    : 'centrumbegroot-production',
+	deployName : 'production_centrumbegroot',
+	remotePath : '/var/www/centrumbegroot.amsterdam.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'centrumbegroot-staging',
+	deployName : 'staging_centrumbegroot',
+	remotePath : '/var/www/centrumbegroot.staging.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
@@ -57,6 +67,31 @@ addApp('stemvan', [{
 	appName    : 'staging-zorggoedvooronzestad',
 	deployName : 'staging_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'demo-westbegroot-phase-1',
+	deployName : 'demo_westbegroot_phase_1',
+	remotePath : '/var/www/westbegroot-phase-1.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'demo-westbegroot-phase-2',
+	deployName : 'demo_westbegroot_phase_2',
+	remotePath : '/var/www/westbegroot-phase-2.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'demo-zorggoedvooronzestad-phase-1',
+	deployName : 'demo_zorggoedvooronzestad_phase_1',
+	remotePath : '/var/www/zorggoedvooronzestad-phase-1.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'demo-zorggoedvooronzestad-phase-2',
+	deployName : 'demo_zorggoedvooronzestad_phase_2',
+	remotePath : '/var/www/zorggoedvooronzestad-phase-2.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'demo-zorggoedvooronzestad-phase-3',
+	deployName : 'demo_zorggoedvooronzestad_phase_3',
+	remotePath : '/var/www/zorggoedvooronzestad-phase-3.demo.openstadsdeel.nl/www',
 	ref        : 'origin/master'
 }]);
 
@@ -79,6 +114,11 @@ addApp('stemtool', [{
 	appName    : 'stemtool-kareldoorman',
 	deployName : 'production_kareldoorman',
 	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'demo-kareldoorman',
+	deployName : 'demo_kareldoorman',
+	remotePath : '/var/www/kareldoorman.demo.openstadsdeel.nl/www',
 	ref        : 'origin/master'
 }]);
 

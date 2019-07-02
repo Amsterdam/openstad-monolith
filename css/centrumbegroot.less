@@ -1,0 +1,441 @@
+@import 'stemvan/base';
+
+.pageContent {
+	#banner {
+
+		#homebanner {
+			background-color: white;
+
+			@media @phone {
+				background-color: #f6f7f7;
+			}
+
+			#homebanner-title {
+				position: relative;
+				border-bottom: 0 none;
+				margin-bottom: 7px;
+				padding-bottom: 7px;
+
+				&:after {
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					width: 25px;
+					border-bottom: 3px solid black;
+					content: ''
+				}
+
+			}
+
+			#homebanner-img-mobile {
+
+				@media @phone {
+					width: calc(70%);
+					max-width: 283px;
+					margin: 20px auto;
+					float: none;
+					display: block;
+				}
+
+			}
+
+			#homebanner-text {
+				padding: 12px 330px 0 30px;
+				font-size: 15px;
+				font-weight: normal;
+				float: right;
+
+				@media @phone {
+					width: 100%;
+					float: none;
+					padding: 12px 15px 0 15px;
+				}
+
+			}
+
+			#homebanner-buttons {
+
+				@media @phone {
+					width: 170px;
+				}
+
+				a.bekijk-de-themas,
+				a.stuur-plan-in {
+					@media @phone {
+						margin: 10px auto;
+					}
+				}
+
+				a.bekijk-de-themas {
+					border: solid 1px #164995;
+					line-height: 42px;
+					// width: 99px;
+
+					&:hover {
+						border: solid 2px #164995;
+						line-height: 40px;
+					}
+
+					// @media @phone {
+					// 	margin-left: 22px;
+					// }
+
+				}
+
+				a.stuur-plan-in {
+					width: 141px;
+
+					@media @phone {
+						margin-left: 15px;
+					}
+				}
+
+			}
+		}
+	}
+}
+
+#howDoesItWork {
+
+	.step {
+
+		@media @phone {
+			margin-top: 15px;
+		}
+
+		ul {
+			@media @phone {
+				padding-bottom: 0px;
+			}
+		}
+
+		.step-header {
+			margin-bottom: 10px;
+		}
+
+		.step-image {
+			@media @phone {
+				float: left;
+				width: 64px;
+				margin-right: 15px;
+			}
+		}
+
+		.step-text {
+			@media @phone {
+				float: left;
+				width: calc(100% - 79px);
+			}
+		}
+
+	}
+}
+
+#about {
+
+	#header {
+
+		margin-top: 20px;
+		height: 270px;
+		@media @phone {
+			height: auto;
+		}
+
+		.header-image {
+			margin-top: 20px;
+			margin-right: 20px;
+			width: 205px;
+
+			@media @phone {
+				width: 100%;
+				height: auto;
+			}
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+
+		}
+		
+		.header-text {
+			width: 480px;
+			@media @phone {
+				width: 100%;
+				height: auto;
+			}
+		}
+
+	}
+	
+	.thema-container {
+		
+		height: 350px;
+		@media @phone {
+			height: auto;
+		}
+
+		.thema-text {
+			font-size: 16px;
+			padding: 20px 30px;
+
+			h3 {
+				margin-bottom: 20px;
+			}
+
+		}
+		
+		.thema-text {
+			width: calc(100% - 350px);
+			@media @phone {
+				width: 100%;
+				height: auto;
+			}
+
+		}
+
+		.thema-video {
+			width: 350px;
+			height: 350px;
+			@media @phone {
+				width: 100%;
+				height: auto;
+			}
+		}
+
+	}
+
+}
+
+#inspiration {
+	.pageContent {
+		#inspiration-columns {
+			.inspiration-column {
+				height: 580px;
+				.inspiration-block-container {
+					top: 70px;
+					// .inspiration-block {
+					// 	.button-left {
+					// 		display: none;
+					// 	}
+					// 	.button-right {
+					// 		display: none;
+					// 	}
+					// }
+				}
+			}
+		}
+	}
+}
+
+#ideas.primary {
+	width: calc(100% + 20px);
+		@media @phone {
+			width: 100%;
+		}
+	.tile {
+		width: calc(100% / 3 - 20px);
+		@media @phone {
+			width: 100%;
+		}
+	}
+}
+
+#titlebar {
+	width: calc(100%);
+	display: flex;
+	flex-flow: row wrap;
+	margin: 20px 0;
+
+	@media @phone {
+		width: 100%;
+	}
+
+}
+
+.tab-selector {
+
+	flex-grow: 0;
+	margin: 0;
+	width: calc(100% - 350px);
+
+	@media @phone {
+		width: 100%;
+	}
+
+	#filterSelector {
+		flex-grow: 0;
+		width: 240px;
+
+		&.active {
+			color: white;
+			background-color: #ea1d25;
+			background-image: url('/img/arrow_down_white.svg');
+		}
+
+	}
+
+	ul {
+		flex-grow: 0;
+		li {
+				width: 140px;
+				@media @phone {
+					width: 100%;
+					margin: 5px 1px 5px 1px;
+				}
+			a {
+			}
+		}
+	}
+
+	.no-button {
+		text-align: right;
+		@media @phone {
+			text-align: center;
+		}
+	}
+	
+}
+
+.pageContent.ideasList .sort {
+
+	flex-grow: 1;
+	width: 300px;
+	margin: 10px 20px 10px 0;
+
+	@media @phone {
+		width: 100%;
+		margin: 20px 0 10px 0;
+	}
+
+	.default-select {
+		width: 180px;
+	}
+
+}
+
+.pageContent .primary .tile .image {
+	height: 166px;
+}
+
+.pageContent .checkmark-list li {
+  padding-left: 27px;
+
+	&::before {
+		background-position: 0 8px;
+		background-repeat: no-repeat;
+		background-size: 15px 10px;
+		background-image: url(/img/checkmark-blue.svg);
+	}
+
+}
+
+.pageContent a.page-button {
+
+	&.ga-verder-button {
+
+		position: relative;
+		width: 146px;
+		height: 44px;
+		float: right;
+		margin-right: 15px;
+		@media @phone {
+			width: 146px;
+		}
+
+		&:before {
+			position: absolute;
+			border-left: 17px solid #164995;
+			border-top: 22px solid transparent;
+			border-bottom: 22px solid transparent;
+			border-right: 0;
+			top: 0px;
+			right: -17px;
+			width: 0px;
+			height: 0px;
+			content: '';
+		}
+
+		&:hover {
+			color: white;
+			text-decoration: underline;
+			background-color: #003066;
+			&:before {
+				border-left-color: #003066;
+			}
+		}
+
+	}
+}
+
+#end-date-bar-1,
+#end-date-bar-2 {
+	#end-date-bar-text-container-1,
+	#end-date-bar-text-container-2 {
+		width: 430px;
+		@media @phone {
+			width: 100%;
+			margin: 0 auto;
+		}
+	}
+	#end-date-bar-start-text-1,
+	#end-date-bar-start-text-2 {
+		width: 280px;
+	}
+}
+
+#end-date-bar-start-text-1,
+#end-date-bar-start-text-2 {
+	&:after {
+		content: ": ";
+		@media @phone {
+			content: "";
+		}
+	}
+}
+
+#title {
+	.secondary {
+		@media @phone {
+			margin-top: -10px !important;
+			margin-bottom: 20px !important;
+		}
+	}
+}
+
+@media @phone {
+
+	#end-date-bar-end-text-1,
+	#end-date-bar-end-text-2 {
+		display: none;
+	}
+	
+  #end-date-bar-1 #number-plates-1,
+  #end-date-bar-2 #number-plates-1,
+  #end-date-bar-1 #number-plates-2,
+  #end-date-bar-2 #number-plates-2 {
+		display: none;
+		&:before {
+			content: '';
+			display: none;
+		}
+	}
+}
+
+#ideas.primary .tile.ACCEPTED .duration {
+	background-image: url('/img/idea/calendar.svg');
+	background-color: #bdd131;
+	background-size: 12px 12px;
+	background-position: 6px 7px;
+}
+
+#ideas.primary .tile.BUSY .duration {
+	background-color: #434343;
+}
+
+#title .primary .statusbalk.BUSY {
+ background-size: 8px 8px;
+ background-position: 13px 11px;
+ background-image: url('/img/bullet.svg');
+ background-color: #434343;
+}

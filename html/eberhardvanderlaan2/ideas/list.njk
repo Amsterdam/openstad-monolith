@@ -1,0 +1,173 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+
+{% set pageTitle    = 'Ingestuurde ontwerpen' %}
+{% set contentClass = 'ideasList' %}
+
+{% block content %}
+	<div id="list-banner">
+		{{numberPlateButton.numberPlateButton('no-of-locations', 'ontwerpen', runningIdeas.length, '/plannen')}}
+  </div>
+{% endblock %}
+
+{% block howDoesItWork %}
+	{{howdoesitwork.howblock('closed')}}
+{% endblock %}
+
+{% block endDateBar %}
+	<div id="end-date-bar">
+		<span id="end-date-bar-start-text" class="text"></span>
+		<span id="number-plates">
+			<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
+		</span>
+		<span id="end-date-bar-end-text" class="text"></span>
+	</div>
+	<script>
+	 if ( daysLeft > 0 ) {
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kan t/m ' + endDateText + ': nog';
+		 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
+		 var value000 = parseInt(daysLeft/100) || 0;
+		 var value00  = parseInt(daysLeft/10) - value000;
+		 var value0   = daysLeft - value000 * 100 - value00 * 10;
+		 document.getElementById('end-date-number-plate-00').innerHTML = value00;
+		 document.getElementById('end-date-number-plate-0').innerHTML = value0;
+	 } else {
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kon t/m ' + endDateText;
+		 document.getElementById('number-plates').style.display = 'none';
+	 }
+	</script>
+{% endblock %}
+
+
+{% block content2 %}
+	<div id="ideas" class="primary">
+		<h1>
+			Ingestuurde ontwerpen
+			<select>
+				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+			</select>
+		</h1>
+		
+		{# Weird formatting because of `display: inline-block` #}
+		
+		{% for idea in runningIdeas
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}" {% if (idea.posterImage) and (idea.posterImage.extraData) %}data-poster-extraData="{{idea.posterImage.extraData | dump}}"{% endif %}>
+			<a {{'href=/plan/'+idea.id+'' if (user.role == 'admin') or (user.id == idea.userId)}}>
+				
+				<div class="image">
+					<img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>
+					<div class="image-upload"></div>
+					<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground"/>
+				</div>
+
+				{% if idea.status == 'DENIED' %}
+					<div class="duration">
+						Dit voorstel is afgewezen
+					</div>
+				{% endif %}
+
+				<div class="info">
+					<h3>{{idea.title}}</h3>
+				</div>
+
+			</a>
+		</div>{%
+					else %}
+		<div class="empty-list" onclick="document.location.href='/plan/nieuw';"><div class="empty-list-content"> Stuur als eerste een ontwerp in!</div></div>
+		{% endfor %}
+		
+		{# {% if can('ideas:archive') %}
+		<a href="/plannen/archief" id="viewArchive">Bekijk het archief</a>
+		{% endif %} #}
+	</div>
+	
+{% endblock %}
+
+{% block scripts %}
+	<script>
+	 // Sorting dropdown
+	 // ----------------
+	 (function() {
+		 var select = document.querySelector('#content2 > .primary > h1 select');
+		 select.addEventListener('change', function() {
+			 // Replace current `sort=x` with new choice.
+				 var pathName = location.pathname;
+			 var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
+			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
+		 });
+	 })();
+	</script>
+	<script>
+	 // Progressive thumbnail loading
+	 // -----------------------------
+	 (function() {
+		 var tiles = $('#content2 > .primary > .tile:not([data-poster-url=""])');
+		 
+		 loadTileImages();
+		 window.addEventListener('scroll', loadTileImages);
+		 window.addEventListener('resize', loadTileImages);
+		 
+		 // Checks the current scroll position, and loads all tile image that are in
+		 // the range 'top of the page' to '50% viewport height below the current viewport'.
+			 function loadTileImages() {
+				 // Throttle checking to once every 100 ms.
+					 var now = +new Date;
+				 if( now - this.last < 100 ) return;
+				 this.last = now;
+				 
+				 var viewHeight = window.innerHeight;
+				 var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
+													document.documentElement.scrollTop ? document.documentElement.scrollTop :
+			                    document.body.scrollTop;
+				 var tile;
+				 for( var i = 0; tile = tiles[i]; i++ ) {
+					 // Load in all tile that are in view, or are 50% of the view height
+					 // below the fold.
+						 var tileTop       = offsetTop(tile);
+					 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
+					 console.log(isOrWasInView)
+					 if( isOrWasInView ) {
+						 // Load actual image...
+							 var div = tile.querySelector('div.image');
+						 div.style.height = tile.offsetWidth + 'px';
+						 var img = div.querySelector('div.image-upload');
+						 img.style.backgroundImage = 'url(\'' + tile.getAttribute('data-poster-url') + '\')';
+
+						 var extraData = tile.getAttribute('data-poster-extraData');
+						 if (extraData) {
+							 try {
+								 extraData = JSON.parse(extraData);
+								 console.log(extraData)
+
+								 let factor = tile.offsetWidth / 300;
+								 img.style.top    = ( 23 * factor ) + 'px'; 	
+								 img.style.left   = ( 46 * factor ) + 'px'; 	
+								 img.style.width  = ( 210 * factor ) + 'px'; 	
+								 img.style.height = ( 263 * factor ) + 'px';
+
+								 img.style.backgroundSize = ( ( extraData.width / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.height / 520 ) * 263 * factor ) + 'px';
+								 img.style.backgroundPosition = ( ( extraData.left / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.top / 520 ) * 263 * factor ) + 'px';
+							 } catch(e) { console.log(e) }
+						 }
+						 
+						 // ... and remove tile from the checklist.
+							 // 	 tile.removeAttribute('data-poster-url');
+						 // tiles.splice(i, 1);
+						 // i--;
+					 }
+				 }
+			 }
+		 
+		 // Element's vertical position, measured from the top of the page.
+			 function offsetTop( el, top ) {
+				 top = (top || 0) + el.offsetTop;
+				 return el.offsetParent != document.body ?
+								offsetTop(el.offsetParent, top) :
+								top;
+			 }
+	 })();
+	</script>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+
+{% set pageTitle    = 'Veelgestelde vragen' %}
+{% set contentClass = 'article faq' %}
+
+{% block head %}
+	{{super()}}
+
+	<style type="text/css">
+	 #article h2 {
+		 background-color: #E3E4E5;
+		 font-size: 0.9rem;
+		 line-height: 1.5em;
+		 padding: 0.5em 10px;
+	 }
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="primary">
+		<h1>Veelgestelde vragen</h1>
+
+		<div id="summary">
+			<p>{{'2019-04-08' | date('LL')}}</p>
+
+			<h3>In het kort</h3>
+			<p>
+				Heb je vragen over het gebruik van {{SITENAME}}? Bekijk dan
+				eerst eens of je vraag op deze pagina beantwoord wordt.
+			</p>
+			<p class="strong">
+				Staat het antwoord op je vraag er niet tussen? Stuur dan een
+				e-mail naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
+				De beheerders van {{SITENAME}} zullen je vraag dan zo snel
+				mogelijk beantwoorden!
+			</p>
+			<hr>
+		</div>
+
+		<div id="article">
+
+
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<h2>Ik ben geen bewoner van stadsdeel Centrum, maar wil wel graag een plan insturen. Kan dat?</h2>
+				Ja, dan kan. Iedereen mag een plan insturen als het een plan is voor Centrum. De bewoners van stadsdeel Centrum bepalen uiteindelijk welke plannen er in hun buurt worden uitgevoerd.
+			{% endif %}
+
+			{% if (config.ideas.voteForIdeas != 'closed') %}
+				{% if (config.ideas.addNewIdeas != 'closed') %}
+					<h2>Ik ben niet zo handig met computers. Kan ik mijn plan op een andere manier indienen?</h2>
+					Ja dat kan! Vrijwilligers van Dock helpen je graag met het insturen van je plan. Dat kan op dinsdagmiddag 16 april, 23 april, 30 april en 7 mei in het Claverhuis en op donderdagochtend 11 april, 18 april, 25 april en 7 mei in de Witte Boei.<br/>
+				{% else %}
+					<h2>Hulp bij het stemmen?</h2>
+					Ja dat kan! Vrijwilligers van Dock helpen je graag met het stemmen. Dat kan op dinsdagmiddag 16 april, 23 april, 30 april en 7 mei in het Claverhuis en op donderdagochtend 11 april, 18 april, 25 april en 7 mei in de Witte Boei.<br/>
+				{% endif %}
+				<br/>
+				Pluspunt Claverhuis<br/>
+				Elandsgracht 70<br/>
+				1016 TX Amsterdam<br/>
+				Dinsdag: 14.00 – 16.00 uur<br/>
+				16 april, 23 april, 30 april en 7 mei<br/>
+				<br/>
+				Pluspunt Witte Boei<br/>
+				Kleine Wittenburgerstraat 201<br/>
+				1018 LT Amsterdam<br/>
+				Donderdag 09:00 - 12:00 uur<br/>
+				11 april, 18 april, 25 april en 2 mei<br/>
+			{% endif %}
+
+			<h2>Ik heb een plan ingediend, maar ik wil mijn plan graag wijzigen. Kan dat?</h2>
+			Je kunt je plan aanpassen zolang er nog geen stem (voor of tegen) is uitgebracht of een argument bij is geplaatst. Je moet hiervoor ingelogd zijn met het emailadres waarmee je je plan hebt ingestuurd. Is er al wel op je plan gereageerd, maar wil je toch nog wat aanpassen? Mail je vraag dan naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> en dan kijken we hoe we je kunnen helpen.
+
+			<h2>Hoe kan ik mijn ingediende plan op Centrum Begroot delen op mijn Facebookpagina, Twitter, Whatsapp, etc.?</h2>
+			Op jouw planpagina vind je rechts bovenaan onder het kopje ‘Deel dit voorstel’ knoppen om je plan te delen via Facebook, Twitter en e-mail. Je kunt natuurlijk ook de URL van je planpagina kopiëren uit de adresbalk van je internet browser, en deze zelf delen met buurtgenoten. Zorg dat je plan minimaal 50 likes haalt om door te gaan naar de volgende ronde waarin je plan wordt beoordeeld op haalbaarheid. 
+
+			<h2>Waarom heb ik 50 likes (voor-stemmen) nodig om mijn plan door te laten gaan naar de volgende ronde?</h2>
+			Stadsdeel Centrum vindt het belangrijk om te weten of er draagvlak in de buurt is voor een plan. Daarom vragen we bewoners ook te reageren op de plannen door middel van argumenten voor en tegen. De argumenten uit de buurt en de voor-stemmen geven ons een goed beeld van het draagvlak.
+
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<h2>Waarom heb ik geen wachtwoord nodig?</h2>
+				Uit gebruiksvriendelijkheid werkt deze site zonder wachtwoorden. Je hoeft geen wachtwoord te onthouden om toegang te hebben tot de site. Bovendien vinden wij het veel veiliger om geen wachtwoorden op te slaan van onze gebruikers. Op die manier kunnen wij de privacy het beste waarborgen.<br/>
+				<br/>
+				Inloggen kan nu door via de knop ‘aanmelden’ direct recht onder de menubalk je emailadres in te vullen. Je ontvangt dan een e-mail met een link waarop je kunt klikken (een zogeheten login-token), waarna je ingelogd bent. Dit hoef je maar één keer te doen, want hierna blijf je bij elk volgend bezoek aan de site gewoon ingelogd!
+			{% endif%}
+
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<h2>Waarom is de inlog/registratielink maar 48 uur geldig?</h2>
+				Voor je eigen veiligheid is de link in de ontvangen e-mail maar 48 uur geldig. Na registratie herkent onze server telkens wanneer je inlogt weer dat jij het bent. Wel zo makkelijk!
+			{% endif%}
+
+			<h2>Hoe veilig is deze site?</h2>
+			Centrum Begroot neemt beveiligingsmaatregelen om misbruik van en ongeautoriseerde toegang tot persoonsgegevens te beperken.<br/>
+			<br/>
+			Meer weten over privacy en beveiliging van persoonsgegevens? Lees dan onze <a href="https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-3/online-platform/?reload=true">privacyverklaring</a>.
+
+			<h2>De site werkt niet. Waar moet ik dit melden?</h2>
+			Het spijt ons dat je niet op de site kunt of dat bepaalde onderdelen niet werken. We willen dit snel oplossen. Graag ontvangen wij een email via <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> met daarin een korte uitleg waar het mis gaat en eventueel de URL van de pagina waar het over gaat. Ons team zit paraat om problemen zo snel mogelijk op te lossen!
+
+			<h2>Kan ik stemmen op mijn eigen voorstel?</h2>
+			Ja, je kunt eenmalig stemmen op je eigen voorstel.
+
+			<h2>Ik heb me vergist en wil mijn mening veranderen. Kan ik mijn stem en argument nog veranderen?</h2>
+			Ja hoor, dat kan! Door opnieuw op de stemknop ‘voor’ of ‘tegen’ te klikken kun je je stem aanpassen of ongedaan maken. Nadat je een argument geplaatst hebt, kun je deze wijzigen of verwijderen via de iconen in de rechterbovenhoek.
+			
+
+			<br/>
+			<br/>
+			<br/>
+		</div>
+	</div>
+
+	<div class="secondary">
+	</div>
+{% endblock %}

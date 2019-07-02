@@ -1,0 +1,22 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle = 'Vul postcode in' %}
+
+{% block content %}
+
+	<h1>Woon of werk je in Centrum?</h1>
+
+	We nodigen nadrukkelijk mensen die wonen of werken in stadsdeel Centrum uit om te stemmen en te reageren.<br/>
+	Vul hier de postcode in (van je woonadres of je werk) om je stem of reactie te bevestigen.
+
+	<div class="postcodecheck">
+
+			<form method="post">
+				<h4>Postcode</h4>
+				<input type="text" name="zipCode" value="{{zipCode}}" autofocus>
+				<input type="submit" value="Stemmen">
+				<input type="hidden" name="opinion" value="{{opinion}}">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			</form>
+
+	</div>
+{% endblock %}

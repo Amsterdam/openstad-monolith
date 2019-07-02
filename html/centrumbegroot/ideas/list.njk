@@ -1,0 +1,312 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+
+{% set pageTitle    = 'Plannen' %}
+{% set contentClass = 'ideasList' %}
+
+{% block content %}
+	<div id="map-with-buttons-container">
+		<div id="mapcontainer">
+			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+		</div>
+		{% if (config.ideas.addNewIdeas != 'closed') %}
+			<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
+				Stuur je plan in!
+			</a>
+		{% endif %}
+		{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
+	</div>
+{% endblock %}
+
+{% block endDateBar %}
+	<div id="endDateBar" class="pageContent">
+		<div id="end-date-bar-1">
+			<div id="end-date-bar-text-container-1">
+				<span id="end-date-bar-start-text-1" class="text"></span>
+				<span id="number-plates-1">
+					<span id="end-date-number-plate-00-1" class="number-plate"> 0 </span><span id="end-date-number-plate-0-1" class="number-plate"> 0 </span>
+				</span>
+				<span id="end-date-bar-end-text-1" class="text"></span>
+			</div>
+		</div>
+		<script>
+		 if ( daysLeft1 > 0 ) {
+			 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen t/m ' + endDateText1 + '';
+			 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
+			 var value000 = parseInt(daysLeft1/100) || 0;
+			 var value00  = parseInt(daysLeft1/10) - value000;
+			 var value0   = daysLeft1 - value000 * 100 - value00 * 10;
+			 document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
+			 document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
+		 } else {
+			 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen t/m ' + endDateText1 + '';
+			 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
+			 document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
+			 document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
+		 }
+		</script>
+
+		<div id="end-date-bar-2" style="margin-top: 3px;">
+			<div id="end-date-bar-text-container-2">
+				<span id="end-date-bar-start-text-2" class="text"></span>
+				<span id="number-plates-2">
+					<span id="end-date-number-plate-00-2" class="number-plate"> 0 </span><span id="end-date-number-plate-0-2" class="number-plate"> 0 </span>
+				</span>
+				<span id="end-date-bar-end-text-2" class="text"></span>
+			</div>
+		</div>
+		<script>
+		 if ( daysLeft2 > 0 ) {
+			 var date1Text = startDateText.replace(/ \d{4}$/, '');
+			 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Plannen liken t/m ' + endDateText2 + '';
+			 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
+			 var value000 = parseInt(daysLeft2/100) || 0;
+			 var value00  = parseInt(daysLeft2/10) - value000;
+			 var value0   = daysLeft2 - value000 * 100 - value00 * 10;
+			 document.getElementById('end-date-number-plate-00-2').innerHTML = value00;
+			 document.getElementById('end-date-number-plate-0-2').innerHTML = value0;
+		 } else {
+			 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Plannen liken t/m ' + endDateText2 + '';
+			 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
+			 document.getElementById('end-date-number-plate-00-2').innerHTML = 0;
+			 document.getElementById('end-date-number-plate-0-2').innerHTML = 0;
+		 }
+		</script>
+	</div>
+{% endblock %}
+
+{% block content2 %}
+	<div id="ideas" class="primary">
+
+		<div id="titlebar">
+
+			<div class="tab-selector">
+				<ul>
+					<li><a id="themaSelector0" href="javascript: void deactivateAll()">Alle plannen</a></li>
+				</ul>
+				<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+					<option value="0">Alle gebieden</option>
+					<option value="Centrum Algemeen">Centrum Algemeen</option>
+					<option value="Burgwallen Nieuwe Zijde">Burgwallen Nieuwe Zijde</option>
+					<option value="Burgwallen Oude Zijde">Burgwallen Oude Zijde</option>
+					<option value="Grachtengordel West">Grachtengordel West</option>
+					<option value="Grachtengordel Zuid">Grachtengordel Zuid</option>
+					<option value="Haarlemmerbuurt">Haarlemmerbuurt</option>
+					<option value="Jordaan">Jordaan</option>
+					<option value="Nieuwmarkt/Lastage">Nieuwmarkt/Lastage</option>
+					<option value="Oostelijke Eilanden/Kadijken">Oostelijke Eilanden/Kadijken</option>
+					<option value="Weesperbuurt/Plantage">Weesperbuurt/Plantage</option>
+					<option value="Weteringschans">Weteringschans</option>
+				</select>
+				<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+			</div>
+
+			<div class="sort">
+				<select class="default-select">
+					<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+					<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+					<option {{'selected' if sort == 'votes_desc'}} value="votes_desc">Meeste stemmen</option>
+					<option {{'selected' if sort == 'votes_asc'}} value="votes_asc">Minste stemmen</option>
+				</select>
+			</div>
+
+		</div>
+		
+		{# Weird formatting because of `display: inline-block` #}
+		{% for idea in runningIdeas
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
+			<a href="/plan/{{idea.id}}">
+				{% if idea.status != 'DENIED' %}
+					<!--
+							 <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
+					-->
+				{% endif %}
+				
+				<div class="image"></div>
+
+				<div class="duration">
+					{% if idea.status == 'DENIED' %}
+						Dit voorstel is afgewezen
+					{% elif idea.status == 'CLOSED' %}
+						De stemperiode is afgelopen
+					{% elif idea.status == 'BUSY' %}
+						Minder dan 50 likes
+					{% elif idea.status == 'ACCEPTED' %}
+						Haalbaarheidstoets
+					{% endif %}
+				</div>
+
+				<div class="info">
+					<h3>{{idea.title}}</h3>
+
+					{% if idea.extraData %}
+						<div class="gebied">{{idea.extraData.gebied}}</div>
+					{% endif %}
+
+					<p>{{idea.summary | safe | nl2br}}</p>
+					
+					<div class="ideaProgress">
+						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
+					</div>
+					
+					<div class="ideaStats">
+						<table width="100%" border="0" celpadding="0" cellspacting="0">
+							<tr>
+								<td align="left"><div class="count yes">{{idea.yes}}</div></td>
+								<td align="center"><div class="count no">{{idea.no}}</div></td>
+								<td align="right"><div class="count arguments">{{idea.argCount}}</div></td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</a>
+		</div>{%
+					else %}
+		<i>Wees de eerste met een goed plan voor jouw buurt!</i>
+		{% endfor %}
+		
+		{# {% if can('ideas:archive') %}
+		<a href="/plannen/archief" id="viewArchive">Bekijk het archief</a>
+		{% endif %} #}
+	</div>
+	
+{% endblock %}
+
+{% block scripts %}
+	<script>
+
+	 // tab selector functions
+	 // var activeTab = getCookie('plannenActiveTab') || 0;
+	 var activeFilter = getCookie('plannenActiveFilter') || 0;
+	 (function() {
+		 // activateTab(activeTab)
+		 activateFilter(activeFilter)
+	 })();
+
+	 function getCookie(name) {
+		 var value = "; " + document.cookie;
+		 var parts = value.split("; " + name + "=");
+		 if (parts.length == 2) return parts.pop().split(";").shift();
+	 }
+
+	 // function activateTab(which) {
+	 //  	 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
+	 //  	 activeTab = which;
+	 //  	 document.cookie = 'plannenActiveTab=' + activeTab;
+	 //  	 document.getElementById('themaSelector' + activeTab).className += ' active';
+	 //  	 updateDisplay();
+	 // }
+
+	 function activateFilter(which) {
+		 activeFilter = which;
+		 document.cookie = 'plannenActiveFilter=' + activeFilter;
+		 document.getElementById('filterSelector').selectedIndex = activeFilter;
+		 if (document.getElementById('filterSelector').selectedIndex == '0') {
+			 document.getElementById('filterSelector').options[0].innerHTML = 'Filter op gebied';
+		 } else {
+			 document.getElementById('filterSelector').options[0].innerHTML = 'Alle gebieden';
+		 }
+
+		 if (activeFilter == 0) {
+			 document.getElementById('themaSelector0').className += ' active';
+			 document.getElementById('filterSelector').className = document.getElementById('filterSelector').className.replace(/ ?active/g, '');
+		 } else {
+			 document.getElementById('themaSelector0').className = document.getElementById('themaSelector0').className.replace(/ ?active/g, '');
+			 document.getElementById('filterSelector').className += ' active';
+		 }
+		 
+		 updateDisplay();
+	 }
+
+	 function deactivateAll() {
+		 // activateTab(0)
+		 activateFilter(0)
+	 }
+
+	 function updateDisplay() {
+		 // var activeThema = document.getElementById('themaSelector' + activeTab).innerHTML;
+		 var activeGebied = document.getElementById('filterSelector').value;
+
+		 let elements = document.getElementsByClassName('tile');
+		 Array.prototype.forEach.call(elements, function(element) {
+			 // var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
+			 var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
+			 //if ((( !activeTab || activeTab == 0 ) || activeThema == elementThema) && (( !activeFilter || activeFilter == 0 ) || activeGebied == elementGebied)) {
+			 if (!activeFilter || activeFilter == 0 || activeGebied == elementGebied) {
+				 element.style.display = 'inline-block';
+			 } else {
+				 element.style.display = 'none';
+			 }
+		 });
+
+	 }
+
+	</script>
+	<script>
+	 // Sorting dropdown
+	 // ----------------
+	 (function() {
+		 var select = document.querySelector('.sort > select');
+		 select.addEventListener('change', function() {
+			 // Replace current `sort=x` with new choice.
+				 var pathName = location.pathname;
+			 var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
+			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
+		 });
+	 })();
+	</script>
+	<script>
+	 // Progressive thumbnail loading
+	 // -----------------------------
+	 (function() {
+		 var tiles = $('#content2 > .primary > .tile:not([data-poster-url=""])');
+		 
+		 loadTileImages();
+		 window.addEventListener('scroll', loadTileImages);
+		 window.addEventListener('resize', loadTileImages);
+		 
+		 // Checks the current scroll position, and loads all tile image that are in
+		 // the range 'top of the page' to '50% viewport height below the current viewport'.
+			 function loadTileImages() {
+				 // Throttle checking to once every 100 ms.
+					 var now = +new Date;
+				 if( now - this.last < 100 ) return;
+				 this.last = now;
+				 
+				 var viewHeight = window.innerHeight;
+				 var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
+													document.documentElement.scrollTop ? document.documentElement.scrollTop :
+			                    document.body.scrollTop;
+				 var tile;
+				 for( var i = 0; tile = tiles[i]; i++ ) {
+					 // Load in all tile that are in view, or are 50% of the view height
+					 // below the fold.
+						 var tileTop       = offsetTop(tile) || 0;
+					 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
+					 if( isOrWasInView ) {
+						 // Load actual image...
+							 var img = tile.querySelector('div.image');
+						 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
+						 // ... and remove tile from the checklist.
+							 tile.removeAttribute('data-poster-url');
+						 tiles.splice(i, 1);
+						 i--;
+					 }
+				 }
+			 }
+		 
+		 // Element's vertical position, measured from the top of the page.
+			 function offsetTop( el, top ) {
+				 top = (top || 0) + el.offsetTop;
+				 return el && el.offsetParent && el.offsetParent != document.body ?
+								offsetTop(el.offsetParent, top) :
+								top;
+			 }
+	 })();
+	</script>
+{% endblock %}
+
+

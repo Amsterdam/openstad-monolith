@@ -1,0 +1,48 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle = 'Ontwerp insturen' if not idea.id else 'Bewerk ontwerp' %}
+{% set contentClass = 'newIdea' %}
+
+{% block content %}
+
+	<div class="primary">
+
+		<h1>Nieuw ontwerp insturen</h1>
+
+		<h3>Voordat je begint:</h3>
+
+		<div class="grey-text-block">
+			<ul class="links-list">
+				<li><a href="/wedstrijd">Lees de pagina 'Ontwerpwedstrijd' goed door</a></li>
+			</ul>
+		</div>
+
+		<div class="grey-text-block">
+			<ul class="links-list downloads">
+				<li><a target="blank" href="/img/eberhardvanderlaan2/Zorg_goed_voor_onze_stad_-_A4_sjabloon.pdf">Download het A4 print-sjabloon (.pdf)</a></li>
+				<li><a target="blank" href="/img/eberhardvanderlaan2/Zorg_goed_voor_onze_stad_-_jpeg_sjabloon.jpg">Download het jpeg-sjabloon (.jpg)</a></li>
+				<li><a target="blank" href="/img/eberhardvanderlaan2/Zorg_goed_voor_onze_stad_-_Photoshop_sjabloon.psd">Download het Photoshop-sjabloon (.psd)</a></li>
+			</ul>
+		</div>
+
+		{% include "includes/ontwerp-richtlijnen.html" ignore missing %}
+
+		<a href="?introread=true" class="page-button page-button-blue ga-verder-button">Ga verder naar ontwerp insturen</a>
+		<div style="clear: both;"></div>
+
+	</div>
+
+	<div class="secondary">
+		<div class="pageContent">
+			<div class="speechBubble">
+				“Zorg goed voor onze stad en voor elkaar.”
+				<div class="small">
+					Vaarwel,<br/><br/><br/><br/><br/>
+					Eberhard van der Laan
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+

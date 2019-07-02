@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+    <g fill="none" fill-rule="nonzero">
+        <rect width="220" height="220" fill="#FFF" rx="110"/>
+        <g stroke="#000" stroke-width="3" transform="translate(42 48)">
+            <path fill="#BDD131" d="M1.5 53.869V122.5h133V53.869L68 15.729 1.5 53.87z"/>
+            <rect width="95" height="103" x="20.5" y="1.5" fill="#F3F3F4" rx="5"/>
+            <path fill="#FFF" d="M1.5 55.656V122.5h133V55.656L68 95.752 1.5 55.656z"/>
+        </g>
+        <g transform="translate(89 62)">
+            <path fill="#FFF" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M3.353 35.821c-.27-.35-.53-.705-.743-1.018-.142-.19-.288-.38-.435-.571l-.205-.265-.051-.225A23.33 23.33 0 0 1-1.5 21.532C-1.5 8.82 8.565-1.5 21-1.5S43.5 8.82 43.5 21.531c0 4.314-1.162 8.457-3.324 12.053-.089.19-.159.33-.204.417l-.077.15-.11.13-.21.25a23.059 23.059 0 0 1-1.756 2.299c-3.395 4.867-4.85 9.864-4.405 15.041l.14 1.629H8.433l.155-1.64c.476-5.068-1.247-10.404-5.234-16.039z"/>
+            <rect width="18" height="2.8" x="12" y="59" fill="#000" rx="1"/>
+            <rect width="14" height="2.8" x="14" y="65" fill="#000" rx="1"/>
+        </g>
+    </g>
+</svg>

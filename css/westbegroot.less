@@ -24,6 +24,7 @@ a.stuur-plan-in {
 a.stuur-plan-in:hover {
 	color: white;
 	border-bottom: 0px none;
+	background-color: #003066;
 }
 
 a.stuur-plan-in:visited {
@@ -236,6 +237,10 @@ header {
 				a.stuur-plan-in {
 					width: 170px;
 
+					&:hover {
+						background-color: #003066;
+					}
+
 					@media @phone {
 						margin-left: 10px;
 					}
@@ -245,7 +250,7 @@ header {
 				@media @phone {
 					position: relative;
 					clear: both;
-					leftt: auto;
+					left: auto;
 					bottom: auto;
 					width: 70%;
 					height: auto;
@@ -893,6 +898,15 @@ a.meldjeaanknop, a.meldjeaanknop:hover, a.meldjeaanknop:visited {
 	line-height: 40px;
 	text-align: center;
 
+	&:hover {
+		text-decoration: underline;
+		background-color: #003066;
+	}
+
+	@media @phone {
+		width: 100%;
+	}
+
 }
 
 #end-date-bar-1,
@@ -904,7 +918,7 @@ a.meldjeaanknop, a.meldjeaanknop:hover, a.meldjeaanknop:visited {
 	z-index: 100;
 	line-height: 46px;
 	text-align: center;
-	margin-top: -10px;
+	margin-top: 0px;
 	padding: 0 15px;
 	font-size: 18px;
 	font-weight: 600;
@@ -1262,6 +1276,8 @@ ul.share {
 		a.stuur-plan-in:hover {
 			color: white;
 			border-bottom: 0px none;
+			text-decoration: underline;
+			background-color: #003066;
 		}
 
 		
@@ -1422,7 +1438,7 @@ ul.share {
 		left: 15px;
 		top: 243px;
 		line-height: 44px;
-		width: 215px;
+		width: 204px;
 		z-index: 10000;
 	}
 
@@ -1434,7 +1450,7 @@ ul.share {
 		position: absolute;
 		left: 15px;
 		top: 316px;
-		width: 215px;
+		width: 184px;
 		z-index: 10000;
 		border-radius: 2px;
 		background-color: #164995;
@@ -1618,31 +1634,3 @@ ul.arrowed-link {
 
 }
 
-.form-info, .form-warning {
-	position: relative;
-	margin: -16px 0 10px 30px;
-	padding: 0;
-
-	&:before {
-		position: absolute;
-		top: 0px;
-		left: -30px;
-		width: 30px;
-		height: 30px;
-		content: "";
-		background-position: 0px 0px;
-		background-size: 20px 22px;
-		background-repeat: no-repeat;
-		background-image: url('/img/info-pin.svg');
-	}
-}
-
-.form-warning {
-	display: none;
-	margin-bottom: -4px;
-	font-size: 14px;
-	color: red;
-	&:before {
-		background-image: url('/img/attention.svg');
-	}
-}

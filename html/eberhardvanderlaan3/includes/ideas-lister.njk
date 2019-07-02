@@ -47,13 +47,11 @@
 					<div class="button-more-info{% if userHasVoted %} centered{% endif %}">
 						Bekijk dit ontwerp
 					</div>
-					{#
 					{% if not userHasVoted %}
 						<div class="button-vote">
 							Stem op dit ontwerp
 						</div>
 					{% endif %}
-					#}
 				</div>
 			</div>
 			<div class="info">
@@ -85,9 +83,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="vote-button-container hasVoted active{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
+				<div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
 					{% set id = 'no-of-votes-hasvoted-' + idea.id %}
 					{{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
+					<div class="vote-button"></div>
+				</div>
+				<div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" onclick="selectIdea({{idea.id}})">
+					{% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
+					{{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
 					<div class="vote-button"></div>
 				</div>
 			</div>

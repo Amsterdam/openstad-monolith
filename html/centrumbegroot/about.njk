@@ -1,0 +1,79 @@
+{% extends 'base.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/watgebeurderalincentrum.njk' as watgebeurderalincentrum %}
+
+{% set activeMenu = 'about' %}
+
+{% block content %}
+	<div id="about">
+
+		<div id="header">
+			<div class="header-image">
+				<img src="img/centrumbegroot/home-banner.svg"/>
+			</div>
+			<div class="header-text">
+				<h1>Jij verdeelt € 200.000 over de beste plannen</h1>
+				<p>
+					Om bewoners meer zeggenschap te geven én omdat bewoners zelf vaak de beste ideeën hebben voor hun buurt, stelt stadsdeel Centrum € 200.000,- beschikbaar. Bewoners, ondernemers en organisaties kunnen plannen indienen die bijdragen aan het verbeteren van de leefbaarheid in hun buurt of die de verbinding tussen buurtgenoten versterken. Uiteindelijk verdelen bewoners van stadsdeel Centrum het geld over hun favoriete plannen.
+				</p>
+			</div>
+		</div>
+
+		<h2>Inspiratie</h2>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Inspiratie: We Live Here!</h3>
+				<p>
+					Eén van de grootste uitdagingen is om de binnenstad leefbaar te houden. Zo kwam een aantal bewoners met een plan om bezoekers bewust te maken van het feit dat er ook gewoond wordt op de Wallen. Hieruit is de bewustwordingscampagne ‘We Live Here’ ontstaan. Op ramen en deuren zijn portretten te zien van bewoners uit de buurt. Zo zien bezoekers dat het Wallengebied ook een woonbuurt is zodat zij daar rekening mee kunnen houden. Heb jij een goed idee om je eigen buurt te verbeteren? Dien dan je plan in bij Centrum Begroot!
+				</p>
+			</div>
+			<div class="thema-video">
+				<video width="100%" height="100%" controls>
+					<source src="/img/centrumbegroot/Centrum Begroot - Ilse Griek.mp4" type="video/mp4">
+					<source src="movie.ogg" type="video/ogg">
+					Your browser does not support the video tag.
+				</video> 
+			</div>
+		</div>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Inspiratie: Touwtrekken</h3>
+				<p>
+					Ken jij je buren? Wij zijn op zoek naar goede ideeën om de verbinding tussen buurtbewoners onderling te versterken. Zo is door bewoners van de Oostelijke Eilanden een touwtrek wedstrijd georganiseerd tussen de Eilanders. Heb jij ook een origineel idee? Wij zijn benieuwd naar jullie plannen om je buren beter te leren kennen.
+				</p>
+			</div>
+			<div class="thema-video">
+				<video width="100%" height="100%" controls>
+					<source src="/img/centrumbegroot/Centrum Begroot - Mascha ten Bruggencate.mp4" type="video/mp4">
+					<source src="movie.ogg" type="video/ogg">
+					Your browser does not support the video tag.
+				</video> 
+			</div>
+		</div>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Inspiratie: Kruidenpluktuin</h3>
+				<p>
+					In de binnenstad is de druk op de openbare ruimte groot, maar toch hebben bewoners ruimte gevonden om kruiden te verbouwen en te oogsten midden in de stad. De kruidenpluktuin op het Weteringcircuit is door het buurtinitiatief Wetering Groen aangelegd. Wil jij ook meer natuur in jouw buurt? Bijvoorbeeld in de vorm van een wormen- of bijenhotel of een moestuin voor en door de buurt? Wij zijn op zoek naar nieuwe ideeën en locaties om de binnenstad groener te maken!
+				</p>
+			</div>
+			<div class="thema-video">
+				<video width="100%" height="100%" controls>
+					<source src="/img/centrumbegroot/Centrum Begroot - Micha Mos.mp4" type="video/mp4">
+					<source src="movie.ogg" type="video/ogg">
+					Your browser does not support the video tag.
+				</video> 
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block page %}
+	{{watgebeurderalincentrum.watgebeurderalincentrum('white')}}
+{% endblock %}
+

@@ -1,0 +1,88 @@
+{% macro watgebeurderalincentrum(backgroundColor) %}
+	<div id="inspiration" {% if backgroundColor %}style="background-color: {{backgroundColor}}"{% endif %}>
+		<div class="pageContent">
+			<h2>Wat gebeurt er al in Centrum?</h2>
+			<div id="inspiration-columns">
+
+				<div class="inspiration-column">
+					<div id="inspiration-block-container-1" class="inspiration-block-container">
+						<div class="inspiration-block">
+							<div ="image-container" class="image-container">
+								<div class="imgdiv" style="background-image: url(/img/centrumbegroot/ruijtergaard.png)"></div>
+								<img class="button-left" src="/img/button-arrow-blue.svg" onclick="moveInspiration('left', 1)"/>
+								<img class="button-right" src="/img/button-arrow-blue.svg" onclick="moveInspiration('right', 1)"/>
+							</div>
+							<h4>De Ruijtergaard</h4>
+							Ruijtergaard is een initiatief van bewoners en bedrijven die meer en eetbaar groen wilden aan Ruijterkade en een boomgaard wilden realiseren. In 2018 zijn er twaalf moestuinbakken en een wormenhotel verspreid in het gebied richting het Marineterrein waarin fruitbomen, kruiden en eetbare bloemen zijn geplant. De bakken zijn van duurzaam hout, het waterbuffersysteem van een bedrijf op het Marineterrein en de biologische compost komt uit 't Gein.
+							<ul>
+								<li><a href="https://www.amstergaard.nl" target="_blank">Lees meer</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="inspiration-column">
+					<div id="inspiration-block-container-2" class="inspiration-block-container">
+						<div class="inspiration-block">
+							<div class="image-container">
+								<div class="imgdiv" style="background-image: url(/img/centrumbegroot/herenmarkt.png)"></div>
+								<img class="button-left" src="/img/button-arrow-blue.svg" onclick="moveInspiration('left', 2)"/>
+								<img class="button-right" src="/img/button-arrow-blue.svg" onclick="moveInspiration('right', 2)"/>
+							</div>
+							<h4>Speeltoestel Herenmarkt</h4>
+							In de zomer van 2013 was het speeltoestel van de Herenmarkt aan vervanging toe. Omwonenden gaven aan dat zij graag een houten toestel terug wilden, maar de locatie leende zich echter niet voor een houten speeltoestel. Door de begroeiing op het plein komt er te weinig licht en lucht bij een houten toestel om te kunnen drogen na regen, en het stadsdeel vond het daarom financieel niet te verantwoorden een houten toestel aan te schaffen. De bewoners hebben gevraagd of zij de verkorte afschrijvingstermijn konden afkopen. Door middel van crowdfunding actie hebben bewoners zelf een bijdrage geleverd aan het plaatsen van een houten speeltoestel.
+							<ul>
+								<li><a href="https://herenmarktspeeltuin.petities.nl" target="_blank">Lees meer</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="inspiration-column">
+					<div id="inspiration-block-container-3" class="inspiration-block-container">
+						<div class="inspiration-block">
+							<div class="image-container">
+								<div class="imgdiv" style="background-image: url(/img/centrumbegroot/verhalenfestival.png)"></div>
+								<img class="button-left" src="/img/button-arrow-blue.svg" onclick="moveInspiration('left', 3)"/>
+								<img class="button-right" src="/img/button-arrow-blue.svg" onclick="moveInspiration('right', 3)"/>
+							</div>
+							<h4>Verhalenfestival Jordaan</h4>
+							Het verhalenfestival Jordaan is in 2014 gestart door een aantal buurtgenoten in de Noord-Jordaan, een zeer geliefde woonbuurt. Er wonen nog steeds veel geboren en getogen Jordanezen, maar ook nieuwe generaties en mensen van buiten. Ondanks het breed gedeelde Jordaangevoel, vindt het sociaal contact vooral binnen plaats en maar weinig tussen verschillende bewonersgroepen. Het verhalenfestival wil een bijdrage leveren aan een gemeenschappelijk buurtgevoel door oude en nieuwe verhalen uit de buurt op te halen en daar met en door bewoners voorstellingen van te maken die worden opgevoerd in huiskamers. De optredens worden afgesloten met een buurtdiner en er wordt een boekje gemaakt met de verhalen en voorstellingen.
+							<br/>
+							<em>Foto: Jan Knol</em>
+							<ul>
+								<li><a href="https://verhalenfestivaljordaan.nl" target="_blank">Lees meer</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<script>
+				 var inspirationStatus = {
+					 1: 1,
+					 2: 1,
+					 3: 1
+				 }
+				 function moveInspiration(direction, which) {
+					 var element = document.getElementById('inspiration-block-container-' + which);
+					 if (direction == 'right') {
+						 inspirationStatus[which]++;
+						 if ((which != 3 && inspirationStatus[which] == 4) || (which == 3 && inspirationStatus[which] == 5)) {
+							 inspirationStatus[which] = 1;
+						 }
+					 }
+					 if (direction == 'left') {
+						 inspirationStatus[which]--;
+						 if (inspirationStatus[which] == 0) {
+							 inspirationStatus[which] = which == 3 ? 4 : 3;
+						 }
+					 }
+					 console.log(inspirationStatus[which])
+					 element.style.left = 'calc( -' + (inspirationStatus[which] - 1) + ' * ( 100% + 20px ))';
+				 }
+				</script>
+
+			</div>
+		</div>
+	</div>
+{% endmacro %}

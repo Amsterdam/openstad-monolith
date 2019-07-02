@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?xml encoding="utf-8" ?>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>{{SITENAME}}</title>
+		
+		<style type="text/css">
+		 #outlook a {padding:0;}
+		 .ExternalClass {width:100%;}
+		 .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+		 table td {border-collapse: collapse; line-height: 1.5em;}
+		 table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		 #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+		 p {margin-bottom: 1.5em;}
+
+		 a {
+			 color: #164995;
+			 text-deoration: underline;
+		 }
+
+     h1 {
+			 font-size: 24px;
+			 font-weight: 600;
+			 margin-top: 20px;
+			 margin-bottom: 0;
+		 }
+		 
+     h2 {
+			 font-size: 18px;
+			 font-weight: 600;
+			 margin-top: 13px;
+			 margin-bottom: 20px;
+     }
+
+     h4 {
+       margin: 0;
+       margin-top: 20px;
+       padding: 0;
+       font-weight: 600;
+     }
+
+		 .blue {
+			 color: #164995;		 
+		 }
+
+		 .list {
+			 margin-top: 13px;
+		 }
+
+		 .list td {
+			 padding-bottom: 15px;
+		 }
+
+		 .list .bullet {
+			 margin-top: -3px;
+			 padding-right: 15px;
+		 }
+
+		 #howDoesItWork {
+			 margin: 20px 0 20px 0;
+		 }
+		 
+		 .step {
+			 width: calc(25% - 21px);
+			 display: inline-block;
+			 vertical-align: top;
+			 font-size: 14px;
+			 font-weight: 600;
+			 margin-left: 0;
+			 margin-right: 17px;
+			 margin-right: 17px;
+			 padding: 0;
+			 box-sizing: border-box;
+		 }
+
+		 .step-header {
+			 padding-top: 20px;
+			 font-size: 13px;
+			 font-weight: 600;
+			 line-height: normal;
+		 }
+		</style>
+	</head>
+	<body style="margin: 0; padding: 0; min-width: 100%;">
+		<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" id="backgroundTable" style="background-color: #FFF; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; width:100%;">
+			<tr>
+				<td></td>
+				<td width="560">
+					<img src="cid:logo" width="99" height="70" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+					<h1>{{SITENAME}}</h1>
+					<h2 class="blue">Bedankt! Bevestig je stem.</h2>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+					<img src="cid:banner" width="561" style="margin-top: 10px;"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+
+          <br/>
+					Je heb je favoriete ontwerp gekozen op <a href="{{fullHost}}">{{SITENAME}}</a>! Je stem telt mee zodra je deze bevestigt.
+					{% if isUpdate %}
+						Je probeert je stem te wijzigen. Klik op onderstaande knop om je stem te wijzigen. Je eerdere stem komt daarmee te vervallen.
+					{% endif %}
+
+					
+					<br/>
+					<br/>
+					<br/>
+					
+					<a href="{{fullHost}}/idea/{{idea.id}}/vote/confirm?token={{token}}&uid={{userId}}&type=confirmVote" target="_blank"
+					style="background-color: #164995; color: #FFF; font-size: 18px; padding: 15px 50px; text-decoration: none;"
+					>
+						{% if isUpdate %}
+							<b>Klik hier om je stem te wijzigen</b>
+						{% else %}
+							<b>Klik hier om je stem te bevestigen</b>
+						{% endif %}
+					</a>
+
+					<br/>
+					<br/>
+					<br/>
+
+					{% if isUpdate %}
+						Was jij dit niet? Geen zorgen, jouw keuze verandert pas als je dat via bovenstaande knop in deze email bevestigt. Jouw eerste stem blijft gewoon bewaard. Wilde je je stem niet wijzigen, dan kun je deze email gewoon weggooien.<br/>
+					{% endif %}
+					<br/>
+					<br/>
+
+					<strong>Winnend ontwerp</strong><br/>
+					Amsterdammers stemmen op hun favoriete ontwerp! Het ontwerp dat tussen 3 december 2018 en 6 januari 2019 de meeste stemmen krijgt wordt voorgelegd aan de welstandscommissie. Afhankelijk van het ontwerp zal de uitvoering van de afscheidsboodschap van Van der Laan gerealiseerd worden op een paneel of doek, al dan niet in samenwerking met een professioneel kunstenaar.
+					<br/>
+					Hou de website in de gaten voor de uitslag.<br/>
+					<br/>
+					<strong>Feedback?</strong><br/>
+					Vragen of suggesties over dit project kun je naar <a href="mailto: {{EMAIL}}">{{EMAIL}}</a>.<br/> sturen.
+					<br/>
+					<br/>
+					Hartelijke groet,<br>
+					<strong style="color: #ea1d25">Team {{SITENAME}}</strong>
+					<br/>
+					<br/>
+					
+
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td style="background-color: #f3f3f3;"></td>
+				<td style="background-color: #f3f3f3;" width="560">
+
+					<table id="howDoesItWork" cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; width:100%;">
+						<tr>
+							<td align="center" valign="middle"><img src="cid:howto-2" width="100" height="95"></td>
+							<td width="20"></td>
+							<td align="center" valign="middle"><img src="cid:howto-3" width="83" height="83"></td>
+							<td width="20"></td>
+							<td align="center" valign="middle"><img src="cid:howto-4" width="92" height="95"></td>
+						</tr>
+						<tr>
+					    <td align="center" valign="top" class="step-header">1. Ontwerpen muurtekst insturen</td>
+							<td valign="top" width="20"></td>
+					    <td align="center" valign="top" class="step-header">2. Stemmen op ingestuurde ontwerpen</td>
+							<td valign="top" width="20"></td>
+					    <td align="center" valign="top" class="step-header">3. Winnend ontwerp wordt uitgevoerd</td>
+						</tr>
+					</table>
+					
+        </td>
+				<td style="background-color: #f3f3f3;"></td>
+      </tr>
+			<tr>
+				<td style="height: 20px">
+      </tr>
+			<tr>
+				<td></td>
+				<td style="height: 15px; background-color: #787979;" width="560">
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td></td>
+				<td style=" text-align: center; height: 15px;" width="560">
+          <h4><a href="{{fullHost}}" style="color: black; text-decoration: none;">{{DOMAIN}}</a></h4>
+        </td>
+				<td></td>
+      </tr>
+    </table>
+
+    <br/><br style="display:block; clear: both;"/>
+
+	</body>
+</html>

@@ -1,0 +1,188 @@
+{% from 'includes/mobile-menu.njk' import mobileMenu %}
+
+<!DOCTYPE html>
+<html lang="nl">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		
+		<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+		
+		<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
+
+		<script>
+		 var endDate = new Date('2019-01-06');
+		 var endDateText = '6 januari 2019';
+		 var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
+		</script>
+		
+		<meta name="viewport" content="initial-scale=1">
+		{% block head %}
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/eberhardvanderlaan.css">
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/eberhardvanderlaan2.css">
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/eberhardvanderlaan3.css">
+			<link rel="stylesheet" type="text/css" media="print" href="/css/stemvan/print.css">
+		{% endblock %}
+	</head>
+	<body class="preload">
+		<div id="page">
+
+			<header><a href="/">
+				<img src="/img/andreas.svg" width="24" alt=""/>
+				<div id="amsterdam">
+					Gemeente<br>
+					Amsterdam
+				</div>
+				
+				<h1><span>{{SITENAME}}</span></h1>
+			</a></header>
+
+			<nav id="mainMenu" role="navigation" class="menuBar">
+				<div>
+					<ul>
+						<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
+						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/stemmen">Inzendingen</a></li>
+					</ul>
+				</div>
+			</nav>
+			
+			{% block extraInfoBar %}
+			{% endblock %}
+
+			<div id="content" class="pageContent {{contentClass}}">
+				{% for type,list in messages %}
+					<div class="flashMessage {{type}}">
+						{% if type == 'error' %}
+							<h2>Er ging iets fout</h2>
+							<ul>
+								{% for message in list %}<li>{{message}}{% endfor %}
+							</ul>
+						{% elif type == 'success' %}
+							<h2>Gelukt!</h2>
+							{% for message in list %}{{message}}<br>{% endfor %}
+						{% elif type == 'include' %}
+							{% for file in list %}
+								{% include file %}
+							{% endfor %}
+						{% else %}
+							<h2>Informatie</h2>
+							{% for message in list %}{{message}}<br>{% endfor %}
+						{% endif %}
+						
+						<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
+					</div>
+				{% endfor %}
+				
+			</div>
+
+			<div id="content" class="pageContent {{contentClass}}">
+				{% block content %}
+				{% endblock %}
+				<div style="clear: both"></div>
+			</div>
+
+			{% block contentFullWidth %}
+			{% endblock %}
+			<div style="clear: both"></div>
+
+			<div id="content3" class="pageContent {{contentClass}}">
+				{% block content3 %}
+				{% endblock %}
+			</div>
+
+			{% block footer %}
+				<div style="clear: both; height: 40px;"></div>
+				<footer>
+					<div>
+						<div>
+							<h2>Over deze site</h2>
+							<ul>
+								<li><a href="/disclaimer">Disclaimer</a></li>
+							</ul>
+						</div>
+						<div>
+							<h2>Meer informatie</h2>
+							<ul>
+								<li><a href="https://www.amsterdam.nl/zorggoedvooronzestad">Volg de projectpagina op amsterdam.nl</a></li>
+							</ul>
+						</div>
+						<div>
+							<h2>Contact</h2>
+							<p>
+								Heb je een vraag over het gebruik of de werking van deze site? Wij horen het graag!
+							</p>
+							<ul>
+								<li><a href="mailto:{{EMAIL}}">Stuur een email</a></li>
+							</ul>
+						</div>
+					</div>
+				</footer>
+			{% endblock %}
+
+			{{ mobileMenu() }}
+
+		</div>
+
+		<div id="logoutButton"></div>
+
+		{% include 'includes/lightbox.njk' %}
+
+		<script src="/js/cookies.js"></script>
+		<script>
+		 // Preload class is defined in `all.less` to disable all animations.
+			 document.body.className = '';
+		</script>
+		<script>
+		 // function $( el, query ) {
+		 //  	 query || (query = el, el = null);
+		 //  	 return Array.prototype.slice.call(
+			 //  		 (el || document).querySelectorAll(query), 0
+		 //  	 );
+		 // }
+		</script>
+		<script>
+		 // Flash messages
+		 // --------------
+						// Make close buttons interactive.
+														(function() {
+															var closeButtons = Array.prototype.slice.call(
+																document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+															);
+															closeButtons.forEach(function( a ) {
+																a.href = '';
+																a.addEventListener('click', function( event ) {
+																	var message = a.parentNode;
+																	message.parentNode.removeChild(message);
+																	event.preventDefault();
+																});
+															});
+														})();
+		 // logout button
+		 // -------------
+						if (document.cookie.search(/showLogoutButton=true/) != -1) {
+							var button = document.createElement('a');
+							button.href = 'javascript: void doLogout();';
+							button.textContent = "Start nieuwe sessie";
+							document.getElementById('logoutButton').appendChild(button);
+						}
+
+		 function doLogout() {
+			 openstadEraseCookie('stepNo');
+			 openstadEraseCookie('ideaId');
+			 openstadEraseCookie('zipCode');
+			 openstadEraseCookie('email');
+			 openstadEraseCookie('hasVoted');
+			 openstadEraseCookie('hasConfirmed');
+			 window.location.href= "/logout";
+		 }
+
+		</script>
+		
+		{% block scripts %}{% endblock %}
+		
+		{% if ENV == 'production' %}
+			{% include 'includes/analytics.njk' %}
+		{% endif %}
+	</body>
+</html>

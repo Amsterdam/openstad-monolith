@@ -11,8 +11,11 @@
 		<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
 
 		<script>
-		 var endDate = new Date('2018-11-25');
-		 var endDateText = '25 november 2018';
+		 var months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+
+		 var endDate = new Date('2019-10-30');
+		 var endDate = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
+		 var endDateText = endDate.getDate() + ' ' + months[ endDate.getMonth() ] + ' ' + ( 1900 + endDate.getYear() );
 		 var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 		</script>
 		
@@ -49,6 +52,8 @@
 					{% else %}
 						<a href="/account" id="account" data-initials="">Mijn account</a>
 					{% endif %}
+
+					<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">Stuur ontwerp in</a>
 
 				</div>
 			</nav>
@@ -210,19 +215,19 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-				(function() {
-					var closeButtons = Array.prototype.slice.call(
-						document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-					);
-					closeButtons.forEach(function( a ) {
-						a.href = '';
-						a.addEventListener('click', function( event ) {
-							var message = a.parentNode;
-							message.parentNode.removeChild(message);
-							event.preventDefault();
+					(function() {
+						var closeButtons = Array.prototype.slice.call(
+							document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+						);
+						closeButtons.forEach(function( a ) {
+							a.href = '';
+							a.addEventListener('click', function( event ) {
+								var message = a.parentNode;
+								message.parentNode.removeChild(message);
+								event.preventDefault();
+							});
 						});
-					});
-				})();
+					})();
 		</script>
 		
 		{% block scripts %}{% endblock %}

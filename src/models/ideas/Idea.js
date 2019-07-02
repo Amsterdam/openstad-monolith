@@ -11,7 +11,7 @@ var notifications = require('../../notifications');
 var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
 var titleMinLength = config.ideas.titleMinLength || 10;
-var titleMaxLength = config.ideas.titleMaxLength || 140;
+var titleMaxLength = config.ideas.titleMaxLength || 50;
 var summaryMinLength = config.ideas.summaryMinLength || 20;
 var summaryMaxLength = config.ideas.summaryMaxLength || 140;
 var descriptionMinLength = config.ideas.descriptionMinLength || 140;

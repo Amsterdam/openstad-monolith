@@ -11,11 +11,11 @@
 		<div id="mapcontainer">
 			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
 		</div>
-		<!--
-		<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
-			Stuur je plan in!
-		</a>
-		-->
+		{% if (config.ideas.addNewIdeas != 'closed') %}
+			<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
+				Stuur je plan in!
+			</a>
+		{% endif %}
 		{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
 	</div>
 {% endblock %}
@@ -25,57 +25,60 @@
 {% endblock %}
 
 {% block endDateBar %}
-	<div id="end-date-bar-1">
-		<div id="end-date-bar-text-container-1">
-			<span id="end-date-bar-start-text-1" class="text"></span>
-			<span id="number-plates-1">
-				<span id="end-date-number-plate-00-1" class="number-plate"> 0 </span><span id="end-date-number-plate-0-1" class="number-plate"> 0 </span>
-			</span>
-			<span id="end-date-bar-end-text-1" class="text"></span>
+	<div id="endDateBar" class="pageContent">
+		<div id="end-date-bar-1">
+			<div id="end-date-bar-text-container-1">
+				<span id="end-date-bar-start-text-1" class="text"></span>
+				<span id="number-plates-1">
+					<span id="end-date-number-plate-00-1" class="number-plate"> 0 </span><span id="end-date-number-plate-0-1" class="number-plate"> 0 </span>
+				</span>
+				<span id="end-date-bar-end-text-1" class="text"></span>
+			</div>
 		</div>
-	</div>
-	<script>
-	 if ( daysLeft1 > 0 ) {
-		 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen kan t/m ' + endDateText1 + ': ';
-		 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-		 var value000 = parseInt(daysLeft1/100) || 0;
-		 var value00  = parseInt(daysLeft1/10) - value000;
-		 var value0   = daysLeft1 - value000 * 100 - value00 * 10;
-		 document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
-		 document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
-	 } else {
-		 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen kon t/m ' + endDateText1 + ': ';
-		 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-		 document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
-		 document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
-	 }
-	</script>
+		<script>
+		 if ( daysLeft1 > 0 ) {
+			 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen kan t/m ' + endDateText1 + ': ';
+			 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
+			 var value000 = parseInt(daysLeft1/100) || 0;
+			 var value00  = parseInt(daysLeft1/10) - value000;
+			 var value0   = daysLeft1 - value000 * 100 - value00 * 10;
+			 document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
+			 document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
+		 } else {
+			 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen kon t/m ' + endDateText1 + ': ';
+			 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
+			 document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
+			 document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
+		 }
+		</script>
 
-	<div id="end-date-bar-2" style="margin-top: 3px;">
-		<div id="end-date-bar-text-container-2">
-			<span id="end-date-bar-start-text-2" class="text"></span>
-			<span id="number-plates-2">
-				<span id="end-date-number-plate-00-2" class="number-plate"> 0 </span><span id="end-date-number-plate-0-2" class="number-plate"> 0 </span>
-			</span>
-			<span id="end-date-bar-end-text-2" class="text"></span>
+		<div id="end-date-bar-2" style="margin-top: 3px;">
+			<div id="end-date-bar-text-container-2">
+				<span id="end-date-bar-start-text-2" class="text"></span>
+				<span id="number-plates-2">
+					<span id="end-date-number-plate-00-2" class="number-plate"> 0 </span><span id="end-date-number-plate-0-2" class="number-plate"> 0 </span>
+				</span>
+				<span id="end-date-bar-end-text-2" class="text"></span>
+			</div>
 		</div>
+		<script>
+		 if ( daysLeft2 > 0 ) {
+			 var date1Text = startDateText.replace(/ \d{4}$/, '');
+			 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Campagne voeren en liken kan van ' + date1Text + ' t/m ' + endDateText2 + ': ';
+			 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
+			 var value000 = parseInt(daysLeft2/100) || 0;
+			 var value00  = parseInt(daysLeft2/10) - value000;
+			 var value0   = daysLeft2 - value000 * 100 - value00 * 10;
+			 document.getElementById('end-date-number-plate-00-2').innerHTML = value00;
+			 document.getElementById('end-date-number-plate-0-2').innerHTML = value0;
+		 } else {
+			 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Stemmen kon t/m ' + endDateText2 + ':';
+			 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
+			 document.getElementById('end-date-number-plate-00-2').innerHTML = 0;
+			 document.getElementById('end-date-number-plate-0-2').innerHTML = 0;
+		 }
+		</script>
 	</div>
-	<script>
-	 if ( daysLeft2 > 0 ) {
-		 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Campagne voeren en liken kan van 1 oktober t/m ' + endDateText2 + ': ';
-		 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
-		 var value000 = parseInt(daysLeft2/100) || 0;
-		 var value00  = parseInt(daysLeft2/10) - value000;
-		 var value0   = daysLeft2 - value000 * 100 - value00 * 10;
-		 document.getElementById('end-date-number-plate-00-2').innerHTML = value00;
-		 document.getElementById('end-date-number-plate-0-2').innerHTML = value0;
-	 } else {
-		 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Stemmen kon t/m ' + endDateText2 + ':';
-		 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
-		 document.getElementById('end-date-number-plate-00-2').innerHTML = 0;
-		 document.getElementById('end-date-number-plate-0-2').innerHTML = 0;
-	 }
-	</script>
 {% endblock %}
 
 {% block content2 %}
@@ -202,7 +205,7 @@
 		 } else {
 			 document.getElementById('filterSelector').options[0].innerHTML = 'Alle gebieden';
 		 }
-	 updateDisplay();
+		 updateDisplay();
 	 }
 
 	 function deactivateAll() {

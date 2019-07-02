@@ -1,0 +1,20 @@
+{% macro mobileMenu() %}
+	<div id="mobile-menu" class="visible-xs">
+		<a href="/#top" class="mobile-menu-item scroll-link">
+			<img src="/img/eberhardvanderlaan/mobiel-nav-home.svg" style="width: 20px; height: 20px; margin-bottom: 2px; min-width: 20px; min-height: 20px; transform: scale(1)" />
+			Start
+		</a>
+		<a href="/#achtergrondinformatie" class="mobile-menu-item scroll-link">
+			<img src="/img/eberhardvanderlaan/mobiel-nav-info.svg" style="width: 20px; height: 22px; min-width: 20px; min-height: 22px; transform: scale(1)" />
+			Info
+		</a>
+		<a href="javascript: void (function() { if ( window.location.href.match(/\/stemmen[/?#]/) ) { hideVoteCreator(); document.location.hash = '#top'; } else { window.location.href='/stemmen#closed' }})()" class="mobile-menu-item scroll-link">
+			<img src="/img/eberhardvanderlaan2/mobiel-nav-ontwerpen.svg" style="width: 18px; height: 22px; min-width: 18px; min-height: 22px; transform: scale(1)" />
+			Ontwerpen
+		</a>
+		<a href="javascript: void (function() { if ( window.location.href.match(/\/stemmen(?:[/?#]|$)/) ) { console.log('xxx1'); showVoteCreator(); document.location.hash = 'vote-creator-anchor'; } else { console.log('xxx2'); window.location.href='/stemmen#vote-creator-anchor' }})()" class="mobile-menu-item scroll-link">
+			<img src="/img/eberhardvanderlaan3/mobiel-nav-stemmen.svg" style="width: 22px; height: 22px; min-width: 22px; min-height: 22px; transform: scale(1)" />
+			Stemmen
+		</a>
+	</div>
+{% endmacro %}
