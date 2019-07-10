@@ -1,0 +1,74 @@
+{# 
+This template contains macros that render secondary content.
+Most of these end up in #content > #secondary, but that's not
+required. The speech bubble for example is also used in #primary.
+#}
+
+{% macro newIdeaBubble() %}
+	<span class="widget speechBubble newIdeaBubble">
+		&ldquo;Heb jij een goed voorstel?&rdquo;
+		<a href="/plan/nieuw" class="big">Stuur je plan of oproep in!</a>
+	</span>
+{% endmacro %}
+
+{% macro highlightedIdeas( ideas ) %}
+	{% if ideas and ideas.length %}
+		<div id="highlightedIdeas" class="widget">
+			<h2>Plannen</h2>
+			<ul>
+				{% for idea in ideas %}
+					<li>
+						<a href="/plan/{{idea.id}}">
+							<p>{{idea.title}}</p>
+							<div class="ideaStats">
+								<div class="count yes">{{idea.yes}}</div>
+								<div class="count no">{{idea.no}}</div>
+								<div class="count arguments">{{idea.argCount}}</div>
+							</div>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+{% endmacro %}
+
+{# 
+12 september 2017 - peildatum
+26 september 2017 - vergaderdatum
+10 oktober 2017 - peildatum
+31 oktober 2017 - vergaderdatum
+14 november 2017 - peildatum
+28 november 2017 - vergaderdatum + peildatum
+12 december 2017 - peildatum
+#}
+{% macro agenda( user, meetings ) %}
+	<div id="agenda" class="widget">
+		<h2>Agenda</h2>
+		De stadsdeelcommissie bespreekt één keer per maand het bewonersvoorstel met de meeste stemmen. Welk voorstel dit is, wordt op de peildatum om 16:00 uur vastgesteld.		
+		<div class="timeline">
+			{% for meeting in meetings %}
+				<div class="{{meeting.type}}">
+					<b class="date">{{meeting.date | date('D MMMM YYYY')}}</b>
+					<em>{{'peildatum' if meeting.type == 'selection' else 'vergadering'}}</em>
+					
+					<ul>
+						{% for idea in meeting.ideas %}
+							<li><a href="/plan/{{idea.id}}" title="{{idea.title}}">
+								{{idea.title}}
+							</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% else %}
+				<i>Geen vergaderingen ingepland.</i>
+			{% endfor %}
+		</div>
+		
+		{% if user.can('agenda:admin') %}
+			<form action="/agenda">
+				<button type="submit" class="edit">Bewerk agenda</button>
+			</form>
+		{% endif %}
+	</div>
+{% endmacro %}
