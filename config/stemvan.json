@@ -32,6 +32,7 @@
 				"./routes/stemvan/vote",
 				"./routes/stemvan/faq",
 				"./routes/stemvan/logout",
+				"./routes/stemvan/coosto",
 				"./routes/cookies",
 				"./routes/dev"
 			]

@@ -429,7 +429,16 @@
 	background-position: 6px 7px;
 }
 
+
+#title .primary .statusbalk.ACEPTED {
+	background-image: url('/img/idea/calendar.svg');
+	background-color: #bdd131;
+	background-size: 12px 12px;
+	background-position: 6px 7px;
+}
+
 #ideas.primary .tile.BUSY .duration {
+ background-image: url('/img/bullet.svg');
 	background-color: #434343;
 }
 
@@ -438,4 +447,73 @@
  background-position: 13px 11px;
  background-image: url('/img/bullet.svg');
  background-color: #434343;
+}
+
+
+#ideas.primary .tile.DONE .duration {
+	background-image: url('/img/idea/klok-wit.svg');
+	background-repeat: no-repeat;
+	background-position: 8px 7px;
+	background-size: 12px 12px;
+	background-color: #164995;
+}
+
+#title .primary .statusbalk.DONE {
+	background-size: 12px 12px;
+	background-position: 8px 7px;
+	background-image: url('/img/idea/klok-wit.svg');
+	background-color: #164995;
+}
+
+.info-block {
+	width: 100%;
+	margin: 0  0 20px 0;
+	padding: 12px 12px 12px 48px;
+	background-color: #2b9ad6;
+	background-position: 12px 10px;
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+	background-image: url('/img/eberhardvanderlaan2/attention.svg');
+	font-size: 16px;
+	line-height: 22px;
+	color: #ffffff;
+}
+
+.info-block.green {
+	background-color: #a8b900;
+}
+
+.info-block .close-button {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  width: 18px;
+  height: 18px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(/img/close-button-white-on-transparent.svg);
+  cursor: pointer;
+  z-index: 20;
+}
+
+@media only screen and (max-width: 767px) {
+	.info-block {
+    width: calc(100% + 30px);
+    margin-left: -15px;
+    height: auto;
+	}
+}		
+
+.pageContent.idea .primary #modBreak {
+	padding-bottom: 10px;
+}
+
+.pageContent #banner #homebanner #homebanner-title {
+  width: calc(100% - 370px);
+}
+
+@media only screen and (max-width: 767px) {
+	.pageContent #banner #homebanner #homebanner-title {
+		width: calc( 100% - 30px );
+	}
 }

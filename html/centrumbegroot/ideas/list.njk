@@ -21,59 +21,17 @@
 {% endblock %}
 
 {% block endDateBar %}
-	<div id="endDateBar" class="pageContent">
-		<div id="end-date-bar-1">
-			<div id="end-date-bar-text-container-1">
-				<span id="end-date-bar-start-text-1" class="text"></span>
-				<span id="number-plates-1">
-					<span id="end-date-number-plate-00-1" class="number-plate"> 0 </span><span id="end-date-number-plate-0-1" class="number-plate"> 0 </span>
-				</span>
-				<span id="end-date-bar-end-text-1" class="text"></span>
-			</div>
+	<div class="pageContent">
+		<div id="info-bar-1" class="info-block green" style="display: block; ">
+			Vanaf 9 sept 2019 kunnen bewoners uit Centrum stemmen op de geselecteerde plannen.
+			{# <div class="close-button" onclick="hideInfoBar('info-bar-1')"></div> #}
+			<script>
+			 function hideInfoBar(id) {
+				 document.querySelector('#' + id).style.display = 'none';
+				 // openstadSetStorage('hide-' + id, true);
+			 }
+			</script>
 		</div>
-		<script>
-		 if ( daysLeft1 > 0 ) {
-			 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen t/m ' + endDateText1 + '';
-			 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-			 var value000 = parseInt(daysLeft1/100) || 0;
-			 var value00  = parseInt(daysLeft1/10) - value000;
-			 var value0   = daysLeft1 - value000 * 100 - value00 * 10;
-			 document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
-			 document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
-		 } else {
-			 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen t/m ' + endDateText1 + '';
-			 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-			 document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
-			 document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
-		 }
-		</script>
-
-		<div id="end-date-bar-2" style="margin-top: 3px;">
-			<div id="end-date-bar-text-container-2">
-				<span id="end-date-bar-start-text-2" class="text"></span>
-				<span id="number-plates-2">
-					<span id="end-date-number-plate-00-2" class="number-plate"> 0 </span><span id="end-date-number-plate-0-2" class="number-plate"> 0 </span>
-				</span>
-				<span id="end-date-bar-end-text-2" class="text"></span>
-			</div>
-		</div>
-		<script>
-		 if ( daysLeft2 > 0 ) {
-			 var date1Text = startDateText.replace(/ \d{4}$/, '');
-			 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Plannen liken t/m ' + endDateText2 + '';
-			 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
-			 var value000 = parseInt(daysLeft2/100) || 0;
-			 var value00  = parseInt(daysLeft2/10) - value000;
-			 var value0   = daysLeft2 - value000 * 100 - value00 * 10;
-			 document.getElementById('end-date-number-plate-00-2').innerHTML = value00;
-			 document.getElementById('end-date-number-plate-0-2').innerHTML = value0;
-		 } else {
-			 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Plannen liken t/m ' + endDateText2 + '';
-			 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
-			 document.getElementById('end-date-number-plate-00-2').innerHTML = 0;
-			 document.getElementById('end-date-number-plate-0-2').innerHTML = 0;
-		 }
-		</script>
 	</div>
 {% endblock %}
 
@@ -129,12 +87,14 @@
 				<div class="duration">
 					{% if idea.status == 'DENIED' %}
 						Dit voorstel is afgewezen
+					{% elif idea.status == 'DONE' %}
+						Niet haalbaar
 					{% elif idea.status == 'CLOSED' %}
-						De stemperiode is afgelopen
+						Ingetrokken
 					{% elif idea.status == 'BUSY' %}
 						Minder dan 50 likes
 					{% elif idea.status == 'ACCEPTED' %}
-						Haalbaarheidstoets
+						Geselecteerd
 					{% endif %}
 				</div>
 
