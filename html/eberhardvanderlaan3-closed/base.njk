@@ -26,7 +26,10 @@
 		{% endblock %}
 	</head>
 	<body class="preload">
-		<div id="page">
+
+	  {% include 'includes/cookie-consent.njk' %}
+
+    <div id="page">
 
 			<header><a href="/">
 				<img src="/img/andreas.svg" width="24" alt=""/>
@@ -99,6 +102,7 @@
 							<h2>Over deze site</h2>
 							<ul>
 								<li><a href="/disclaimer">Disclaimer</a></li>
+								<li><a href="/cookies">Cookies op deze site</a></li>
 							</ul>
 						</div>
 						<div>
@@ -131,41 +135,41 @@
 		<script src="/js/cookies.js"></script>
 		<script>
 		 // Preload class is defined in `all.less` to disable all animations.
-			 document.body.className = '';
+		 document.body.className = '';
 		</script>
 		<script>
 		 // function $( el, query ) {
 		 //  	 query || (query = el, el = null);
 		 //  	 return Array.prototype.slice.call(
-			 //  		 (el || document).querySelectorAll(query), 0
+		 //  		 (el || document).querySelectorAll(query), 0
 		 //  	 );
 		 // }
 		</script>
 		<script>
 		 // Flash messages
 		 // --------------
-						// Make close buttons interactive.
-														(function() {
-															var closeButtons = Array.prototype.slice.call(
-																document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-															);
-															closeButtons.forEach(function( a ) {
-																a.href = '';
-																a.addEventListener('click', function( event ) {
-																	var message = a.parentNode;
-																	message.parentNode.removeChild(message);
-																	event.preventDefault();
-																});
-															});
-														})();
+		 // Make close buttons interactive.
+		 (function() {
+			 var closeButtons = Array.prototype.slice.call(
+				 document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+			 );
+			 closeButtons.forEach(function( a ) {
+				 a.href = '';
+				 a.addEventListener('click', function( event ) {
+					 var message = a.parentNode;
+					 message.parentNode.removeChild(message);
+					 event.preventDefault();
+				 });
+			 });
+		 })();
 		 // logout button
 		 // -------------
-						if (document.cookie.search(/showLogoutButton=true/) != -1) {
-							var button = document.createElement('a');
-							button.href = 'javascript: void doLogout();';
-							button.textContent = "Start nieuwe sessie";
-							document.getElementById('logoutButton').appendChild(button);
-						}
+		 if (document.cookie.search(/showLogoutButton=true/) != -1) {
+			 var button = document.createElement('a');
+			 button.href = 'javascript: void doLogout();';
+			 button.textContent = "Start nieuwe sessie";
+			 document.getElementById('logoutButton').appendChild(button);
+		 }
 
 		 function doLogout() {
 			 openstadEraseCookie('stepNo');

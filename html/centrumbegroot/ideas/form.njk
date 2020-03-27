@@ -139,7 +139,7 @@
 					<div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke locatie? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Klik nogmaals op het vlaggetje om hem weer te verwijderen.</div>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
-						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+						{{openStadMap.map(cookieConsent = cookieConsent, googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
 					</div>
 				</div>
 				

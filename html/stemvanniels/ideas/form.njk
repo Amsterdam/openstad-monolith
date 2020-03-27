@@ -179,9 +179,11 @@
 {% endblock %}
 
 {% block scripts %}
-{% if showForm %}
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
-	<script src="/lib/dropzone/dist/dropzone.js"></script>
+  {% if showForm %}
+    {% if cookieConsent == '1' %}
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+    {% endif %}
+	  <script src="/lib/dropzone/dist/dropzone.js"></script>
 	<script src="/lib/trix/dist/trix.js"></script>
 	<script src="/js/map.js"></script>
 	<script src="/js/editor.js"></script>

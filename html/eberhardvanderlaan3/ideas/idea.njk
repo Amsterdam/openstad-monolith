@@ -56,7 +56,7 @@
 				 }
 
 				</script>
-			{% elif idea.location %}
+			{% elif idea.location and cookieConsent == "1" %}
 				<div class="image" style="background-image: url(
 				'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}'
 				);"></div>
@@ -166,9 +166,9 @@
 					 if( 'csrfToken' in data ) {
 						 csrfToken = data.csrfToken;
 						 // HACK?: Update all tokens in static forms as well.
-							 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
-								 input.value = csrfToken;
-							 });
+						 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+							 input.value = csrfToken;
+						 });
 					 }
 					 return data;
 				 });

@@ -1,222 +1,226 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 
-	<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+	  <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
 
-	<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
+	  <title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
 
-	<meta name="viewport" content="initial-scale=1">
-	{% block head %}
-	<link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
-	<link rel="stylesheet" type="text/css" media="print" href="/css/stemvan/print.css">
-	{% endblock %}
-</head>
-<body class="preload">
-	<div id="page">
-		<header><a href="/">
-			<img src="/img/andreas.svg" width="24" alt=""/>
-			<div id="amsterdam">
-				Gemeente<br>
-				Amsterdam
-			</div>
+	  <meta name="viewport" content="initial-scale=1">
+	  {% block head %}
+	    <link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
+	    <link rel="stylesheet" type="text/css" media="print" href="/css/stemvan/print.css">
+	  {% endblock %}
+  </head>
+  <body class="preload">
 
-			<h1>{{SITENAME}}</h1>
-		</a></header>
+	  {% include 'includes/cookie-consent.njk' %}
 
-		<nav id="mainMenu" role="navigation" class="menuBar">
-			<div>
-				<ul>
-					<li class="{{'active' if activeMenu == 'home' or not activeMenu}}">
-						<a href="/">Home</a>
-					</li>
-					<li class="{{'active' if activeMenu == 'about'}}">
-						<a href="/about" title="Stadsdeelcommissie"></a>
-					</li>
-					<li class="{{'active' if activeMenu == 'ideas'}}">
-						<a href="/plannen">Plannen</a>
-					</li>
-				</ul>
+	  <div id="page">
+		  <header><a href="/">
+			  <img src="/img/andreas.svg" width="24" alt=""/>
+			  <div id="amsterdam">
+				  Gemeente<br>
+				  Amsterdam
+			  </div>
 
-				{% if user.hasCompletedRegistration() %}
-					<a href="/account" id="account" data-initials="{{user.initials}}">{{user.fullName}}</a>
-				{% else %}
-					<a href="/account" id="account" data-initials="">Mijn account</a>
-				{% endif %}
-			</div>
-		</nav>
+			  <h1>{{SITENAME}}</h1>
+		  </a></header>
 
-		<nav id="subMenu" class="" role="navigation">
-			<div>
-				<ul>
-					{% if user.isLoggedIn() %}
-						{# <li><a href="/account">Mijn account</a></li> #}
-						<li><a href="/account/logout">Uitloggen</a></li>
-					{% else %}
-						<li><a href="/account/register">Aanmelden / inloggen</a></li>
-					{% endif %}
-				</ul>
-			</div>
-		</nav>
+		  <nav id="mainMenu" role="navigation" class="menuBar">
+			  <div>
+				  <ul>
+					  <li class="{{'active' if activeMenu == 'home' or not activeMenu}}">
+						  <a href="/">Home</a>
+					  </li>
+					  <li class="{{'active' if activeMenu == 'about'}}">
+						  <a href="/about" title="Stadsdeelcommissie"></a>
+					  </li>
+					  <li class="{{'active' if activeMenu == 'ideas'}}">
+						  <a href="/plannen">Plannen</a>
+					  </li>
+				  </ul>
 
-		<div id="content" class="{{contentClass}}">
-			{% for type,list in messages %}
-				<div class="flashMessage {{type}}">
-					{% if type == 'error' %}
-						<h2>Er ging iets fout</h2>
-						<ul>
-							{% for message in list %}<li>{{message | safe}}{% endfor %}
-						</ul>
-					{% elif type == 'success' %}
-						<h2>Gelukt!</h2>
-						{% for message in list %}{{message | safe}}<br>{% endfor %}
-					{% elif type == 'include' %}
-						{% for file in list %}
-							{% include file %}
-						{% endfor %}
-					{% else %}
-						<h2>Informatie</h2>
-						{% for message in list %}{{message | safe}}<br>{% endfor %}
-					{% endif %}
-					
-					<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
-				</div>
-			{% endfor %}
+				  {% if user.hasCompletedRegistration() %}
+					  <a href="/account" id="account" data-initials="{{user.initials}}">{{user.fullName}}</a>
+				  {% else %}
+					  <a href="/account" id="account" data-initials="">Mijn account</a>
+				  {% endif %}
+			  </div>
+		  </nav>
 
-			{% block content %}
-				Standaard pagina.
-			{% endblock %}
-		</div>
+		  <nav id="subMenu" class="" role="navigation">
+			  <div>
+				  <ul>
+					  {% if user.isLoggedIn() %}
+						  {# <li><a href="/account">Mijn account</a></li> #}
+						  <li><a href="/account/logout">Uitloggen</a></li>
+					  {% else %}
+						  <li><a href="/account/register">Aanmelden / inloggen</a></li>
+					  {% endif %}
+				  </ul>
+			  </div>
+		  </nav>
 
-		{#
-		Extra page elements. E.g. used by idea.njk to render arguments which
-		has an extra header element that spans the entire `#page` width.
-		#}
-		{% block page %}
-		{# <div class="content">...</div> #}
-		{% endblock %}
+		  <div id="content" class="{{contentClass}}">
+			  {% for type,list in messages %}
+				  <div class="flashMessage {{type}}">
+					  {% if type == 'error' %}
+						  <h2>Er ging iets fout</h2>
+						  <ul>
+							  {% for message in list %}<li>{{message | safe}}{% endfor %}
+						  </ul>
+					  {% elif type == 'success' %}
+						  <h2>Gelukt!</h2>
+						  {% for message in list %}{{message | safe}}<br>{% endfor %}
+					  {% elif type == 'include' %}
+						  {% for file in list %}
+							  {% include file %}
+						  {% endfor %}
+					  {% else %}
+						  <h2>Informatie</h2>
+						  {% for message in list %}{{message | safe}}<br>{% endfor %}
+					  {% endif %}
+					  
+					  <a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
+				  </div>
+			  {% endfor %}
 
-		{% block footer %}
-		<footer>
-			<div>
-				<div>
-					<h2>Over deze site</h2>
-					<ul>
-						<li><a href="/veelgestelde-vragen">Veelgestelde vragen</a></li>
-						<li><a href="/disclaimer">Disclaimer</a></li>
-					</ul>
-				</div
-				><div>
-					<h2>Contact</h2>
-					<p>
-						Het antwoord op je vraag niet bij ‘Veelgestelde vragen’ kunnen
-						vinden?
-					</p>
-					<ul>
-						<li><a href="mailto:{{EMAIL}}">Email {{SITENAME}}</a></li>
-					</ul>
-				</div
-				><div>
-					<h2>Volg het stadsdeel</h2>
-					<ul>
-						<li><a href="{{GLOBALS.administration}}" target="_blank">De stadsdeelcommissie</a></li>
-						<li><a href="{{GLOBALS.facebook}}" target="_blank">Facebook</a></li>
-						<li><a href="{{GLOBALS.twitter}}" target="_blank">Twitter</a></li>
-					</ul>
-				</div
-				><div>
-					<h2>Feedback</h2>
-					<p>
-						Heb je een opmerking over het gebruik of de werking van deze
-						site? Wij ontvangen graag jouw feedback!
-					</p>
-					<ul>
-						<li><a href="mailto:{{EMAIL}}">Stuur feedback</a></li>
-					</ul>
-				</div
-				>
-			</div>
-		</footer>
-		{% endblock %}
-	</div>
+			  {% block content %}
+				  Standaard pagina.
+			  {% endblock %}
+		  </div>
 
-	<script>
-		// Preload class is defined in `all.less` to disable all animations.
-		document.body.className = '';
-	</script>
-	<script>
-		function $( el, query ) {
-			query || (query = el, el = null);
-			return Array.prototype.slice.call(
-				(el || document).querySelectorAll(query), 0
-			);
-		}
-	</script>
-	<script>
-		// Account submenu
-		// ---------------
-		(function() {
-			var button  = document.querySelector('#account');
-			var subMenu = document.querySelector('#subMenu');
-			var active  = false;
-			button.addEventListener('click', function( event ) {
-				if( !active ) {
-					showMenu(event);
-				} else {
-					hideMenu(event);
-				}
-			});
+		  {#
+		  Extra page elements. E.g. used by idea.njk to render arguments which
+		  has an extra header element that spans the entire `#page` width.
+		  #}
+		  {% block page %}
+		    {# <div class="content">...</div> #}
+		  {% endblock %}
 
-			function showMenu( event ) {
-				event.preventDefault();
-				event.stopPropagation();
+		  {% block footer %}
+		    <footer>
+			    <div>
+				    <div>
+					    <h2>Over deze site</h2>
+					    <ul>
+						    <li><a href="/veelgestelde-vragen">Veelgestelde vragen</a></li>
+						    <li><a href="/disclaimer">Disclaimer</a></li>
+								<li><a href="/cookies">Cookies op deze site</a></li>
+					    </ul>
+				    </div
+				    ><div>
+					    <h2>Contact</h2>
+					    <p>
+						    Het antwoord op je vraag niet bij ‘Veelgestelde vragen’ kunnen
+						    vinden?
+					    </p>
+					    <ul>
+						    <li><a href="mailto:{{EMAIL}}">Email {{SITENAME}}</a></li>
+					    </ul>
+				    </div
+				    ><div>
+					    <h2>Volg het stadsdeel</h2>
+					    <ul>
+						    <li><a href="{{GLOBALS.administration}}" target="_blank">De stadsdeelcommissie</a></li>
+						    <li><a href="{{GLOBALS.facebook}}" target="_blank">Facebook</a></li>
+						    <li><a href="{{GLOBALS.twitter}}" target="_blank">Twitter</a></li>
+					    </ul>
+				    </div
+				    ><div>
+					    <h2>Feedback</h2>
+					    <p>
+						    Heb je een opmerking over het gebruik of de werking van deze
+						    site? Wij ontvangen graag jouw feedback!
+					    </p>
+					    <ul>
+						    <li><a href="mailto:{{EMAIL}}">Stuur feedback</a></li>
+					    </ul>
+				    </div
+				    >
+			    </div>
+		    </footer>
+		  {% endblock %}
+	  </div>
 
-				document.body.addEventListener('click', hideMenu);
-				subMenu.addEventListener('click', menuClick);
+	  <script>
+		 // Preload class is defined in `all.less` to disable all animations.
+		 document.body.className = '';
+	  </script>
+	  <script>
+		 function $( el, query ) {
+			 query || (query = el, el = null);
+			 return Array.prototype.slice.call(
+				 (el || document).querySelectorAll(query), 0
+			 );
+		 }
+	  </script>
+	  <script>
+		 // Account submenu
+		 // ---------------
+		 (function() {
+			 var button  = document.querySelector('#account');
+			 var subMenu = document.querySelector('#subMenu');
+			 var active  = false;
+			 button.addEventListener('click', function( event ) {
+				 if( !active ) {
+					 showMenu(event);
+				 } else {
+					 hideMenu(event);
+				 }
+			 });
 
-				subMenu.className += ' active';
-				active = true;
-			}
-			function hideMenu( event ) {
-				event.preventDefault();
-				event.stopPropagation();
+			 function showMenu( event ) {
+				 event.preventDefault();
+				 event.stopPropagation();
 
-				document.body.removeEventListener('click', hideMenu);
-				subMenu.removeEventListener('click', menuClick);
+				 document.body.addEventListener('click', hideMenu);
+				 subMenu.addEventListener('click', menuClick);
 
-				subMenu.className = subMenu.className.replace(/ ?active/, '');
-				active = false;
-			}
-			function menuClick( event ) {
-				event.stopPropagation();
-			}
-		})();
-	</script>
-	<script>
-		// Flash messages
-		// --------------
-		// Make close buttons interactive.
-		(function() {
-			var closeButtons = Array.prototype.slice.call(
-				document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-			);
-			closeButtons.forEach(function( a ) {
-				a.href = '';
-				a.addEventListener('click', function( event ) {
-					var message = a.parentNode;
-					message.parentNode.removeChild(message);
-					event.preventDefault();
-				});
-			});
-		})();
-	</script>
+				 subMenu.className += ' active';
+				 active = true;
+			 }
+			 function hideMenu( event ) {
+				 event.preventDefault();
+				 event.stopPropagation();
 
-	{% block scripts %}{% endblock %}
+				 document.body.removeEventListener('click', hideMenu);
+				 subMenu.removeEventListener('click', menuClick);
 
-	{% if ENV == 'production' %}
-		{% include 'includes/analytics.njk' %}
+				 subMenu.className = subMenu.className.replace(/ ?active/, '');
+				 active = false;
+			 }
+			 function menuClick( event ) {
+				 event.stopPropagation();
+			 }
+		 })();
+	  </script>
+	  <script>
+		 // Flash messages
+		 // --------------
+		 // Make close buttons interactive.
+		 (function() {
+			 var closeButtons = Array.prototype.slice.call(
+				 document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+			 );
+			 closeButtons.forEach(function( a ) {
+				 a.href = '';
+				 a.addEventListener('click', function( event ) {
+					 var message = a.parentNode;
+					 message.parentNode.removeChild(message);
+					 event.preventDefault();
+				 });
+			 });
+		 })();
+	  </script>
+
+	  {% block scripts %}{% endblock %}
+
+	  {% if ENV == 'production' %}
+		  {% include 'includes/analytics.njk' %}
 	{% endif %}
 </body>
 </html>

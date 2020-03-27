@@ -1,0 +1,17 @@
+{% if cookieConsent != '1' and cookieConsent != '-1' %}
+  <div id="cookiewarning-container" class="cookie-consent">
+    <script>
+     function setCookieConsent(what) {
+       document.cookie = "cookieConsent=" + (what ? '1' : '-1') + '; path=/; expires=Thu, 31 Dec 2025 23:59:00 UTC;';
+       document.location.reload();
+     }
+    </script>
+    <div id="cookiewarning">
+      <h3>Cookies op deze site</h3>
+      Wij plaatsen <a href="/cookies">cookies</a> zodat de site goed werkt en het gebruik te meten is.<br/>
+      Voor het plaatsen van cookies van derden hebben wij uw toestemming nodig.
+      <a href="javascript: void setCookieConsent(true)" class="cookie-button cookie-button-blue">Cookies van derden toestaan</a>
+      <a href="javascript: void setCookieConsent(false)" class="cookie-button cookie-button-white">Cookies van derden weigeren</a>
+    </div>
+  </div>
+{% endif %}

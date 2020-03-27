@@ -1,0 +1,191 @@
+{% extends 'base.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+
+{% set contentClass = 'index' %}
+
+{% block photoBanner %}
+{% endblock %}
+
+{% block content %}
+
+	<div id="photoBanner" style="background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/winkelcentrum-nieuw-west.jpg);"></div>
+	
+	<div id="banner" style="height: auto; margin-bottom: 0">
+		<div id="homebanner" style="height: auto">
+			{% if (config.ideas.addNewIdeas == 'closed') %}
+				{% if (config.ideas.voteForIdeas == 'closed') %}
+					{# Plannen toevoegen gesloten, liken gesloten #}
+					<div id="homebanner-title">
+						<h2>Noem de Naam!</h2>
+						<h3>Wat wordt de nieuwe naam voor het centrumgebied van Nieuw-West?</h3>
+					</div>
+					<div id="homebanner-text">
+						Er verandert veel op en rond het Osdorpplein. Het wordt een prachtig centrumgebied met allerlei voorzieningen, gelegen aan de Sloterplas. Hoe moet het gebied volgens jou gaan heten? Stem vanaf 2 oktober mee over de officiële gebiedsnaam voor hét centrum van Nieuw-West!
+					</div>
+				{% else %}
+					{# Plannen toevoegen gesloten, liken open #}
+					<div id="homebanner-title">
+					</div>
+				{% endif %}
+			{% else %}
+				{# Plannen toevoegen open, liken open #}
+				<div id="homebanner-title">
+					<h2>Noem de Naam!</h2>
+					<h3>Bedenk jij de nieuwe naam voor het centrumgebied van Nieuw-West?</h3>
+				</div>
+				<div id="homebanner-text">
+					Er verandert veel op en rond het Osdorpplein. Het wordt een prachtig centrumgebied met allerlei voorzieningen, gelegen aan de Sloterplas. Hoe moet het gebied volgens jou gaan heten? Bedenk jij de winnende naam? De inzender daarvan ontvangt een publieksprijs ter waarde van €100 en de naam wordt voorgedragen als officiële gebiedsnaam voor hét centrum van Nieuw-West!
+					<br />
+					<br />
+					<a href="/plan/nieuw" class="page-button page-button-blue">Stuur naam in</a>
+				</div>
+			{% endif %}
+		</div>
+		<div id="controls">
+			<span class="widget speechBubble newIdeaBubble">
+				Bedenk jij de beste nieuwe naam voor hét centrumgebied van Nieuw-West?
+			</span>
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'namen', runningIdeas.length, '/inzendingen')}}
+			
+			<a href="https://www.amsterdam.nl/projecten/centrum-nieuw-west/" class="page-button page-button-grey" target="_blank">
+				Lees meer op amsterdam.nl
+			</a>
+			
+		</div>
+	</div>
+
+	{# <div class="text-in-index">
+	<div class="primary">
+	<div class="text" style="padding: 0 20px 20px 20px;">
+	Er verandert veel op en rond het Osdorpplein, hét centrum van Nieuw-West. Het wordt een prachtig centrum met allerlei voorzieningen, geweldig gelegen aan de Sloterplas. Over een tijdje is dit dé plek waar je wilt zijn! En daar hoort volgens ons en volgens veel Nieuw-Westers een passende gebiedsnaam bij. Tot en met 30 augustus 2019 kun je jouw beste idee inzenden via deze site. Win de publieksprijs en verdien alle roem als de bedenker van de gebiedsnaam voor het centrum dat uitgroeit tot het hart van Nieuw-West.
+	</div>
+	</div>
+	</div> #}
+
+	
+{% endblock %}
+
+{% block howDoesItWork %}
+	{{howdoesitwork.howblock('open')}}
+{% endblock %}
+
+{% block content2 %}
+	
+	<div class="primary">
+
+		<div class="text" name="info" id="info">
+
+			<h3>Achtergrondinformatie</h3>
+
+			<p>
+				Het gebied rond het Osdorpplein vernieuwd en wordt steeds meer het centrum van stadsdeel Nieuw-West. Wie hier nu komt ziet dat er iedere dag iets verandert. Er wordt een centrumgebied gecreëerd met meer woningen, winkels, betere pleinen, restaurants, groen, een nieuwe gracht, en allerlei voorzieningen. Samen met de voorzieningen die er al waren wordt het gebied hét hart van stadsdeel Nieuw-West. Kortom, over een tijdje is dit de plek waar je wilt zijn! En dát gebied verdient een nieuwe naam. De straatnaam Osdorpplein blijft behouden, maar het gaat om een naar voor het gebied tussen de Sloterplas, het Osdorpplein, de L. van Sonsbeeckstraat, Hoekenes en het Hoekenespad.
+			</p>
+
+			<p>
+				De naam Centrum Nieuw-West, zo bleek althans uit een peiling, is best bekend. Maar ruim tweederde van de ondervraagden vindt dat het stadscentrum een andere naam mag krijgen: een die méér zegt over de geschiedenis van het plein, haar ligging en haar functie voor het stadsdeel.
+			</p>
+
+			<div class="info">
+				<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/278996910?color=E6E6E6&title=0&byline=0&portrait=0#t=1m42s" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+			</div>
+
+			<p>
+				Welke naam het centrumgebied krijgt, het zal er één zijn die leeft onder bewoners, omwonenden, bezoekers, ondernemers en winkeliers. De nieuwe naam zal te zien zijn op nieuwe borden naar het gebied en op andere manieren terug te zien zijn en gebruikt worden. Doe mee en win de publieksprijs!
+			</p>
+
+			<h3 id="spelregels">Spelregels</h3>
+			<ul class="checkmark-dot-list">
+				{% include 'includes/spelregels.njk' %}
+			</ul>
+
+			<p>Meer weten? Neem contact op met <a href="mailto:{{ EMAIL }}">{{ EMAIL }}</a></p>
+
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+
+				<p><a href="/plan/new">Lees hier hoe de jury je inzending toetst.</a></p>
+				
+				<h4>Hulp nodig?</h4>
+
+				<p>
+					Mensen die niet zo handig zijn met computers of niet online een naam kunnen of willen insturen, kunnen uiteraard hulp zoeken van buren of familie. Ook zijn zij van harte welkom bij het Jongeren Informatie Punt Nieuw-West (Osdorpplein 819, tegenover de OBA) op dinsdag 13, dinsdag 20 en dinsdag 27 augustus tussen 15.00 en 17.00.
+				</p>
+
+			{% endif %}
+
+			{# <div class="buttons">
+			<a href="/wedstrijd#delocatie" class="page-button page-button-grey bekijk-de-locatie-button">
+			Bekijk de locatie
+			</a>
+			<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
+			Stuur je ontwerp in
+			</a>
+			</div> #}
+			
+		</div>
+	</div>
+	
+	<div class="secondary">
+		
+		<div id="agenda">
+			<h3>Tijdlijn</h3>
+			
+			<div class="agenda">
+
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>5 augustus t/m 30 augustus 2019</h3>
+						Insturen van ideeen voor nieuwe gebiedsnaam
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>1 september t/m 1 oktober</h3>
+						De jury selecteert de gebiedsnamen die doorgaan naar de stemperiode
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>2 oktober t/m 25 oktober</h3>
+						Stemperiode: voer campagne om de meeste publieksstemmen te winnen
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-day">
+					<div>
+						<h3>5 november 2019</h3>
+						De jury maakt de prijswinnaars bekend
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block page %}
+	{% if (config.ideas.addNewIdeas != 'closed') %}
+		<div id="inspiration">
+			<div class="pageContent">
+				<h2>Inspiratie</h2>
+				<div id="inspiration-images"><div id="inspiration-1" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-1.png"></div><div id="inspiration-2" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-2.png"></div><div id="inspiration-3" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-3.png"></div><div id="inspiration-4" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-4.png"></div></div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
+
+{% block content3 %}
+	<div class="pageContent">
+		<ul class="share home">
+			<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
+			<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
+			<li><a class="email"    target="_blank" href="mailto:?subject=Naamwestrijd centrumgebied Nieuw-West">Email</a></li>
+		</ul>
+	</div>
+{% endblock %}
+

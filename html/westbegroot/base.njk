@@ -38,6 +38,9 @@
 		{% endblock %}
 	</head>
 	<body class="preload">
+
+	  {% include 'includes/cookie-consent.njk' %}
+
 		<div id="page">
 			<header>
 				<a href="/">
@@ -144,7 +147,8 @@
 							<h2>Over deze site</h2>
 							<ul>
 								<li><a href="/disclaimer">Disclaimer</a></li>
-							</ul>
+								<li><a href="/cookies">Cookies op deze site</a></li>
+						  </ul>
 						</div>
 						<div>
 							<h2>Meer informatie</h2>
@@ -171,7 +175,7 @@
 		
 		<script>
 		 // Preload class is defined in `all.less` to disable all animations.
-			 document.body.className = '';
+		 document.body.className = '';
 		</script>
 		<script>
 		 function $( el, query ) {
@@ -184,60 +188,60 @@
 		<script>
 		 // Account submenu
 		 // ---------------
-						(function() {
-							var button  = document.querySelector('#account');
-							var subMenu = document.querySelector('#subMenu');
-							var active  = false;
-							button.addEventListener('click', function( event ) {
-								if( !active ) {
-									showMenu(event);
-								} else {
-									hideMenu(event);
-								}
-							});
-							
-							function showMenu( event ) {
-								event.preventDefault();
-								event.stopPropagation();
-								
-								document.body.addEventListener('click', hideMenu);
-								subMenu.addEventListener('click', menuClick);
-								
-								subMenu.className += ' active';
-								active = true;
-							}
-							function hideMenu( event ) {
-								event.preventDefault();
-								event.stopPropagation();
-								
-								document.body.removeEventListener('click', hideMenu);
-								subMenu.removeEventListener('click', menuClick);
-								
-								subMenu.className = subMenu.className.replace(/ ?active/, '');
-								active = false;
-							}
-							function menuClick( event ) {
-								event.stopPropagation();
-							}
-						})();
+		 (function() {
+			 var button  = document.querySelector('#account');
+			 var subMenu = document.querySelector('#subMenu');
+			 var active  = false;
+			 button.addEventListener('click', function( event ) {
+				 if( !active ) {
+					 showMenu(event);
+				 } else {
+					 hideMenu(event);
+				 }
+			 });
+			 
+			 function showMenu( event ) {
+				 event.preventDefault();
+				 event.stopPropagation();
+				 
+				 document.body.addEventListener('click', hideMenu);
+				 subMenu.addEventListener('click', menuClick);
+				 
+				 subMenu.className += ' active';
+				 active = true;
+			 }
+			 function hideMenu( event ) {
+				 event.preventDefault();
+				 event.stopPropagation();
+				 
+				 document.body.removeEventListener('click', hideMenu);
+				 subMenu.removeEventListener('click', menuClick);
+				 
+				 subMenu.className = subMenu.className.replace(/ ?active/, '');
+				 active = false;
+			 }
+			 function menuClick( event ) {
+				 event.stopPropagation();
+			 }
+		 })();
 		</script>
 		<script>
 		 // Flash messages
 		 // --------------
-						// Make close buttons interactive.
-											(function() {
-												var closeButtons = Array.prototype.slice.call(
-													document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-												);
-												closeButtons.forEach(function( a ) {
-													a.href = '';
-													a.addEventListener('click', function( event ) {
-														var message = a.parentNode;
-														message.parentNode.removeChild(message);
-														event.preventDefault();
-													});
-												});
-											})();
+		 // Make close buttons interactive.
+		 (function() {
+			 var closeButtons = Array.prototype.slice.call(
+				 document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+			 );
+			 closeButtons.forEach(function( a ) {
+				 a.href = '';
+				 a.addEventListener('click', function( event ) {
+					 var message = a.parentNode;
+					 message.parentNode.removeChild(message);
+					 event.preventDefault();
+				 });
+			 });
+		 })();
 		</script>
 		
 		{% block scripts %}{% endblock %}

@@ -1,0 +1,475 @@
+@import 'stemvan/base';
+
+
+@font-face {
+  font-family: 'HighwayGothic';
+  src: url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.eot?#iefix') format('embedded-opentype'),  url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.woff') format('woff'), url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.ttf')  format('truetype'), url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.svg#HighwayGothic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.verkeersbord {
+	position: relative;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background.png');
+
+	.verkeersbord-tekst {
+		position: absolute;
+		font-family: 'HighwayGothic';
+		color: black;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	&.large {
+		background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background-large.png');
+	}
+
+	&.small {
+	}
+
+
+	&.editor {
+		width: 100%;
+		background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background-editor.png');
+
+		@media @phone {
+		}
+
+		.verkeersbord-tekst {
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+
+	}
+
+
+}
+
+.pageContent.index {
+  max-width: 100%;
+  padding: 0 0 20px 0;
+  margin-top: -30px;
+
+	.text-in-index {
+    max-width: 970px;
+    margin: -20px auto 20px auto;
+	}
+}
+
+.pageContent {
+
+  #banner {
+		width: 100%;
+		height: 302px;
+    max-width: 970px;
+    margin: -70px auto 30px auto;
+    padding: 0 15px 20px;
+    width: 100%;
+    position: relative;
+		
+		@media @phone {
+			display: block;
+			width: calc(100% + 30px);
+			height: auto;
+		}
+
+		#homebanner {
+			position: relative;
+			width: calc(100% - 240px);
+			height: 260px;
+			margin-bottom: 20px;
+			margin-right: 20px;
+			box-sizing: border-box;
+			float: left;
+			background-color: white;
+			
+			@media @phone {
+				float: none;
+				width: 100%;
+				margin-right: 0;
+				padding-bottom: 0;
+				margin-bottom: 20px;
+				padding-bottom: 0;
+				height: auto;
+			}
+
+			#homebanner-title {
+				width: calc(100% - 50px);
+				margin-top: 20px;
+				margin-left: 30px;
+				border-bottom: 3px solid white;
+
+				h2 {
+					margin: 0;
+					font-size: 29px;
+					font-weight: 600;
+
+					@media @phone {
+						padding-top: 20px;
+						font-size: 24px;
+					}
+
+				}
+
+				h3 {
+					margin: 0;
+					padding: 5px 0 7px 0;
+					font-size: 22px;
+					font-weight: 600;
+
+					@media @phone {
+						font-size: 20px;
+					}
+
+				}
+
+				@media @phone {
+					margin-top: 0;
+					margin-left: 15px;
+					width: calc(100% - 30px);
+					height: auto;
+				}
+
+			}
+			
+			#homebanner-text {
+				padding: 12px 20px 0 30px;
+				font-size: 15px;
+				font-weight: normal;
+				// float: right;
+
+				@media @phone {
+					// width: calc(56%);
+					height: auto;
+					padding: 15px 15px 0 15px;
+				}
+
+			}
+
+			#homebanner-buttons {
+
+				position: absolute;
+				left: 30px;
+				// bottom: 25px;
+				bottom: 0px;
+				width: 100%;
+
+				a.bekijk-de-themas,
+				a.stuur-plan-in {
+					width: 170px;
+					margin-right: 20px;
+					float: left;
+
+					@media @phone {
+						float: none;
+						margin: 10px auto 10px auto;
+					}
+
+				}
+
+				a.stuur-plan-in {
+					width: 170px;
+
+					&:hover {
+						background-color: #003066;
+					}
+
+					@media @phone {
+						margin-left: 10px;
+					}
+
+				}
+
+				@media @phone {
+					position: relative;
+					clear: both;
+					left: auto;
+					bottom: auto;
+					width: 70%;
+					height: auto;
+					margin: 10px auto;
+					padding-bottom: 20px;
+				}
+
+			}
+		}
+		
+		#controls {
+			position: relative;
+			float: left;
+			padding: 0;
+			// margin: 70px 0 20px 0;
+			margin-bottom: 20px;
+			width: 220px;
+			height: 375px;
+
+			@media @phone {
+				float: none;
+				display: block;
+				padding-top: 5px;
+				margin-bottom: 20px;
+				width: 100%;
+				height: auto;
+			}
+
+			a.no-of-locations {
+				display: block;
+				margin-top: 0;
+				width: 200px;
+				
+				@media @phone {
+					margin: 0 auto 0 auto;
+					padding: 0 20px 0 0;
+					width: calc(100% - 65px);
+				}
+
+			}
+
+			a.page-button {
+				margin-top: 1px;
+				padding-top: 9px;
+				padding-left: 40px;
+				line-height: 24px;
+				height: 68px;
+				width: 220px;
+				background-position: 12px 14px;
+				background-size: 36px 40px;
+				background-repeat: no-repeat;
+				background-image: url('/img/info-pin.svg');
+				
+				@media @phone {
+					display: none;
+				}
+			}
+
+		}
+		
+	}
+
+}
+
+#content {
+	z-index: 100;
+}
+
+#photoBanner {
+	z-index: 90;
+}
+
+.hasPhotoBanner, #content2.index {
+	z-index: 110;
+	margin: 0 auto;
+	max-width: 970px;
+	padding: 0 15px 20px;
+}
+
+.btn,
+.btn--blue,
+.btn:visited,
+.btn--blue:visited,
+.btn:active,
+.btn--blue:active {
+  border-width: 0;
+  padding: 13px 15px 11px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  color: white !important;
+}
+.btn:hover,
+.btn--blue:hover,
+.btn:visited:hover,
+.btn--blue:visited:hover,
+.btn:active:hover,
+.btn--blue:active:hover {
+  text-decoration: none !important;
+}
+.btn--blue {
+  background-color: #004699;
+}
+.btn--blue:hover {
+  background-color: #003066;
+}
+
+.pageContent {
+	.speechBubble {
+		height: 120px;
+		background-image: none;
+		background-color: white;
+		
+		@media @phone {
+		margin-top: 20px;
+			margin-left: 10%;
+			width: 80%;
+		}
+
+		.small {
+			position: relative;
+			top: 20px;
+			text-align: center;
+			font-size: 14px;
+			font-weight: normal;
+		}
+
+	}
+}
+.pageContent {
+	&.ideasList {
+		.primary {
+			.tile {
+				.summary {
+					margin-top: 20px;
+					margin-bottom: 15px;
+					font-weight: normal;
+				}
+			}
+		}
+	}
+}
+
+.lees-meer-wedstrijd {
+	background-color: white;
+	border: solid 1px #164995;
+	padding: 0 10px 0 10px;
+	line-height: 42px;
+	text-decoration-line: none !important;
+	// display: block;
+	width: 226px;
+}
+
+#howDoesItWork {
+	.step {
+
+		.step-image {
+			height: 220px;
+		}
+
+		.step-image-1 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-1.svg);
+		}
+		.step-image-2 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-2.svg);
+		}
+		.step-image-3 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-3.svg);
+		}
+		.step-image-4 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-4.svg);
+		}
+
+
+		.jury-image-1 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/jury/ronald_mauer.png);
+		}
+		.jury-image-2 {
+			background-size: 220px 220px;
+			background-color: #ddd;
+			background-image: url(/img//leeg.gif);
+		}
+		.jury-image-3 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/jury/jean-paul-de-mol.png);
+		}
+		.jury-image-4 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/jury/shirley-brandeis.png);
+		}
+		.jury-image-5 {
+			background-size: 220px 220px;
+			background-color: #ddd;
+			background-image: url(/img/leeg.gif);
+		}
+		.jury-image-6 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/jury/alice-versloot.png);
+		}
+		.jury-image-7 {
+			background-size: 220px 220px;
+			background-color: #ddd;
+			background-image: url(/img/leeg.gif);
+		}
+		.jury-image-8 {
+			background-size: 220px 220px;
+			background-color: #ddd;
+			background-image: url(/img/leeg.gif);
+		}
+	}
+}
+
+#end-date-bar {
+	margin: 0 auto;
+	max-width: 940px;
+	padding: 10px 15px;
+	line-height: 26px;
+
+	#end-date-bar-start-text {
+		padding-right: 0px;
+	}
+
+	#end-date-bar-start-text-vervolg {
+    padding-right: 12px;
+	}
+	
+	@media @phone {
+		#number-plates,
+		#end-date-bar-start-text-vervolg,
+		#end-date-bar-end-text {
+			display: none;
+		}
+	}
+		
+}
+
+.pageContent {
+	#list-banner {
+		background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/inzendingen-banner.png);
+	}
+}
+
+.share {
+	&.home {
+		clear: both;
+		margin-top: 20px;		
+
+		@media @phone {
+			padding-top: 20px;
+		}
+
+	}
+}
+
+#inspiration {
+
+	.pageContent {
+
+		#inspiration-1 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-1.png')
+		}
+
+		#inspiration-2 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-2.png')
+		}
+
+		#inspiration-3 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-3.png')
+		}
+
+		#inspiration-4 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-4.png')
+		}
+		
+	}
+	
+}
+

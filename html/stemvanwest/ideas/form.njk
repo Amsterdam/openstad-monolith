@@ -112,10 +112,10 @@
 					Gebruik de ruimte hieronder om je voorstel uit te leggen. Een paar tips:
 					<ul>
 						<li>Beschrijft hoe je op het idee bent gekomen.
-						<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
-						<li>Waarom moet de stadsdeelcommissie jouw voorstel bespreken?
-						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
-						<li>Gebruik minimaal 140 tekens.</li>
+						  <li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
+						    <li>Waarom moet de stadsdeelcommissie jouw voorstel bespreken?
+						      <li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
+						        <li>Gebruik minimaal 140 tekens.</li>
 					</ul>
 					{% if useModernEditor %}
 						<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
@@ -180,7 +180,7 @@
 					klikken wordt het verwijderd.<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
-						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+						{{openStadMap.map(cookieConsent = cookieConsent, googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
 					</div>
 				</div>
 				
@@ -209,10 +209,10 @@
 		<script>
 		 // Idea form extensions
 		 // --------------------
-						// Used by poster file upload and description editor to register
+		 // Used by poster file upload and description editor to register
 		 // a reference to each uploaded file. This reference list is used
 		 // by the server to connect the correct image uploads to this idea.
-			 var form = document.getElementById('js-form');
+		 var form = document.getElementById('js-form');
 		 form.addAttachmentRef = function( key ) {
 			 var input   = document.createElement('input');
 			 input.type  = 'hidden';
@@ -346,10 +346,10 @@
 			<script>
 			 // Main editor
 			 // -----------
-							initAttachmentManager(
-								document.getElementById('js-form'),
-								document.getElementById('js-editor').editor
-							);
+			 initAttachmentManager(
+				 document.getElementById('js-form'),
+				 document.getElementById('js-editor').editor
+			 );
 			</script>
 		{% endif %}
 	{% endif %}

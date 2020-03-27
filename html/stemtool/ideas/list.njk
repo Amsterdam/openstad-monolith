@@ -26,22 +26,22 @@
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
-		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
-				<a href="/plan/{{idea.id}}">
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{% if idea.posterImage %}/image/{{idea.posterImage.key}}{% elif idea.location and cookieConsent == "1" %}https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}{% else %}/img/placeholders/idea.jpg{% endif %}">
+			<a href="/plan/{{idea.id}}">
 				<div class="duration">
-				{% if idea.status == 'BUSY' %}
-					Dit plan is in behandeling
-				{% elif idea.status == 'ACCEPTED' %}
-					Dit plan wordt besproken
-				{% elif idea.status == 'DENIED' %}
-					Afgewezen
-				{% elif idea.status == 'DONE' %}
-					Afgerond
-				{% elif idea.duration > 0 %}
-					Nog {{idea.duration | duration}}
-				{% else %}
-					Afgelopen
-				{% endif %}
+				  {% if idea.status == 'BUSY' %}
+					  Dit plan is in behandeling
+				  {% elif idea.status == 'ACCEPTED' %}
+					  Dit plan wordt besproken
+				  {% elif idea.status == 'DENIED' %}
+					  Afgewezen
+				  {% elif idea.status == 'DONE' %}
+					  Afgerond
+				  {% elif idea.duration > 0 %}
+					  Nog {{idea.duration | duration}}
+				  {% else %}
+					  Afgelopen
+				  {% endif %}
 				</div>
 				
 				<div class="image"></div>
@@ -60,10 +60,10 @@
 						<div class="count arguments">{{idea.argCount}}</div>
 					</div>
 				</div>
-				</a>
-			</div>{%
-		else %}
-			<i>Wees de eerste met een goed plan voor jouw buurt!</i>
+			</a>
+		</div>{%
+		      else %}
+		<i>Wees de eerste met een goed plan voor jouw buurt!</i>
 		{% endfor %}
 		
 		{# {% if can('ideas:archive') %}
@@ -81,130 +81,132 @@
 {% endblock %}
 
 {% block scripts %}
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+  {% if cookieConsent == '1' %}
+	  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+  {% endif %}
 	<script src="/js/map.js"></script>
 	<script>
-	// Interactive map
-	// ---------------
-	(function() {
-		var bounds;
-		var map = initMap(document.getElementById('map'), {
-			center            : {lat: 52.3732175, lng: 4.8495996},
-			minZoom           : 13,
-			maxZoom           : 17,
-			draggable         : true,
-			keyboardShortcuts : false,
-			scrollwheel       : false,
-			zoomControl       : true
-		});
-		function boundsLimiter() {
-			google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-				if( map.getZoom() > 14 ) {
-					map.setZoom(14);
-				}
-			});
-		}
-		window.addEventListener('resize', function() {
-			if( bounds ){
-				boundsLimiter();
-				map.fitBounds(bounds);
-			}
-		});
-		
-		var ideas = [
-			// {% for idea in runningIdeas %}
-			// {% if idea.isRunning() %}
-			{id: {{idea.id}}, location: JSON.parse('{{idea.location | dump | safe}}' || null)},
-			// {% endif %}
-			// {% endfor %}
-		];
-		ideas.forEach(function( idea ) {
-			if( !idea.location ) return;
-			if( !bounds ) {
-				bounds = new google.maps.LatLngBounds();
-			}
-			
-			var point  = idea.location;
-			var marker = initMarker({
-				position : {lat: point.coordinates[0], lng: point.coordinates[1]},
-				map      : map,
-				icon     : {
-					url    : '/img/flag_small.svg',
-					size   : new google.maps.Size(22, 24),
-					anchor : new google.maps.Point(4, 21)
-				}
-			});
-			marker.addListener('click', function() {
-				window.location.href = '/plan/'+idea.id;
-			});
-			bounds.extend(marker.getPosition());
-		});
-		if( bounds ) {
-			boundsLimiter();
-			map.fitBounds(bounds);
-		}
-	})();
+	 // Interactive map
+	 // ---------------
+	 (function() {
+		 var bounds;
+		 var map = initMap(document.getElementById('map'), {
+			 center            : {lat: 52.3732175, lng: 4.8495996},
+			 minZoom           : 13,
+			 maxZoom           : 17,
+			 draggable         : true,
+			 keyboardShortcuts : false,
+			 scrollwheel       : false,
+			 zoomControl       : true
+		 });
+		 function boundsLimiter() {
+			 google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+				 if( map.getZoom() > 14 ) {
+					 map.setZoom(14);
+				 }
+			 });
+		 }
+		 window.addEventListener('resize', function() {
+			 if( bounds ){
+				 boundsLimiter();
+				 map.fitBounds(bounds);
+			 }
+		 });
+		 
+		 var ideas = [
+			 // {% for idea in runningIdeas %}
+			 // {% if idea.isRunning() %}
+			 {id: {{idea.id}}, location: JSON.parse('{{idea.location | dump | safe}}' || null)},
+			 // {% endif %}
+			 // {% endfor %}
+		 ];
+		 ideas.forEach(function( idea ) {
+			 if( !idea.location ) return;
+			 if( !bounds ) {
+				 bounds = new google.maps.LatLngBounds();
+			 }
+			 
+			 var point  = idea.location;
+			 var marker = initMarker({
+				 position : {lat: point.coordinates[0], lng: point.coordinates[1]},
+				 map      : map,
+				 icon     : {
+					 url    : '/img/flag_small.svg',
+					 size   : new google.maps.Size(22, 24),
+					 anchor : new google.maps.Point(4, 21)
+				 }
+			 });
+			 marker.addListener('click', function() {
+				 window.location.href = '/plan/'+idea.id;
+			 });
+			 bounds.extend(marker.getPosition());
+		 });
+		 if( bounds ) {
+			 boundsLimiter();
+			 map.fitBounds(bounds);
+		 }
+	 })();
 	</script>
 	<script>
-	// Sorting dropdown
-	// ----------------
-	(function() {
-		var select = document.querySelector('#content > .primary > h1 select');
-		select.addEventListener('change', function() {
-			// Replace current `sort=x` with new choice.
-			var pathName = location.pathname;
-			var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
-			location.href = pathName + search + 'sort=' + select.value + '#ideas';
-		});
-	})();
+	 // Sorting dropdown
+	 // ----------------
+	 (function() {
+		 var select = document.querySelector('#content > .primary > h1 select');
+		 select.addEventListener('change', function() {
+			 // Replace current `sort=x` with new choice.
+			 var pathName = location.pathname;
+			 var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
+			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
+		 });
+	 })();
 	</script>
 	<script>
-	// Progressive thumbnail loading
-	// -----------------------------
-	(function() {
-		var tiles = $('#content > .primary > .tile:not([data-poster-url=""])');
-		
-		loadTileImages();
-		window.addEventListener('scroll', loadTileImages);
-		window.addEventListener('resize', loadTileImages);
-		
-		// Checks the current scroll position, and loads all tile image that are in
-		// the range 'top of the page' to '50% viewport height below the current viewport'.
-		function loadTileImages() {
-			// Throttle checking to once every 100 ms.
-			var now = +new Date;
-			if( now - this.last < 100 ) return;
-			this.last = now;
-			
-			var viewHeight = window.innerHeight;
-			var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
-			                 document.documentElement.scrollTop ? document.documentElement.scrollTop :
-			                                                      document.body.scrollTop;
-			var tile;
-			for( var i = 0; tile = tiles[i]; i++ ) {
-				// Load in all tile that are in view, or are 50% of the view height
-				// below the fold.
-				var tileTop       = offsetTop(tile);
-				var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
-				if( isOrWasInView ) {
-					// Load actual image...
-					var img = tile.querySelector('div.image');
-					img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
-					// ... and remove tile from the checklist.
-					tile.removeAttribute('data-poster-url');
-					tiles.splice(i, 1);
-					i--;
-				}
-			}
-		}
-		
-		// Element's vertical position, measured from the top of the page.
-		function offsetTop( el, top ) {
-			top = (top || 0) + el.offsetTop;
-			return el.offsetParent != document.body ?
-			       offsetTop(el.offsetParent, top) :
-			       top;
-		}
-	})();
+	 // Progressive thumbnail loading
+	 // -----------------------------
+	 (function() {
+		 var tiles = $('#content > .primary > .tile:not([data-poster-url=""])');
+		 
+		 loadTileImages();
+		 window.addEventListener('scroll', loadTileImages);
+		 window.addEventListener('resize', loadTileImages);
+		 
+		 // Checks the current scroll position, and loads all tile image that are in
+		 // the range 'top of the page' to '50% viewport height below the current viewport'.
+		 function loadTileImages() {
+			 // Throttle checking to once every 100 ms.
+			 var now = +new Date;
+			 if( now - this.last < 100 ) return;
+			 this.last = now;
+			 
+			 var viewHeight = window.innerHeight;
+			 var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
+			                  document.documentElement.scrollTop ? document.documentElement.scrollTop :
+			                  document.body.scrollTop;
+			 var tile;
+			 for( var i = 0; tile = tiles[i]; i++ ) {
+				 // Load in all tile that are in view, or are 50% of the view height
+				 // below the fold.
+				 var tileTop       = offsetTop(tile);
+				 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
+				 if( isOrWasInView ) {
+					 // Load actual image...
+					 var img = tile.querySelector('div.image');
+					 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
+					 // ... and remove tile from the checklist.
+					 tile.removeAttribute('data-poster-url');
+					 tiles.splice(i, 1);
+					 i--;
+				 }
+			 }
+		 }
+		 
+		 // Element's vertical position, measured from the top of the page.
+		 function offsetTop( el, top ) {
+			 top = (top || 0) + el.offsetTop;
+			 return el.offsetParent != document.body ?
+			        offsetTop(el.offsetParent, top) :
+			        top;
+		 }
+	 })();
 	</script>
 {% endblock %}

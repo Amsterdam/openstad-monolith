@@ -131,14 +131,16 @@
 		<input type="hidden" name="images[]" value="{{article.posterImage.key}}">
 	{% endif %}
 
-</form>
+  </form>
 
-{% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block scripts %}
-{% if showForm %}
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+  {% if showForm %}
+    {% if cookieConsent == '1' %}
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+    {% endif %}
 	<script src="/lib/dropzone/dist/dropzone.js"></script>
 	<script src="/lib/trix/dist/trix.js"></script>
 	<script src="/js/map.js"></script>

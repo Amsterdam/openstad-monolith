@@ -411,12 +411,25 @@
 
 	table {
 		width: 660px;
+
+		@media @phone {
+			width: 100%;
+		}
+
 		td {
 			position: relative;
 			padding: 3px;
 			vertical-align: top;
 			line-height: 40px;
+
+			@media @phone {
+				float: left;
+				width: calc(100%);
+				padding: 0;
+				line-height: 30px;
+			}
 		}
+
 	}
 
 	.padding-top {
@@ -433,6 +446,10 @@
 		padding: 12px;
 		font-size: 16px;
 		line-height: 16px;
+
+		@media @phone {
+			width: calc(100% - 20px);
+		}
 	}
 
 	.signedupfornewsletter {

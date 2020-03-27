@@ -1,0 +1,50 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">De jury <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image jury-image-1"></div>
+					<div class="step-header">Ronald Mauer</div>
+					<p>Lid dagelijks bestuur stadsdeel Nieuw-West</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-2"></div>
+					<div class="step-header">Fatimzahra Baba</div>
+					<p>Oprichtster SAAAM en platform Besma</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-3"></div>
+					<div class="step-header">Jean Paul de Mol</div>
+					<p>Voorzitter BIZ en eigenaar Citiez Hotel Osdorpplein</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-4"></div>
+					<div class="step-header">Shirley Brandeis</div>
+					<p>Journalist/fotograaf, docent en Nieuw-West-expert</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-5"></div>
+					<div class="step-header">Samir el Hadaoui</div>
+					<p>Sociaal ondernemer actief in het jongerenveld</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-6"></div>
+					<div class="step-header">Alice Versloot</div>
+					<p>Bewoonster</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-7"></div>
+					<div class="step-header">Abdelkader Benali
+          </div>
+					<p>Schrijver, acteur en bewoner van Nieuw-West</p>
+				</div>
+				<div class="step">
+					<div class="step-image jury-image-8"></div>
+					<div class="step-header">David van der Boon</div>
+					<p>Commercieel beheerder bij Kroonenberg</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

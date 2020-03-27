@@ -15,7 +15,7 @@ var util         = require('../../util')
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.route('(/ideas|/plannen|/stemmen)')
+	app.route('(/ideas|/plannen|/stemmen|/inzendingen)')
 		.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 		.get(function( req, res, next ) {
 			// Figure out idea sorting, and store in the user's session.
@@ -24,7 +24,7 @@ module.exports = function( app ) {
 				expires: 0
 			});
 			var extraScopes = [];
-			if (config.siteId == 'zorggoedvooronzestad2') {
+			if (config.siteId == 'zorggoedvooronzestad2' || config.siteId == 'naamwedstrijd' ) {
 				extraScopes.push('withUser');
 			}
 

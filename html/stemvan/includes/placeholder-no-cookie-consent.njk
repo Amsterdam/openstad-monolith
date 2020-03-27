@@ -1,0 +1,25 @@
+{% macro placeholderNoCookieConsent(type = 'default') %}
+  <div class="cookie-consent placeholder-no-cookie-consent placeholder-type-{{type}}">
+    <div class="placeholder-content">
+      <div class="placeholder-text">
+        {% if type == "default" %}
+          <h3>Dit element bekijken?</h3>
+        {% endif %}
+        {% if type == "video" %}
+          <h3>Deze video bekijken?</h3>
+        {% endif %}
+        {% if type == "map" %}
+          <h3>Deze kaart bekijken?</h3>
+        {% endif %}
+        Dit element is uitgeschakeld omdat u <a href="/cookies">cookies</a> van derden (nog) niet accepteert.<br/>
+        <script>
+         function setCookieConsent(what) {
+           document.cookie = "cookieConsent=" + (what ? '1' : '-1') + '; path=/; expires=Thu, 31 Dec 2025 23:59:00 UTC;';
+           document.location.reload();
+         }
+        </script>
+        <a href="javascript: void setCookieConsent(true)" class="cookie-button cookie-button-blue">Cookies van derden toestaan</a>
+      </div>  
+    </div>  
+  </div>  
+{% endmacro %}

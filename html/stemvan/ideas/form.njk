@@ -177,7 +177,7 @@
 					klikken wordt het verwijderd.<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
-						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+						{{openStadMap.map(cookieConsent = cookieConsent, googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
 					</div>
 				</div>
 				

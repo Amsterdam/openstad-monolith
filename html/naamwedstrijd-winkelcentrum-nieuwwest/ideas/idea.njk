@@ -1,0 +1,215 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/arguments.njk' as arguments %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+
+{% set pageTitle    = 'Idee: '+idea.title %}
+{% set contentClass = 'idea' %}
+
+{% block head %}
+	{{ super() }}
+	<meta property="og:title" content="{{idea.title}}">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="{{idea.summary}}">
+	<meta property="og:locale" content="nl_NL">
+	<meta property="og:site_name" content="{{SITENAME}}">
+	{% if idea.posterImage %}
+		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
+	{% endif %}
+{% endblock %}
+
+{% block extraInfoBar %}
+	<div class="extraInfoBar">
+		<div class="text">
+			Let op: deze pagina is alleen voor jou zichtbaar.<br/>
+			Je kunt hier je inzending nog bewerken t/m 30 augustus.
+		</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+
+	<div id="idea">
+		
+		<div class="primary">
+
+			<div class="verkeersbord large">
+				<div class="verkeersbord-tekst">{{idea.title}}</div>
+				<script>
+				 function resizeNameEditor() {
+					 var factor = document.querySelector('.verkeersbord').offsetWidth / 700;
+					 console.log(factor)
+					 document.querySelector('.verkeersbord').style.height = ( 303 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.top = ( 118 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.left = ( 139 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.width = ( 550 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.fontSize = ( 40 * factor ) + 'px';
+				 }
+				 window.addEventListener('load', resizeNameEditor);
+				 window.addEventListener('resize', resizeNameEditor);
+				</script>
+			</div>
+
+			<br/>
+			<div id="author" style="margin-bottom: 20px;">
+				{% if can('user:mail') %}
+					Van <strong><a href="mailto:{{idea.user.email}}">
+					{{idea.user.firstName}} {{idea.user.lastName}}
+					</a></strong><br>
+				{% else %}
+					Door <strong>{{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
+				{% endif %}
+				{{idea.startDate | date('LL')}}
+			</div>
+
+			{{ modBreak() if idea.modBreak }}
+			
+			<div class="userContent">
+				<p class="summary">
+					<strong>{{idea.summary | safe | nl2br}}</strong>
+				</p>
+				
+				{{idea.description | safe | nl2br}}
+			</div>
+
+		</div> <!-- #primary -->
+		
+		<div class="secondary">
+
+			{% if can('idea:edit', 'idea:delete') %}
+				<h4>Bewerken</h4>
+				
+				{% if can('idea:edit') %}
+					<form action="/plan/{{idea.id}}/edit">
+						<button type="submit" class="edit">Bewerk idee</button>
+					</form>
+				{% endif %}
+				
+				{% if can('idea:delete') %}
+					<form method="POST" action="/plan/{{idea.id}}/delete" id="deleteIdea">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_csrf" value="{{csrfToken}}">
+						<button type="submit" class="delete">Verwijder idee</button>
+					</form>
+				{% endif %}
+			{% endif %}
+			
+			{% if can('idea:admin') %}
+				<h4>Beheren</h4>
+				
+				<form method="POST" action="/plan/{{idea.id}}/status">
+					<select name="status" onchange="this.form.submit();" class="button status">
+						<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+						<option {{'selected' if idea.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
+						<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+					</select>
+					<input type="hidden" name="_method" value="PUT">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				</form>
+				
+				<form method="GET" action="/plan/{{idea.id}}/mod_break">
+					<button type="submit" class="modBreak">Moderator reactie</button>
+				</form>
+
+			{% endif %}
+
+			{% if can('idea:admin') %}
+				<h4>Ingestuurd door</h4>
+				{{idea.user.fullName}} (<a href="mailto: {{idea.user.email}}">{{idea.user.email}}</a>)
+			{% endif %}
+
+		</div>
+		
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/promise.js"></script>
+	<script src="/js/fetch.js"></script>
+	<script>
+	 // Helper for sending non-GET HTTP requests
+	 // ----------------------------------------
+	 // Used in progressive enhancement scripts to replace a 'old-school'
+	 // request with a `fetch`/`XMLHTTPRequest` action.
+	 (function( global ) {
+		 var csrfToken = '{{csrfToken}}';
+		 
+		 // Wrapper for fetch to POST/PUT data
+		 global.send = function( method, url, data ) {
+
+			 data._csrf = csrfToken;
+			 
+			 return fetch(url, {
+				 method      : method,
+				 headers     : {
+					 'Content-Type' : 'application/json',
+					 'Accept'       : 'application/json'
+				 },
+				 credentials : 'same-origin',
+				 body        : data ? JSON.stringify(data): null
+			 })
+				 .then(handleResponse)
+				 .then(function( data ) {
+					 if( 'csrfToken' in data ) {
+						 csrfToken = data.csrfToken;
+						 // HACK?: Update all tokens in static forms as well.
+							 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+								 input.value = csrfToken;
+							 });
+					 }
+					 return data;
+				 });
+		 }
+		 
+		 function handleResponse( response ) {
+			 var json = response.json();
+			 if( response.status >= 200 && response.status < 300 ) {
+				 return json;
+			 } else {
+				 return json.then(function( data ) {throw data});
+			 }
+		 }
+	 })(this);
+	</script>
+	
+	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
+	
+	<script>
+	 // First image in content
+	 // ----------------------
+	 // If the content starts with an image, remove it from the content
+	 // since it's already visible as poster image.
+	 var figure = document.querySelector('.userContent figure:first-child');
+	 if( figure ) {
+		 var parent = figure.parentNode;
+		 if( parent.firstChild === figure ) {
+			 parent.removeChild(figure);
+		 }
+	 }
+	</script>
+	<script>
+	 // Delete idea confirmation
+	 // ------------------------
+	 var form = document.getElementById('deleteIdea');
+	 if( form ) {
+		 form.addEventListener('submit', function( event ) {
+			 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+				         'Dit kan niet ongedaan gemaakt worden.\n\n'+
+				         'Weet je het zeker?';
+			 if( !confirm(msg) ) {
+				 event.preventDefault();
+			 }
+		 });
+	 }
+	</script>
+{% endblock %}
+
+{% macro modBreak() %}
+	<div id="modBreak">
+		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+		<p>
+			{{idea.modBreak | safe | nl2br}}
+		</p>
+	</div>
+{% endmacro %}

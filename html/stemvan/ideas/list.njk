@@ -9,7 +9,7 @@
 {% block content %}
 
 	<div id="mapcontainer">
-		{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+		  {{openStadMap.map(cookieConsent = cookieConsent,  googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
 	</div>
 
 	<div id="ideas" class="primary">
@@ -29,8 +29,9 @@
 		</h1>
 		
 		{# Weird formatting because of `display: inline-block` #}
+
 		{% for idea in runningIdeas
-		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{% if idea.posterImage %}/image/{{idea.posterImage.key}}{% elif idea.location and cookieConsent == "1" %}https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}{% else %}/img/placeholders/idea.jpg{% endif %}">
 			<a href="/plan/{{idea.id}}">
 				<div class="image"></div>
 				
@@ -97,7 +98,7 @@
 		 var select = document.querySelector('#content > .primary > h1 select');
 		 select.addEventListener('change', function() {
 			 // Replace current `sort=x` with new choice.
-				 var pathName = location.pathname;
+			 var pathName = location.pathname;
 			 var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
 			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
 		 });
@@ -115,41 +116,41 @@
 		 
 		 // Checks the current scroll position, and loads all tile image that are in
 		 // the range 'top of the page' to '50% viewport height below the current viewport'.
-			 function loadTileImages() {
-				 // Throttle checking to once every 100 ms.
-					 var now = +new Date;
-				 if( now - this.last < 100 ) return;
-				 this.last = now;
-				 
-				 var viewHeight = window.innerHeight;
-				 var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
-													document.documentElement.scrollTop ? document.documentElement.scrollTop :
-			                    document.body.scrollTop;
-				 var tile;
-				 for( var i = 0; tile = tiles[i]; i++ ) {
-					 // Load in all tile that are in view, or are 50% of the view height
-					 // below the fold.
-						 var tileTop       = offsetTop(tile);
-					 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
-					 if( isOrWasInView ) {
-						 // Load actual image...
-							 var img = tile.querySelector('div.image');
-						 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
-						 // ... and remove tile from the checklist.
-							 tile.removeAttribute('data-poster-url');
-						 tiles.splice(i, 1);
-						 i--;
-					 }
+		 function loadTileImages() {
+			 // Throttle checking to once every 100 ms.
+			 var now = +new Date;
+			 if( now - this.last < 100 ) return;
+			 this.last = now;
+			 
+			 var viewHeight = window.innerHeight;
+			 var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
+												document.documentElement.scrollTop ? document.documentElement.scrollTop :
+			                  document.body.scrollTop;
+			 var tile;
+			 for( var i = 0; tile = tiles[i]; i++ ) {
+				 // Load in all tile that are in view, or are 50% of the view height
+				 // below the fold.
+				 var tileTop       = offsetTop(tile);
+				 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
+				 if( isOrWasInView ) {
+					 // Load actual image...
+					 var img = tile.querySelector('div.image');
+					 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
+					 // ... and remove tile from the checklist.
+					 tile.removeAttribute('data-poster-url');
+					 tiles.splice(i, 1);
+					 i--;
 				 }
 			 }
+		 }
 		 
 		 // Element's vertical position, measured from the top of the page.
-			 function offsetTop( el, top ) {
-				 top = (top || 0) + el.offsetTop;
-				 return el.offsetParent != document.body ?
-								offsetTop(el.offsetParent, top) :
-								top;
-			 }
+		 function offsetTop( el, top ) {
+			 top = (top || 0) + el.offsetTop;
+			 return el.offsetParent != document.body ?
+							offsetTop(el.offsetParent, top) :
+							top;
+		 }
 	 })();
 	</script>
 {% endblock %}

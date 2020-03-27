@@ -1,0 +1,43 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image step-image-1"></div>
+					<div class="step-header">1. Stuur je naam voor het centrumgebied in</div>
+					<p>
+						Tot en met 30 augustus 2019 kun je jouw voorstel inzenden via deze site. Bij de naam beschrijf je waarom deze naam goed past bij het gebied. 
+						<ul class="links-list">
+							<li><a href="/#spelregels">Bekijk de spelregels</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-2"></div>
+					<div class="step-header">2. Een jury toetst de naam aan criteria</div>
+					<p>
+						Een gebiedsnaam moet aan bepaalde criteria voldoen. De haalbare namen gaan door naar de stemronde. Lees hier waar je inzending aan moet voldoen.
+						<ul class="links-list">
+							<li><a href="/wedstrijd">Meer informatie over de jury en de wedstrijd</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-3"></div>
+					<div class="step-header">3. Voer campagne voor jouw naam en behaal de meeste stemmen!</div>
+					<p>
+						Probeer van 2 t/m 25 oktober zoveel mogelijk stemmen te verzamelen voor jouw inzending of je favoriete naam. De naam met de meeste stemmen krijgt een publieksprijs.
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-4"></div>
+					<div class="step-header">4. De winnende naam is overal te zien</div>
+					<p>
+						De winnende naam wordt voorgelegd aan het Dagelijks Bestuur van Nieuw-West en het college van Burgemeester & Wethouders als officiële gebiedsnaam. Gaat het college akkoord, dan kun je de naam o.a. zien op verkeersborden en banners in het winkelcentrum.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

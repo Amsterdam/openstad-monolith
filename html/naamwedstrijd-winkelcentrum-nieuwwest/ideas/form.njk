@@ -1,0 +1,208 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle = 'Nieuwe gebiedsnaam insturen' if not idea.id else 'Bewerk gebiedsnaam' %}
+{% set contentClass = 'newIdea' %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+
+{% import 'includes/image-editor.njk' as imageEditor %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="/lib/trix/dist/trix.css">
+{% endblock %}
+
+{% block content %}
+
+	{% if not user.isLoggedIn() %}
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="color: white; text-decoration: none; font-weight: 600; margin: 30px auto 30px auto;">Meld je aan om een naam in te sturen</a>
+	{% endif %}
+
+	<h1>{{pageTitle}}</h1>
+
+	{% if showHelp %}
+	{% endif %}
+
+	{% if showForm %}
+		<div class="primary">
+
+			<form method="post" id="js-form">
+				<div id="titleAndSummary">
+
+					<h4>Jouw naam</h4>
+					<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
+					
+					
+					<h2>De naam die je hebt bedacht</h2>
+					<div class="form-info">
+						Geef aan welke naam jij hebt bedacht voor het centrumgebied.
+					</div>
+					<input type="text" name="title" value="{{idea.title}}" onkeyup="updatePreview(this)"><br>
+					<div id="charsLeftTitle" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
+
+					<br/>
+					<div class="verkeersbord editor">
+						<div class="verkeersbord-tekst">{{ idea.title or "Jouw inzending" }}</div>
+					</div>
+					<script>
+					 function updatePreview(elem) {
+						 var text = elem.value;
+						 if (text.length > 19) {
+							 text = text.substring(0, 19);
+							 elem.value = text;
+						 }
+						 document.querySelector('.verkeersbord-tekst').innerHTML = text;
+					 }
+					 function resizeNameEditor() {
+						 var factor = document.querySelector('.verkeersbord').offsetWidth / 700;
+						 document.querySelector('.verkeersbord').style.height = ( 168 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.top = ( 57 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.left = ( 104 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.width = ( 500 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.fontSize = ( 40 * factor ) + 'px';
+					 }
+					 window.addEventListener('load', resizeNameEditor);
+					 window.addEventListener('resize', resizeNameEditor);
+					</script>
+
+					<h2>Samenvatting</h2>
+					<div class="form-info">
+						Vertel eens kort in minimaal 20 en maximaal 140 tekens iets meer over de door jou verzonnen naam. Een langere beschrijving voeg je in de volgende stap toe.
+					</div>
+					<textarea name="summary">{{idea.summary}}</textarea>
+					<div id="charsLeftSummary" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
+				</div>
+				
+				<div id="description">
+					<h2>Beschrijving</h2>
+					<div class="form-info">
+						Gebruik de ruimte hieronder om iets meer over de naam te vertellen.
+						<ul>
+							<li>Wat is het verhaal achter de naam?</li>
+							<li>Op welke manier past de naam bij het centrumgebied van Nieuw-West?</li>
+							<li>Draag argumenten aan om je buurtgenoten te overtuigen op de door jou verzonnen naam te stemmen.</li>
+						</ul>
+					</div>
+					<textarea name="description">{{idea.description}}</textarea>
+					<div id="charsLeftDescription" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
+					
+					
+					{% if idea.id %}
+						<input type="hidden" name="id" value="{{idea.id}}">
+						<input type="hidden" name="_method" value="PUT">
+					{% endif %}
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				</div>
+				
+				{% if idea.posterImage %}
+					<input type="hidden" id="images" name="images[]" value="{{idea.posterImage.key}}">
+					<input type="hidden" id="imageExtraData" name="imageExtraData" value="{{idea.posterImage.extraData | dump}}">
+				{% else %}
+					<input type="hidden" id="imageExtraData" name="imageExtraData">
+				{% endif %}
+				
+				<input type="submit" value="Naam insturen" style="width: 200px;">
+			</form>
+		</div>
+
+		<div class="secondary">
+			<div class="grey-text-block">
+				<h4 class="color-blue">Toetsingscriteria</h4>
+				<ul class="checkmark-list">
+					<li>De naam moet iets zeggen over Osdorp en/of de ligging van het centrumgebied.</li>
+					<li>De naam moet iets zeggen over de groeiende centrumfunctie die het gebied heeft op Nieuw-West.</li>
+					<li>De naam moet Nederlands zijn.</li>
+					<li>De naam mag in schrijfwijze of klank niet teveel lijken op reeds bestaande namen in de stad.</li>
+					<li>Het gebruik van het woord ‘centrum’ in de naam heeft niet de voorkeur omdat dit verwarring oplevert met het centrum van Amsterdam.</li>
+					<li>De naam moet goed uitspreekbaar en niet te moeilijk te schrijven zijn.</li>
+					<li>De naam mag geen commerciële uiting of merknaam bevatten.</li>
+					<li>Bij verwijzingen naar historische zaken wordt de huidige spelling gebruikt.</li>
+					<li>De gebiedsnaam mag maximaal 19 karakters (incl. spaties) bevatten.</li>
+					<li>Er dient enige logica in de naam te zitten zodat de naam geografisch herkenbaar is.</li>
+					<li>Inzenden kan tot en met 30 augustus 2019. Veel succes!</li>
+				</ul>
+			</div>
+		</div>
+
+	{% endif %}
+{% endblock %}
+
+{% block howDoesItWork %}
+	{% if not user.isLoggedIn() %}
+		{{howdoesitwork.howblock('open')}}
+	{% endif %}
+{% endblock %}
+
+{% block content2 %}
+	{% if not user.isLoggedIn() %}
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="color: white; text-decoration: none; font-weight: 600; margin: 30px auto 30px auto;">Meld je aan om een naam in te sturen</a>
+	{% endif %}
+{% endblock %}
+
+{% block scripts %}
+	{% if showForm %}
+		<script src="/lib/trix/dist/trix.js"></script>
+		<script src="/js/editor.js"></script>
+		
+		<script>
+		 // Idea form extensions
+		 // --------------------
+						// Used by poster file upload and description editor to register
+		 // a reference to each uploaded file. This reference list is used
+		 // by the server to connect the correct image uploads to this idea.
+			 var form = document.getElementById('js-form');
+		 // initImageEditor(); // TODO: dit moet automatisch maar	 document.addEventListener('load', initImageEditor); werkt niet
+
+		</script>
+
+		<script src="/js/form.js"></script>
+		<script>
+		 window.addEventListener('load', function() {
+
+			 // name
+			 var minLen = 3;
+			 var maxLen = 19;
+			 
+			 var input     = document.querySelector('input[name="title"]');
+			 var charsLeft = document.querySelector('#charsLeftTitle');
+
+			 if( !charsLeft ) {
+				 return;
+			 }
+
+			 initCharactersLeft(input, charsLeft, minLen, maxLen);
+
+			 // summary
+			 var minLen = 20;
+			 var maxLen = 140;
+			 
+			 var textarea  = document.querySelector('textarea[name="summary"]');
+			 var charsLeft = document.querySelector('#charsLeftSummary');
+
+			 if( !charsLeft ) {
+				 return;
+			 }
+
+			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
+
+			 // description
+			 var minLen = 140;
+			 var maxLen = 1000;
+
+			 var textarea  = document.querySelector('textarea[name="description"]');
+			 var charsLeft = document.querySelector('#charsLeftDescription');
+
+			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
+
+		 });
+		</script>
+
+	{% endif %}
+{% endblock %}

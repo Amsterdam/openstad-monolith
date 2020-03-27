@@ -109,7 +109,7 @@
 					Klik op de kaart om een vlaggetje bij jouw locatie te plaatsen..<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
-						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+						{{openStadMap.map(cookieConsent = cookieConsent, googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
 					</div>
 				</div>
 				

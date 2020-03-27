@@ -9,7 +9,7 @@
 {% block content %}
 	<div id="map-with-buttons-container">
 		<div id="mapcontainer">
-			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+			{{openStadMap.map(cookieConsent = cookieConsent, googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
 		</div>
 		<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button">
 			Stuur locatie in

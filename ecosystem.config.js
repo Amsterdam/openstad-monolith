@@ -93,6 +93,16 @@ addApp('stemvan', [{
 	deployName : 'demo_zorggoedvooronzestad_phase_3',
 	remotePath : '/var/www/zorggoedvooronzestad-phase-3.demo.openstadsdeel.nl/www',
 	ref        : 'origin/master'
+}, {
+	appName    : 'noemdenaam-staging',
+	deployName : 'staging_noemdenaam',
+	remotePath : '/var/www/noemdenaam.staging.openstadsdeel.nl/www',
+	ref        : 'origin/projects/naamwedstrijd-winkelcentrum-nieuwwest'
+}, {
+	appName    : 'noemdenaam-production',
+	deployName : 'production_noemdenaam',
+	remotePath : '/var/www/noemdenaam.amsterdam.nl/www',
+	ref        : 'origin/projects/naamwedstrijd-winkelcentrum-nieuwwest'
 }]);
 
 addApp('stemtool', [{
