@@ -1,12 +1,12 @@
 var createError = require('http-errors')
   , express     = require('express')
-  , mmm         = require('mmmagic')
+//  , mmm         = require('mmmagic')
   , multer      = require('multer')
   , config      = require('config');
 var db          = require('../../db');
 var auth        = require('../../auth');
 
-var magic = new mmm.Magic(mmm.MAGIC_MIME_TYPE);
+// var magic = new mmm.Magic(mmm.MAGIC_MIME_TYPE);
 
 var upload = multer();
 
