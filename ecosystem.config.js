@@ -37,7 +37,7 @@ addApp('stemvan', [{
 	appName    : 'stem-noord',
 	deployName : 'production_noord',
 	remotePath : '/var/www/stemvannoord.amsterdam.nl/www',
-	ref        : 'origin/master'
+	ref        : 'origin/pm2-version-test'
 }, {
 	appName    : 'stem-zuid',
 	deployName : 'production_zuid',
@@ -168,7 +168,7 @@ function addApp( env, app ) {
 		repo          : 'git@github.com:Amsterdam/openstad-monolith.git',
 		
 		env           : env,
-		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
+		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env --interpreter=/home/daan/.nvm/versions/node/v7.4.0/bin/node`
 	};
 }
 
