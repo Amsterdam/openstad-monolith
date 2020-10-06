@@ -168,7 +168,8 @@ function addApp( env, app ) {
 		repo          : 'git@github.com:Amsterdam/openstad-monolith.git',
 		
 		env           : env,
-		'post-deploy' : `PATH=/home/daan/bin:/home/daan/.local/bin:/home/daan/.nvm/versions/node/v7.4.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games git submodule init && git submodule update && /home/daan/.nvm/versions/node/v7.4.0/bin/npm install && /home/daan/.nvm/versions/node/v7.4.0/bin/node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env --interpreter=/home/daan/.nvm/versions/node/v7.4.0/bin/node`
+		// 'post-deploy' : `PATH=/home/daan/bin:/home/daan/.local/bin:/home/daan/.nvm/versions/node/v7.4.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games git submodule init && git submodule update && /home/daan/.nvm/versions/node/v7.4.0/bin/npm install && /home/daan/.nvm/versions/node/v7.4.0/bin/node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env --interpreter=/home/daan/.nvm/versions/node/v7.4.0/bin/node`
+		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
 	};
 }
 
