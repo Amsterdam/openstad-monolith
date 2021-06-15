@@ -30,6 +30,7 @@
 				"./routes/stemvan/article",
 				"./routes/stemvan/idea",
 				"./routes/stemvan/vote",
+				"./routes/stemvan/extras",
 				"./routes/stemvan/faq",
 				"./routes/stemvan/logout",
 				"./routes/stemvan/coosto",
