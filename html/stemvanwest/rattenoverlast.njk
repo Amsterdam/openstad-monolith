@@ -1,0 +1,135 @@
+{% extends 'base.njk' %}
+{% set pageTitle = 'Hoe werkt het?' %}
+{% set contentClass = 'newIdea' %}
+
+{% set activeMenu = 'rattenoverlast' %}
+
+{% block content %}
+
+  <style>
+   h2 {
+     margin: 0 0 20px 0;
+     padding: 0;
+   }
+   h3 {
+     font-size: 20px;
+     margin: 0 0 10px 0;
+     padding: 0;
+   }
+   .x1 {
+     position: relative;
+     padding: 20px;
+     background-color: #bed200;
+     margin-bottom: 40px;
+   }
+
+	 a.page-button, a.page-button:visited {
+		 position: relative;
+     float: left;
+		 padding: 11px 8px 11px 15px;
+		 font-size: 16px;
+		 font-weight: 600;
+		 line-height: 22px;
+		 color: white;
+		 background-color: #164995;
+		 cursor: pointer;
+		 opacity: .5;
+		 top: 50%;
+		 transform: translateY(-25%);
+		 -webkit-transform: translateY(-25%);
+		 border: none;
+		 opacity: 1;
+   }
+
+	 a.page-button:before {
+		 position: absolute;
+		 border-left: 17px solid #164995;
+		 border-top: 22px solid transparent;
+		 border-bottom: 22px solid transparent;
+		 border-right: 0;
+		 top: 0px;
+		 right: -17px;
+		 width: 0px;
+		 height: 0px;
+		 content: '';
+	 }
+
+   a.page-button:hover {
+		 background-color: #003066;
+   }
+	 a.page-button:hover:before {
+		 border-left-color: #003066;
+	 }
+
+   .x2 {
+   }
+   .x2 ul {
+     margin: 0;
+     padding-left: 20px;
+   }
+   .col {
+     width: calc(33% - 20px);
+     margin-right: 20px;
+     float: left;
+     margin-bottom: 40px;
+   }
+
+   @media only screen and (max-width:700px) {
+     x2 {
+     }
+     .col {
+       width: 100%;
+     }
+	 }
+
+   .x3 {
+     height: 1000px;
+     width: 100%;
+   }
+
+  </style>
+
+  <div id="banner" style="height: 200px; overflow: hidden;">
+		<div class="image" style="background-image: url('/img/ratten-banner.png');"></div>
+	</div>
+  
+	<div class="x1">
+		<h2>Hoe ervaar jij rattenoverlast in West en heb je goede ideeën om dit aan te pakken?</h2>
+
+    <h3>De stadsdeelcommissie hoort graag jouw mening over de aanpak van rattenoverlast!</h3><br/>
+    <strong>Vanaf 2012 is er in stadsdeel West een stijging te zien in de meldingen van rattenoverlast. Tegelijkertijd zijn dieren in de stad ook nuttig. Zo eten ratten vet weg uit rioolbuizen en helpen hiermee bij het onderhoud van het rioolsysteem. Veel bewoners stellen een groene stad op prijs, maar dieren zoals ratten komen ook graag in parken.</strong><br/>
+    <br/>
+    Etensresten op straten en in parken, en volle vuilcontainers bij bijvoorbeeld markten trekken ratten aan. Een belangrijke manier om het voedselaanbod voor ratten te verminderen is een verbod op het voeren van vogels. Dit voerverbod biedt de mogelijkheid om overlast van ratten te verminderen.<br/>
+    <br/>
+    Ervaring leert dat een voerverbod als enige maatregel niet het gewenste effect heeft. De stadsdeelcommissie hoort graag welke ideeën jij hebt om de overlast te verminderen en hoe jij denkt over voorgestelde oplossingen. Reageer op onderstaande stellingen, of stuur jouw eigen mening in. De uitkomsten worden gebruikt in een advies aan het stadsdeelbestuur. <br/>
+    <br/><br/>
+    <a href="#beginmeteen" class="page-button page-button-blue">Begin meteen</a>
+    <div style="clear: both"></div>
+
+  </div>
+
+	<div id="beginmeteen" class="x2">
+    <h2>Begin meteen</h2>
+	  <div class="col">
+      <h3> 1. Stemmen op de stellingen</h3>
+      Klik door de stapel en reageer op onderstaande stellingen. Geef aan of je het ermee <strong>eens</strong> of <strong>niet mee eens</strong> bent, of dat je het <strong>niet weet (geen mening)</strong>.
+	  </div>
+	  <div class="col">
+      <h3>2. Voeg stellingen toe aan de stapel</h3>
+      Voeg onderaan bij <strong>'Ik vind dat..'</strong> zelf toe wat jij belangrijk vindt voor de aanpak van rattenoverlast. Dit kan op elk moment, ook als je nog niet op alle meningen hebt gereageerd.
+	  </div>
+	  <div class="col">
+      <h3>3. Tips</h3>
+      <ul>
+        <li>Deel nieuwe ervaringen, problemen of ideeën</li>
+        <li>Schrijf vanuit je eigen ervaring, bijvoorbeeld: 'Ik vind dat...' of 'Ik denk dat het beter zou zijn als...'</li>
+        <li>Gebruik maximaal 140 tekens</li>
+      </ul>
+
+	  </div>
+	</div>
+
+  <iframe class="x3" src="https://polis-pilot.openstad.amsterdam/rattenoverlast.html" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width="560" height="315" frameborder="0"></iframe>
+  
+	</div>
+{% endblock %}

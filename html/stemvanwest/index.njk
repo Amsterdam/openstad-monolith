@@ -1,0 +1,129 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+{% from 'partials/agenda-items.njk' import agenda %}
+
+{% set contentClass = 'index' %}
+
+{% block content %}
+
+  <style>
+   h2 {
+     margin: 0 0 20px 0;
+     padding: 0;
+   }
+   h3 {
+     font-size: 20px;
+     margin: 0 0 10px 0;
+     padding: 0;
+   }
+   #banner .text.x2 {
+     top: 0;
+     left: 0;
+     bottom: 0;
+     margin: 0;
+     width: 320px;
+     color: black;
+     background-color: #bed200;
+   }
+
+   #banner .image.x3 {
+     left: 320px;
+     width: calc(100% - 320px);
+   }
+
+   @media only screen and (max-width:700px) {
+     #banner .text.x2 {
+       top: 15px;
+       left: 15px;
+       width: calc(100% - 30px);
+       height: 170px;
+       margin: 0;
+       color: black;
+       background-color: #bed200;
+     }
+
+     #banner .image.x3 {
+       left: 0px;
+       width: calc(100%);
+     }
+
+   }
+
+	 a.page-button, a.page-button:visited {
+		 position: absolute;
+     left: 20px;
+     bottom: 20px;
+		 padding: 11px 15px 11px 15px;
+		 font-size: 16px;
+		 font-weight: 600;
+		 line-height: 22px;
+		 color: white;
+		 background-color: #164995;
+		 cursor: pointer;
+		 opacity: .5;
+		 border: none;
+		 opacity: 1;
+     text-decoration: none !important;
+   }
+
+   a.page-button:hover {
+		 background-color: #003066;
+   }
+
+  </style>
+
+  <div id="banner" style="height: 200px; overflow: hidden;">
+		<div class="text x2">
+	    <h2>Hoe ervaar jij rattenoverlast in West en heb je goede ideeën om dit aan te pakken?</h2>
+	    <a href="/rattenoverlast" class="page-button">
+		    Stuur je mening in!
+	    </a>
+    </div>
+		<div class="image x3" style="background-image: url('/img/ratten.jpg');"></div>
+	</div>
+
+  <div id="banner">
+		{% include "includes/home-banner-text.html" %}
+		{% include "includes/home-banner-image.html" %}
+	</div>
+	
+	<div class="primary">
+
+		{{sec.newIdeaBubble()}}
+		
+		{# Syntax formatting because `div.tile` is `display: inline-block`. #}
+		{% for article in articles
+		%}<div class="tile {{'unpublished' if not article.isPublished}} article">
+			<a href="/artikel/{{article.id}}">
+				{% if article.posterImage %}
+					<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+				{% else %}
+					<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+				{% endif %}
+				{% if not article.isPublished %}
+					<div class="notPublished">Niet gepubliceerd</div>
+				{% endif %}
+				<h3>{{article.title}}</h3>
+				{{article.summary}}
+			</a>
+			
+			<a href="/artikel/{{article.id}}" class="readMore">Lees meer</a>
+		</div>{% endfor %}{% include "includes/more-stenvans-tile.html" ignore missing %}{# Another weird formatting; see comment above. #}
+
+	</div>
+	
+	<div class="secondary">
+
+		{{sec.newIdeaBubble()}}
+
+		{{ agenda(upcomingMeetings, user) }}
+
+		{% if can('article:create') %}
+			<form action="/article/create">
+				<button type="submit" class="edit">Nieuw artikel</button>
+			</form>
+		{% endif %}
+
+	</div>
+
+{% endblock %}
